@@ -9,5 +9,11 @@
     android:layout_height="wrap_content"
     android:text="Hello World, MainActivity"
     />
+
+<EditText
+    android:id="@+id/holo_edittext"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    />
 </LinearLayout>
 
