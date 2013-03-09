@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Line colors -->
+    <color name="line_color_bakerloo">#894E24</color>
+    <color name="line_color_central">#DC241F</color>
+    <color name="line_color_circle">#FFCE00</color>
+    <color name="line_color_district">#007229</color>
+    <color name="line_color_hammersmith_and_city">#D799AF</color>
+    <color name="line_color_jubilee">#868F98</color>
+    <color name="line_color_metropolitan">#751056</color>
+    <color name="line_color_northern">#000000</color>
+    <color name="line_color_piccadilly">#0019A8</color>
+    <color name="line_color_victoria">#00A0E2</color>
+    <color name="line_color_waterloo_and_city">#76D0BD</color>
+    <color name="line_color_overground">#E86A10</color>
+    <color name="line_color_dlr">#00AFAD</color>
+
+</resources>
