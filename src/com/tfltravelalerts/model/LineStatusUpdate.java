@@ -9,42 +9,33 @@ import java.util.Date;
  */
 public class LineStatusUpdate {
 
-    Date mDate;
-    String mDescription;
+    private final Date mDate;
+    private final String mDescription;
 
-    Line mLine;
-    LineStatus mLineStatus;
+    private final Line mLine;
+    private final LineStatus mLineStatus;
+
+    public LineStatusUpdate(Line line, LineStatus lineStatus, Date date, String description) {
+        mLine = line;
+        mLineStatus = lineStatus;
+        mDate = date;
+        mDescription = description;
+    }
 
     public Line getLine() {
         return mLine;
-    }
-
-    public void setLine(Line line) {
-        mLine = line;
     }
 
     public LineStatus getLineStatus() {
         return mLineStatus;
     }
 
-    public void setLineStatus(LineStatus lineStatus) {
-        mLineStatus = lineStatus;
-    }
-
     public String getDescription() {
         return mDescription;
     }
 
-    public void setDescription(String description) {
-        mDescription = description;
-    }
-
     public Date getDate() {
         return mDate;
-    }
-
-    public void setDate(Date date) {
-        mDate = date;
     }
 
 }

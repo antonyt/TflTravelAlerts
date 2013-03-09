@@ -16,4 +16,6 @@
     <color name="line_color_overground">#E86A10</color>
     <color name="line_color_dlr">#00AFAD</color>
 
+    <!-- Generic colors -->
+    <color name="white">#FFFFFF</color>
 </resources>

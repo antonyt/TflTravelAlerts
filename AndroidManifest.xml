@@ -26,17 +26,18 @@
     <application
         android:name="com.tfltravelalerts.TflApplication"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
-        <activity
-            android:name="MainActivity"
-            android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/TflTheme" >
+        <activity android:name="MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".statusviewer.LineStatusViewerDetailActivity" />
 
+        <service android:name=".statusviewer.LineStatusService" />
         <service android:name=".GCMIntentService" />
 
         <receiver
