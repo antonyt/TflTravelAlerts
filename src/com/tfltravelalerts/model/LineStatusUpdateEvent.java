@@ -1,5 +1,6 @@
 package com.tfltravelalerts.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,11 @@ public class LineStatusUpdateEvent {
     public LineStatusUpdateEvent(Date date, LineStatusUpdate ... lineStatusUpdates) {
         mDate = date;
         mLineStatusUpdates = Arrays.asList(lineStatusUpdates);
+    }
+
+    public LineStatusUpdateEvent(Date date, List<LineStatusUpdate> lineStatusUpdates) {
+        mDate = date;
+        mLineStatusUpdates = new ArrayList<LineStatusUpdate>(lineStatusUpdates);         
     }
     
     public Date getDate() {
