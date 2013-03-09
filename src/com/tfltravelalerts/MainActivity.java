@@ -11,7 +11,7 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
+
 		EditText holoEditText = (EditText) findViewById(R.id.holo_edittext);
 		holoEditText.setText("Holo test");
 	}
