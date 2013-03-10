@@ -86,7 +86,7 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
     }
 
     public void onEventMainThread(LineStatusUpdateSuccess lineStatusUpdateEvent) {
-        LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getLineStatusUpdateSet();
+        LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getData();
         mLineStatusUpdate = lineStatusUpdateSet.getUpdateForLine(mLine);
         updateStatus();
     }

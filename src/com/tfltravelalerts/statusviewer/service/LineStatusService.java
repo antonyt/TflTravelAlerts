@@ -7,6 +7,8 @@ import android.os.IBinder;
 import com.tfltravelalerts.common.EventBusService;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
+import com.tfltravelalerts.statusviewer.events.LineStatusLoadRequest;
+import com.tfltravelalerts.statusviewer.events.LineStatusSaveRequest;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
@@ -16,12 +18,10 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
  */
 public class LineStatusService extends EventBusService {
 
-    public static final String LINE_ID_KEY = "line";
-
     @Override
     public void onCreate() {
         super.onCreate();
-        loadInitialValues();
+        getEventBus().post(new LineStatusLoadRequest());
     }
 
     @Override
@@ -29,26 +29,29 @@ public class LineStatusService extends EventBusService {
         return null;
     }
     
-    private void loadInitialValues() {
+    public void onEventAsync(LineStatusLoadRequest request) {
         LineStatusUpdateSet lineStatusUpdateSet = LineStatusStore.load();
         if(lineStatusUpdateSet != null) {
             LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(lineStatusUpdateSet);
             getEventBus().postSticky(event);
         }
     }
+    
+    public void onEventAsync(LineStatusSaveRequest request) {
+        LineStatusStore.save(request.getData());
+    }
 
-    public void onEventBackgroundThread(LineStatusUpdateRequest request) {
+    public void onEventAsync(LineStatusUpdateRequest request) {
         LineStatusApiResult result = LineStatusUpdater.update();
         if (result.isSuccess()) {
             LineStatusUpdateSet data = result.getData();
-            LineStatusStore.save(data);
+            getEventBus().post(new LineStatusSaveRequest(data));
             
             LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(data);
             getEventBus().removeStickyEvent(LineStatusUpdateFailure.class);
             getEventBus().postSticky(event);
         } else {
             LineStatusUpdateFailure event = new LineStatusUpdateFailure();
-            getEventBus().removeStickyEvent(LineStatusUpdateSuccess.class);
             getEventBus().postSticky(event);
         }
     }
