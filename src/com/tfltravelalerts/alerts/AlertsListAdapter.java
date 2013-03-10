@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.model.Day;
+import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
 
@@ -57,8 +58,9 @@ public class AlertsListAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
             
             viewHolder.title = (TextView) convertView.findViewById(R.id.alerts_title);
+            viewHolder.lines = (TextView) convertView.findViewById(R.id.alerts_lines);
             viewHolder.days = (TextView) convertView.findViewById(R.id.alerts_days);
-            viewHolder.times = (TextView) convertView.findViewById(R.id.alerts_time);
+            viewHolder.times = (TextView) convertView.findViewById(R.id.alerts_times);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
@@ -66,6 +68,7 @@ public class AlertsListAdapter extends BaseAdapter {
         LineStatusAlert alert = getItem(position);
         
         viewHolder.title.setText(alert.getTitle());
+        viewHolder.lines.setText(Line.buildString(alert.getLines()));
         viewHolder.days.setText(Day.buildShortString(alert.getDays()));
         viewHolder.times.setText(Time.buildString(alert.getTimes()));
         
@@ -74,6 +77,7 @@ public class AlertsListAdapter extends BaseAdapter {
 
     static class ViewHolder {
         TextView title;
+        TextView lines;
         TextView days;
         TextView times;
     }

@@ -8,9 +8,7 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.collect.Collections2;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.TflApplication;
 
@@ -69,18 +67,16 @@ public enum Day {
     public static Day[] allDays() {
         return values();
     }
+    
+    @Override
+    public String toString() {
+        Context context = TflApplication.getLastInstance();
+        return context.getString(getShortNameResId());
+    }
 
     public static String buildShortString(Collection<Day> days) {
         List<Day> sortedDays = new ArrayList<Day>(days);
         Collections.sort(sortedDays);
-        
-        final Context context = TflApplication.getLastInstance();
-        Collection<String> strings = Collections2.transform(sortedDays, new Function<Day, String>() {
-            @Override
-            public String apply(Day input) {
-                return context.getString(input.getShortNameResId());
-            }
-        });
-        return Joiner.on(", ").join(strings);
+        return Joiner.on(", ").join(sortedDays);
     }
 }

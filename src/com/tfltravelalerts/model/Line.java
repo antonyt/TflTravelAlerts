@@ -1,7 +1,16 @@
 
 package com.tfltravelalerts.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import android.content.Context;
+
+import com.google.common.base.Joiner;
 import com.tfltravelalerts.R;
+import com.tfltravelalerts.TflApplication;
 
 /**
  * London Underground line.
@@ -64,5 +73,17 @@ public enum Line {
 
     public int getColorResId() {
         return mColorResId;
+    }
+    
+    @Override
+    public String toString() {
+        Context context = TflApplication.getLastInstance();
+        return context.getString(getNameResId());
+    }
+    
+    public static String buildString(Collection<Line> lines) {
+        List<Line> sortedLines = new ArrayList<Line>(lines);
+        Collections.sort(sortedLines);
+        return Joiner.on(", ").join(sortedLines);
     }
 }

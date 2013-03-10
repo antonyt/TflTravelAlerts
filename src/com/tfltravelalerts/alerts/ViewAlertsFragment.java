@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
@@ -24,6 +26,18 @@ public class ViewAlertsFragment extends EventBusFragment {
     private ListView mListView;
     private AlertsListAdapter mAdapter;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.alerts_list_menu, menu);
+    }
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflateRootView(inflater, container);
