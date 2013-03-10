@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
+import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
@@ -105,19 +106,26 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
 
-    public void onEventMainThread(LineStatusUpdateSuccess lineStatusUpdateEvent) {
+    public void onEventMainThread(LineStatusUpdateSuccess event) {
         if(mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
         }
 
-        LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getData();
+        LineStatusUpdateSet lineStatusUpdateSet = event.getData();
         mAdapter.updateLineStatus(lineStatusUpdateSet.getLineStatusUpdates());
 
         if (lineStatusUpdateSet.isOldResult()) {
             Toast.makeText(getActivity(), "Old result - updating...", Toast.LENGTH_SHORT).show();
             updateLineStatus();
         }
-
+    }
+    
+    public void onEventMainThread(LineStatusUpdateFailure event) {
+        if(mRefreshIcon != null) {
+            mRefreshIcon.clearAnimation();
+        }
+        
+        Toast.makeText(getActivity(), "Update failure!", Toast.LENGTH_SHORT).show();
     }
 
 }
