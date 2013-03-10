@@ -11,21 +11,17 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 
 import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
 
 import com.tfltravelalerts.model.LineStatusUpdate;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
 
-import de.greenrobot.event.EventBus;
-
 /**
- * Task to fetch the latest line statuses via TfL Line Status API.
+ * Fetches the latest line statuses via TfL Line Status API.
  */
-public class LineStatusUpdateTask extends AsyncTask<Void, Void, LineStatusApiResult> {
+public class LineStatusUpdater {
 
-    @Override
-    protected LineStatusApiResult doInBackground(Void... params) {
+    public static LineStatusApiResult update() {
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("android");
         HttpGet request = new HttpGet("http://cloud.tfl.gov.uk/TrackerNet/LineStatus");
         int statusCode = -1;
@@ -48,11 +44,6 @@ public class LineStatusUpdateTask extends AsyncTask<Void, Void, LineStatusApiRes
         }
 
         return new LineStatusApiResult(statusCode, null);
-    }
-
-    @Override
-    protected void onPostExecute(LineStatusApiResult result) {
-        EventBus.getDefault().post(result);
     }
 
 }

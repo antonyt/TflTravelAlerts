@@ -31,4 +31,12 @@ public class LineStatusUpdateSet {
         }
         return null;
     }
+    
+    public boolean isOldResult() {
+        int leniencyInterval = 1 * 60 * 60 * 1000;
+        long then = mDate.getTime(); 
+        long now = System.currentTimeMillis();
+        return (now - then) > leniencyInterval;
+        
+    }
 }

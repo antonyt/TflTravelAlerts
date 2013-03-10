@@ -3,6 +3,7 @@ package com.tfltravelalerts.statusviewer;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +18,8 @@ import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
-import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
+import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
 /**
  * Fragment to view summary status of every line.
@@ -85,12 +86,19 @@ public class LineStatusViewerListFragment extends EventBusFragment {
     }
 
     private void updateLineStatus() {
+        Toast.makeText(getActivity(), "updating all lines", Toast.LENGTH_SHORT).show();
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
 
-    public void onEvent(LineStatusUpdateSuccess lineStatusUpdateEvent) {
+    public void onEventMainThread(LineStatusUpdateSuccess lineStatusUpdateEvent) {
         LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getLineStatusUpdateSet();
         mAdapter.updateLineStatus(lineStatusUpdateSet.getLineStatusUpdates());
+        
+        if(lineStatusUpdateSet.isOldResult()) {
+            Toast.makeText(getActivity(), "Old result - updating...", Toast.LENGTH_SHORT).show();
+            updateLineStatus();
+        }
+        
     }
 
 }

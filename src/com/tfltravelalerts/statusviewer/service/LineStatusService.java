@@ -1,12 +1,11 @@
 
 package com.tfltravelalerts.statusviewer.service;
 
-import org.holoeverywhere.widget.Toast;
-
 import android.content.Intent;
 import android.os.IBinder;
 
 import com.tfltravelalerts.common.EventBusService;
+import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
@@ -22,22 +21,29 @@ public class LineStatusService extends EventBusService {
     @Override
     public void onCreate() {
         super.onCreate();
-        // TODO: load initial values from db
+        loadInitialValues();
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
-    public void onEvent(LineStatusUpdateRequest request) {
-        Toast.makeText(this, "updating all lines", Toast.LENGTH_SHORT).show();
-        new LineStatusUpdateTask().execute();
+    
+    private void loadInitialValues() {
+        LineStatusUpdateSet lineStatusUpdateSet = LineStatusStore.load();
+        if(lineStatusUpdateSet != null) {
+            LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(lineStatusUpdateSet);
+            getEventBus().postSticky(event);
+        }
     }
 
-    public void onEvent(LineStatusApiResult result) {
+    public void onEventBackgroundThread(LineStatusUpdateRequest request) {
+        LineStatusApiResult result = LineStatusUpdater.update();
         if (result.isSuccess()) {
-            LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(result.getData());
+            LineStatusUpdateSet data = result.getData();
+            LineStatusStore.save(data);
+            
+            LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(data);
             getEventBus().removeStickyEvent(LineStatusUpdateFailure.class);
             getEventBus().postSticky(event);
         } else {
