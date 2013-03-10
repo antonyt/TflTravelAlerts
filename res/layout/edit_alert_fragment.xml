@@ -14,4 +14,25 @@
         android:textColor="@color/white"
         android:textSize="@dimen/large_text_size" />
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/action_cancel"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/action_save"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
 </LinearLayout>

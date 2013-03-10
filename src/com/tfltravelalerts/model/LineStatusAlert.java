@@ -1,6 +1,7 @@
 
 package com.tfltravelalerts.model;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,6 +43,14 @@ public class LineStatusAlert {
         return mId;
     }
 
+    public static Builder builder(int id) {
+        return new Builder(id);
+    }
+
+    public static Builder builder(LineStatusAlert alert) {
+        return new Builder(alert);
+    }
+
     public static class Builder {
 
         private int mId = -1;
@@ -49,6 +58,14 @@ public class LineStatusAlert {
         private Set<Line> mLines = new HashSet<Line>();
         private Set<Day> mDays = new HashSet<Day>();
         private Set<Time> mTimes = new HashSet<Time>();
+
+        public Builder(LineStatusAlert alert) {
+            mId = alert.getId();
+            mTitle = alert.getTitle();
+            mLines = alert.getLines();
+            mDays = alert.getDays();
+            mTimes = alert.getTimes();
+        }
 
         public Builder(int id) {
             mId = id;
@@ -59,18 +76,33 @@ public class LineStatusAlert {
             return this;
         }
 
-        public Builder addLine(Line line) {
-            mLines.add(line);
+        public Builder addLine(Line... line) {
+            mLines.addAll(Arrays.asList(line));
             return this;
         }
 
-        public Builder addDay(Day day) {
-            mDays.add(day);
+        public Builder clearLines() {
+            mLines.clear();
             return this;
         }
 
-        public Builder addTime(Time time) {
-            mTimes.add(time);
+        public Builder addDay(Day... day) {
+            mDays.addAll(Arrays.asList(day));
+            return this;
+        }
+
+        public Builder clearDays() {
+            mDays.clear();
+            return this;
+        }
+
+        public Builder addTime(Time... time) {
+            mTimes.addAll(Arrays.asList(time));
+            return this;
+        }
+
+        public Builder clearTimes() {
+            mTimes.clear();
             return this;
         }
 

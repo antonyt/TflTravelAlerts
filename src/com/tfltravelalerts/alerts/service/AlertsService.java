@@ -40,24 +40,19 @@ public class AlertsService extends EventBusService {
         if (alerts == null) {
             alerts = new LineStatusAlertSet(
                     ImmutableList.<LineStatusAlert> of(
-                            new LineStatusAlert.Builder(AlertIdGenerator.generateId())
+                            LineStatusAlert.builder(AlertIdGenerator.generateId())
                                     .title("Daily commute")
-                                    .addDay(Day.MONDAY)
-                                    .addDay(Day.TUESDAY)
-                                    .addDay(Day.WEDNESDAY)
-                                    .addDay(Day.THURSDAY)
-                                    .addDay(Day.FRIDAY)
+                                    .addDay(Day.MONDAY, Day.TUESDAY, Day.WEDNESDAY, Day.THURSDAY,
+                                            Day.FRIDAY)
                                     .addLine(Line.NORTHERN)
                                     .addTime(new Time(8, 0))
                                     .addTime(new Time(18, 30))
                                     .build(),
 
-                            new LineStatusAlert.Builder(AlertIdGenerator.generateId())
+                            LineStatusAlert.builder(AlertIdGenerator.generateId())
                                     .title("French cooking class")
-                                    .addDay(Day.THURSDAY)
-                                    .addDay(Day.SUNDAY)
-                                    .addLine(Line.CENTRAL)
-                                    .addLine(Line.BAKERLOO)
+                                    .addDay(Day.THURSDAY, Day.SUNDAY)
+                                    .addLine(Line.CENTRAL, Line.BAKERLOO)
                                     .addTime(new Time(20, 30))
                                     .addTime(new Time(21, 45))
                                     .build()

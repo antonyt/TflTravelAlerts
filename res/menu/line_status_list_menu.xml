@@ -5,6 +5,6 @@
         android:id="@+id/refresh"
         android:icon="@drawable/icon_refresh"
         android:showAsAction="always"
-        android:title="@string/options_menu_refresh"/>
+        android:title="@string/action_refresh"/>
 
 </menu>
