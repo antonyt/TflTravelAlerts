@@ -29,6 +29,9 @@
     <!-- Line status list messages -->
     <string name="last_update_time">Last update time: %s</string>
     
+    <!-- Edit alert messages -->
+    <string name="alert_title">Alert Title</string>
+    
     <!-- Menu -->
     <string name="options_menu_refresh">Refresh</string>
     

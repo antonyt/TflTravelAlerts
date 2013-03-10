@@ -4,8 +4,13 @@ package com.tfltravelalerts.alerts.service;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.tfltravelalerts.TflApplication;
+import com.tfltravelalerts.common.persistence.ImmutableListDeserializer;
+import com.tfltravelalerts.common.persistence.ImmutableSetDeserializer;
 import com.tfltravelalerts.model.LineStatusAlertSet;
 
 public class AlertsStore {
@@ -23,7 +28,11 @@ public class AlertsStore {
         SharedPreferences preferences = getSharedPreferences();
         String json = preferences.getString(ALERTS_KEY, null);
         if (json != null) {
-            return new Gson().fromJson(json, LineStatusAlertSet.class);
+            return new GsonBuilder()
+                    .registerTypeAdapter(ImmutableList.class, new ImmutableListDeserializer())
+                    .registerTypeAdapter(ImmutableSet.class, new ImmutableSetDeserializer())
+                    .create()
+                    .fromJson(json, LineStatusAlertSet.class);
         }
 
         return null;

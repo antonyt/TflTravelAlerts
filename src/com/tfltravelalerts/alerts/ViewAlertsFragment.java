@@ -15,7 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
-import com.tfltravelalerts.common.EventBusFragment;
+import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusAlert;
 
 public class ViewAlertsFragment extends EventBusFragment {

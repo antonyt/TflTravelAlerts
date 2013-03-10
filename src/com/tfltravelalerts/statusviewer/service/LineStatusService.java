@@ -4,7 +4,7 @@ package com.tfltravelalerts.statusviewer.service;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.tfltravelalerts.common.EventBusService;
+import com.tfltravelalerts.common.eventbus.EventBusService;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
 import com.tfltravelalerts.statusviewer.events.LineStatusLoadRequest;

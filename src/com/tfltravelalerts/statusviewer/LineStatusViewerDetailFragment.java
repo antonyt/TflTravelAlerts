@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tfltravelalerts.R;
-import com.tfltravelalerts.common.EventBusFragment;
+import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusUpdate;
 import com.tfltravelalerts.model.LineStatusUpdateSet;

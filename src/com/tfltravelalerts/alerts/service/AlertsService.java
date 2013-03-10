@@ -12,7 +12,7 @@ import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
 import com.tfltravelalerts.alerts.events.LoadAlertsRequest;
 import com.tfltravelalerts.alerts.events.ModifyAlertRequest;
-import com.tfltravelalerts.common.EventBusService;
+import com.tfltravelalerts.common.eventbus.EventBusService;
 import com.tfltravelalerts.model.Day;
 import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusAlert;

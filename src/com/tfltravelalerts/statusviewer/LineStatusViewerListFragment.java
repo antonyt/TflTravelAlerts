@@ -24,7 +24,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
-import com.tfltravelalerts.common.EventBusFragment;
+import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
