@@ -26,6 +26,9 @@
     <string name="line_status_part_closure">Part Closure</string>
     <string name="line_status_planned_closure">Planned Closure</string>
     
+    <!-- Line status list messages -->
+    <string name="last_update_time">Last update time: %s</string>
+    
     <!-- Menu -->
     <string name="options_menu_refresh">Refresh</string>
     

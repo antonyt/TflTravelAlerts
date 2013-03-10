@@ -1,12 +1,17 @@
 
 package com.tfltravelalerts.statusviewer;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
+import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -30,9 +35,12 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
  */
 public class LineStatusViewerListFragment extends EventBusFragment {
 
-    private ListView mListView;
     private View mRoot;
+    private TextView mLastUpdateTime;
+    private ListView mListView;
+
     private LineStatusListAdapter mAdapter;
+
     private View mRefreshIcon;
 
     @Override
@@ -47,7 +55,7 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         findViews();
 
         setupListView();
-
+        
         return mRoot;
     }
 
@@ -57,6 +65,7 @@ public class LineStatusViewerListFragment extends EventBusFragment {
 
     private void findViews() {
         mListView = (ListView) mRoot.findViewById(R.id.line_status_viewer_list);
+        mLastUpdateTime = (TextView) mRoot.findViewById(R.id.last_update_time);
     }
 
     private void setupListView() {
@@ -82,7 +91,7 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         MenuItem refresh = menu.findItem(R.id.refresh);
         setupRefreshIcon(refresh);
     }
-    
+
     public void setupRefreshIcon(MenuItem refresh) {
         refresh.setActionView(R.layout.refresh_icon);
         mRefreshIcon = refresh.getActionView().findViewById(R.id.refresh_icon);
@@ -97,7 +106,7 @@ public class LineStatusViewerListFragment extends EventBusFragment {
     }
 
     private void updateLineStatus() {
-        if(mRefreshIcon != null) {
+        if (mRefreshIcon != null) {
             Animation anim = (Animation) mRefreshIcon.getTag();
             mRefreshIcon.startAnimation(anim);
         }
@@ -105,26 +114,34 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         Toast.makeText(getActivity(), "updating all lines", Toast.LENGTH_SHORT).show();
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
+    
+    private void updateTimestamp(Date date) {
+        java.text.DateFormat dateFormatter = SimpleDateFormat.getInstance();
+        String dateFormat = dateFormatter.format(date);
+        String updateTime = getString(R.string.last_update_time, dateFormat);
+        mLastUpdateTime.setText(updateTime);
+    }
 
     public void onEventMainThread(LineStatusUpdateSuccess event) {
-        if(mRefreshIcon != null) {
+        if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
         }
 
         LineStatusUpdateSet lineStatusUpdateSet = event.getData();
         mAdapter.updateLineStatus(lineStatusUpdateSet.getLineStatusUpdates());
+        updateTimestamp(lineStatusUpdateSet.getDate());
 
         if (lineStatusUpdateSet.isOldResult()) {
             Toast.makeText(getActivity(), "Old result - updating...", Toast.LENGTH_SHORT).show();
             updateLineStatus();
         }
     }
-    
+
     public void onEventMainThread(LineStatusUpdateFailure event) {
-        if(mRefreshIcon != null) {
+        if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
         }
-        
+
         Toast.makeText(getActivity(), "Update failure!", Toast.LENGTH_SHORT).show();
     }
 
