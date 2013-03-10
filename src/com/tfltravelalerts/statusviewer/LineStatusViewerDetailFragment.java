@@ -8,11 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.tfltravelalerts.EventBusFragment;
 import com.tfltravelalerts.R;
+import com.tfltravelalerts.common.EventBusFragment;
 import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusUpdate;
-import com.tfltravelalerts.model.LineStatusUpdateEvent;
+import com.tfltravelalerts.model.LineStatusUpdateSet;
+import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
 /**
  * Fragment to view the detailed status of a single line.
@@ -84,8 +85,9 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
         }
     }
 
-    public void onEvent(LineStatusUpdateEvent lineStatusUpdateEvent) {
-        mLineStatusUpdate = lineStatusUpdateEvent.getUpdateForLine(mLine);
+    public void onEvent(LineStatusUpdateSuccess lineStatusUpdateEvent) {
+        LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getLineStatusUpdateSet();
+        mLineStatusUpdate = lineStatusUpdateSet.getUpdateForLine(mLine);
         updateStatus();
     }
 

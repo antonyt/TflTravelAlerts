@@ -1,8 +1,12 @@
 
-package com.tfltravelalerts;
+package com.tfltravelalerts.common;
 
 import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
+
+import com.tfltravelalerts.R;
+import com.tfltravelalerts.R.id;
+import com.tfltravelalerts.R.layout;
 
 import android.os.Bundle;
 

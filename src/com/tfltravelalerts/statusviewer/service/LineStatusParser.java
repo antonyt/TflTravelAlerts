@@ -1,5 +1,5 @@
 
-package com.tfltravelalerts.statusviewer;
+package com.tfltravelalerts.statusviewer.service;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -14,10 +14,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.tfltravelalerts.EventBusFragment;
 import com.tfltravelalerts.R;
-import com.tfltravelalerts.model.LineStatusUpdateEvent;
-import com.tfltravelalerts.model.LineStatusUpdateRequest;
+import com.tfltravelalerts.common.EventBusFragment;
+import com.tfltravelalerts.model.LineStatusUpdateSet;
+import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
+import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
 
 /**
  * Fragment to view summary status of every line.
@@ -87,8 +88,9 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
 
-    public void onEvent(LineStatusUpdateEvent lineStatusUpdateEvent) {
-        mAdapter.updateLineStatus(lineStatusUpdateEvent.getLineStatusUpdates());
+    public void onEvent(LineStatusUpdateSuccess lineStatusUpdateEvent) {
+        LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getLineStatusUpdateSet();
+        mAdapter.updateLineStatus(lineStatusUpdateSet.getLineStatusUpdates());
     }
 
 }

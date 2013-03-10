@@ -3,7 +3,7 @@ package com.tfltravelalerts.statusviewer;
 
 import org.holoeverywhere.app.Fragment;
 
-import com.tfltravelalerts.SinglePaneFragmentActivity;
+import com.tfltravelalerts.common.SinglePaneFragmentActivity;
 
 import android.os.Bundle;
 

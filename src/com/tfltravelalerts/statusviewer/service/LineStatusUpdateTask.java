@@ -1,8 +1,9 @@
 
-package com.tfltravelalerts.statusviewer;
+package com.tfltravelalerts.statusviewer.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -12,19 +13,19 @@ import org.apache.http.client.methods.HttpGet;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 
-import com.tfltravelalerts.ApiResult;
 import com.tfltravelalerts.model.LineStatusUpdate;
+import com.tfltravelalerts.model.LineStatusUpdateSet;
+import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
 
 import de.greenrobot.event.EventBus;
 
 /**
  * Task to fetch the latest line statuses via TfL Line Status API.
- *
  */
-public class LineStatusUpdateTask extends AsyncTask<Void, Void, ApiResult<List<LineStatusUpdate>>> {
+public class LineStatusUpdateTask extends AsyncTask<Void, Void, LineStatusApiResult> {
 
     @Override
-    protected ApiResult<List<LineStatusUpdate>> doInBackground(Void... params) {
+    protected LineStatusApiResult doInBackground(Void... params) {
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("android");
         HttpGet request = new HttpGet("http://cloud.tfl.gov.uk/TrackerNet/LineStatus");
         int statusCode = -1;
@@ -35,8 +36,10 @@ public class LineStatusUpdateTask extends AsyncTask<Void, Void, ApiResult<List<L
             if (statusCode == HttpStatus.SC_OK) {
                 InputStream input = response.getEntity().getContent();
                 List<LineStatusUpdate> lineStatusUpdates = LineStatusParser.parse(input);
+                LineStatusUpdateSet lineStatusUpdateSet = new LineStatusUpdateSet(new Date(),
+                        lineStatusUpdates);
 
-                return new ApiResult<List<LineStatusUpdate>>(200, lineStatusUpdates);
+                return new LineStatusApiResult(200, lineStatusUpdateSet);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,11 +47,11 @@ public class LineStatusUpdateTask extends AsyncTask<Void, Void, ApiResult<List<L
             httpClient.close();
         }
 
-        return new ApiResult<List<LineStatusUpdate>>(statusCode, null);
+        return new LineStatusApiResult(statusCode, null);
     }
 
     @Override
-    protected void onPostExecute(ApiResult<List<LineStatusUpdate>> result) {
+    protected void onPostExecute(LineStatusApiResult result) {
         EventBus.getDefault().post(result);
     }
 

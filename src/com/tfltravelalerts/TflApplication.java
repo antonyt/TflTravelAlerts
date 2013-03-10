@@ -5,7 +5,7 @@ import org.holoeverywhere.app.Application;
 
 import android.content.Intent;
 
-import com.tfltravelalerts.statusviewer.LineStatusService;
+import com.tfltravelalerts.statusviewer.service.LineStatusService;
 
 public class TflApplication extends Application {
 

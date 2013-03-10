@@ -1,5 +1,5 @@
 
-package com.tfltravelalerts;
+package com.tfltravelalerts.common;
 
 import de.greenrobot.event.EventBus;
 import android.app.Service;

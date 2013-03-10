@@ -1,5 +1,5 @@
 
-package com.tfltravelalerts;
+package com.tfltravelalerts.common;
 
 import org.holoeverywhere.app.Fragment;
 

@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".statusviewer.LineStatusViewerDetailActivity" />
 
-        <service android:name=".statusviewer.LineStatusService" />
+        <service android:name="com.tfltravelalerts.statusviewer.service.LineStatusService" />
         <service android:name=".GCMIntentService" />
 
         <receiver
