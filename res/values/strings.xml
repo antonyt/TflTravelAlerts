@@ -26,6 +26,31 @@
     <string name="line_status_part_closure">Part Closure</string>
     <string name="line_status_planned_closure">Planned Closure</string>
     
+    <!-- Days -->
+    <string name="day_full_monday">Monday</string>
+    <string name="day_full_tuesday">Tuesday</string>
+    <string name="day_full_wednesday">Wednesday</string>
+    <string name="day_full_thursday">Thursday</string>
+    <string name="day_full_friday">Friday</string>
+    <string name="day_full_saturday">Saturday</string>
+    <string name="day_full_sunday">Sunday</string>
+    
+    <string name="day_short_monday">Mon</string>
+    <string name="day_short_tuesday">Tue</string>
+    <string name="day_short_wednesday">Wed</string>
+    <string name="day_short_thursday">Thu</string>
+    <string name="day_short_friday">Fri</string>
+    <string name="day_short_saturday">Sat</string>
+    <string name="day_short_sunday">Sun</string>
+
+    <string name="day_super_short_monday">M</string>
+    <string name="day_super_short_tuesday">Tu</string>
+    <string name="day_super_short_wednesday">W</string>
+    <string name="day_super_short_thursday">Th</string>
+    <string name="day_super_short_friday">F</string>
+    <string name="day_super_short_saturday">Sa</string>
+    <string name="day_super_short_sunday">Su</string>
+    
     <!-- Line status list messages -->
     <string name="last_update_time">Last update time: %s</string>
     

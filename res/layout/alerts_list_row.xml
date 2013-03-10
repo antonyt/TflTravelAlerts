@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/one_and_half_spacing_unit" >
 
     <TextView
-        android:id="@+id/alerts_description"
+        android:id="@+id/alerts_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -16,13 +16,27 @@
         android:textColor="@color/white"
         android:textSize="@dimen/normal_text_size" />
 
-    <TextView
-        android:id="@+id/alerts_title"
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/alerts_description"
-        android:textColor="@color/white"
-        android:textSize="@dimen/extra_large_text_size" />
+        android:layout_toLeftOf="@id/alerts_time"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/alerts_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/quarter_spacing_unit"
+            android:textColor="@color/white"
+            android:textSize="@dimen/extra_large_text_size" />
+
+        <TextView
+            android:id="@+id/alerts_days"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/normal_text_size" />
+    </LinearLayout>
 
 </RelativeLayout>
