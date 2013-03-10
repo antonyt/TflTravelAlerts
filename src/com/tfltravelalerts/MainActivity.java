@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.tfltravelalerts.alerts.LineStatusAlertsFragment;
+import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.viewpagerindicator.PageIndicator;
 
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
                     case 0:
                         return new LineStatusViewerListFragment();
                     case 1:
-                        return new LineStatusAlertsFragment();
+                        return new ViewAlertsFragment();
                     default:
                         return null;
                 }

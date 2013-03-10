@@ -5,6 +5,7 @@ import org.holoeverywhere.app.Application;
 
 import android.content.Intent;
 
+import com.tfltravelalerts.alerts.service.AlertsService;
 import com.tfltravelalerts.statusviewer.service.LineStatusService;
 
 public class TflApplication extends Application {
@@ -13,7 +14,10 @@ public class TflApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Intent service = new Intent(this, LineStatusService.class);
-        startService(service);
+        Intent lineStatusService = new Intent(this, LineStatusService.class);
+        startService(lineStatusService);
+
+        Intent alertsService = new Intent(this, AlertsService.class);
+        startService(alertsService);
     }
 }

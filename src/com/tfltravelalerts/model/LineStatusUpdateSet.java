@@ -1,18 +1,19 @@
 
 package com.tfltravelalerts.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 public class LineStatusUpdateSet {
 
     private final Date mDate;
-    private final List<LineStatusUpdate> mLineStatusUpdates;
+    private final ImmutableList<LineStatusUpdate> mLineStatusUpdates;
 
     public LineStatusUpdateSet(Date date, List<LineStatusUpdate> lineStatusUpdates) {
         mDate = date;
-        mLineStatusUpdates = new ArrayList<LineStatusUpdate>(lineStatusUpdates);
+        mLineStatusUpdates = ImmutableList.copyOf(lineStatusUpdates);
     }
 
     public Date getDate() {
