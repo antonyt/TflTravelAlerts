@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
+import com.google.common.hash.Hashing;
 
 public class Time implements Comparable<Time> {
 
@@ -37,7 +39,7 @@ public class Time implements Comparable<Time> {
 
     @Override
     public int hashCode() {
-        return getHour() * 2 + getMinute() * 3;
+        return Objects.hashCode(getHour(), getMinute());
     }
 
     @Override
