@@ -8,6 +8,7 @@
     <dimen name="one_and_half_spacing_unit">24dp</dimen>
     <dimen name="double_spacing_unit">32dp</dimen>
     <dimen name="triple_spacing_unit">48dp</dimen>
+    <dimen name="quadruple_spacing_unit">64dp</dimen>
     
     <!-- Common text sizes -->
     <dimen name="small_text_size">12sp</dimen>

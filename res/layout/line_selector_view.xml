@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tfltravelalerts.alerts.LineSelectorView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/line_selector_bakerloo"
+            style="@style/LineSelector"
+            android:text="@string/line_name_bakerloo" />
+
+        <CheckBox
+            android:id="@+id/line_selector_central"
+            style="@style/LineSelector"
+            android:text="@string/line_name_central" />
+
+        <CheckBox
+            android:id="@+id/line_selector_circle"
+            style="@style/LineSelector"
+            android:text="@string/line_name_circle" />
+
+        <CheckBox
+            android:id="@+id/line_selector_district"
+            style="@style/LineSelector"
+            android:text="@string/line_name_district" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/line_selector_hammersmith_and_city"
+            style="@style/LineSelector"
+            android:text="@string/line_name_hammersmith_and_city" />
+
+        <CheckBox
+            android:id="@+id/line_selector_jubilee"
+            style="@style/LineSelector"
+            android:text="@string/line_name_jubilee" />
+
+        <CheckBox
+            android:id="@+id/line_selector_metropolitan"
+            style="@style/LineSelector"
+            android:text="@string/line_name_metropolitan" />
+
+        <CheckBox
+            android:id="@+id/line_selector_nothern"
+            style="@style/LineSelector"
+            android:text="@string/line_name_northern" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/line_selector_piccadilly"
+            style="@style/LineSelector"
+            android:text="@string/line_name_piccadilly" />
+
+        <CheckBox
+            android:id="@+id/line_selector_victoria"
+            style="@style/LineSelector"
+            android:text="@string/line_name_victoria" />
+
+        <CheckBox
+            android:id="@+id/line_selector_waterloo_and_city"
+            style="@style/LineSelector"
+            android:text="@string/line_name_waterloo_and_city" />
+
+        <CheckBox
+            android:id="@+id/line_selector_overground"
+            style="@style/LineSelector"
+            android:text="@string/line_name_overground" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/line_selector_dlr"
+            style="@style/LineSelector"
+            android:text="@string/line_name_dlr" />
+    </LinearLayout>
+
+</com.tfltravelalerts.alerts.LineSelectorView>

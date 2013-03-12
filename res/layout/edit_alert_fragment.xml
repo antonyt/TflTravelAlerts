@@ -12,13 +12,24 @@
         android:id="@+id/alert_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/normal_spacing_unit"
         android:hint="@string/alert_title"
         android:textColor="@color/white"
         android:textSize="@dimen/large_text_size" />
 
     <include
         android:id="@+id/day_selector_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/normal_spacing_unit"
         layout="@layout/day_selector_view" />
+
+    <include
+        android:id="@+id/line_selector_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/normal_spacing_unit"
+        layout="@layout/line_selector_view" />
 
     <!-- Buttons -->
 

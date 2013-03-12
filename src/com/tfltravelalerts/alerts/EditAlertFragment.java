@@ -26,6 +26,7 @@ public class EditAlertFragment extends EventBusFragment {
     private View mRoot;
     private EditText mAlertTitle;
     private DaySelectorView mDaySelectorView;
+    private LineSelectorView mLineSelectorView;
     private Button mCancelButton;
     private Button mSaveButton;
 
@@ -59,10 +60,15 @@ public class EditAlertFragment extends EventBusFragment {
         mSaveButton = (Button) mRoot.findViewById(R.id.save_button);
 
         mDaySelectorView = (DaySelectorView) mRoot.findViewById(R.id.day_selector_view);
+        mLineSelectorView = (LineSelectorView) mRoot.findViewById(R.id.line_selector_view);
     }
 
     private void updateDays() {
         mDaySelectorView.setSelectedDays(mAlert.getDays());
+    }
+
+    private void updateLines() {
+        mLineSelectorView.setSelectedLines(mAlert.getLines());
     }
 
     private void setupButtons() {
@@ -87,6 +93,8 @@ public class EditAlertFragment extends EventBusFragment {
                 .title(mAlertTitle.getText().toString())
                 .clearDays()
                 .addDays(mDaySelectorView.getSelectedDays())
+                .clearLines()
+                .addLine(mLineSelectorView.getSelectedLines())
                 .build();
 
         ModifyAlertRequest request = new ModifyAlertRequest(alert);
@@ -106,5 +114,6 @@ public class EditAlertFragment extends EventBusFragment {
 
         updateTitle();
         updateDays();
+        updateLines();
     }
 }

@@ -4,15 +4,25 @@
     <!-- App theme -->
     <style name="TflTheme" parent="@style/Holo.Theme.Light.DarkActionBar"></style>
 
-    <!-- Day selector -->
-    <style name="DaySelector">
-        <item name="android:background">@drawable/day_selector_background</item>
+    <!-- Multi selector (base) -->
+    <style name="MultiSelector">
+        <item name="android:background">@drawable/multi_selector_background</item>
         <item name="android:button">@null</item>
         <item name="android:layout_width">@dimen/triple_spacing_unit</item>
         <item name="android:layout_height">@dimen/triple_spacing_unit</item>
         <item name="android:layout_margin">@dimen/quarter_spacing_unit</item>
+        <item name="android:padding">@dimen/quarter_spacing_unit</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@drawable/day_selector_text_color</item>
+        <item name="android:textColor">@drawable/multi_selector_text_color</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Day selector -->
+    <style name="DaySelector" parent="@style/MultiSelector"></style>
+
+    <!-- Line selector -->
+    <style name="LineSelector" parent="@style/MultiSelector">
+        <item name="android:layout_width">@dimen/quadruple_spacing_unit</item>
     </style>
 
 </resources>

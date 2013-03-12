@@ -83,6 +83,11 @@ public class LineStatusAlert {
             return this;
         }
 
+        public Builder addLine(Collection<Line> lines) {
+            mLines.addAll(lines);
+            return this;
+        }
+
         public Builder clearLines() {
             mLines.clear();
             return this;
