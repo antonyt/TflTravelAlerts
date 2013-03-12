@@ -34,6 +34,8 @@ public class LineStatusService extends EventBusService {
         if(lineStatusUpdateSet != null) {
             LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(lineStatusUpdateSet);
             getEventBus().postSticky(event);
+        } else {
+            getEventBus().post(new LineStatusUpdateRequest());
         }
     }
     
