@@ -50,10 +50,14 @@ public class Time implements Comparable<Time> {
     }
 
     public static String buildString(Collection<Time> times) {
+        return buildString(times, "\n");
+    }
+
+    public static String buildString(Collection<Time> times, String separator) {
         List<Time> sortedTimes = new ArrayList<Time>(times);
         Collections.sort(sortedTimes);
-
-        return Joiner.on("\n").join(sortedTimes);
+        
+        return Joiner.on(separator).join(sortedTimes);
     }
 
     @Override

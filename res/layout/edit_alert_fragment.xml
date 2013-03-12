@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/normal_spacing_unit"
         android:hint="@string/alert_title"
+        android:singleLine="true"
         android:textColor="@color/white"
         android:textSize="@dimen/large_text_size" />
 
@@ -30,6 +31,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/normal_spacing_unit"
         layout="@layout/line_selector_view" />
+
+    <!-- TODO: implement better input mechanism for time -->
+
+    <EditText
+        android:id="@+id/time_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/normal_spacing_unit"
+        android:singleLine="true"
+        android:textColor="@color/white" />
 
     <!-- Buttons -->
 

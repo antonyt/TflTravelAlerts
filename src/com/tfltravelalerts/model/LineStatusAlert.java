@@ -113,6 +113,11 @@ public class LineStatusAlert {
             return this;
         }
 
+        public Builder addTime(Collection<Time> times) {
+            mTimes.addAll(times);
+            return this;
+        }
+
         public Builder clearTimes() {
             mTimes.clear();
             return this;

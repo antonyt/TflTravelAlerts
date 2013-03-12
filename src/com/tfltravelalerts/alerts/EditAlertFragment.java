@@ -1,6 +1,8 @@
 
 package com.tfltravelalerts.alerts;
 
+import java.util.Set;
+
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
@@ -10,11 +12,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.google.common.collect.ImmutableSet;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.ModifyAlertRequest;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusAlert;
+import com.tfltravelalerts.model.Time;
 
 public class EditAlertFragment extends EventBusFragment {
 
@@ -27,6 +31,7 @@ public class EditAlertFragment extends EventBusFragment {
     private EditText mAlertTitle;
     private DaySelectorView mDaySelectorView;
     private LineSelectorView mLineSelectorView;
+    private EditText mTimeInputField;
     private Button mCancelButton;
     private Button mSaveButton;
 
@@ -61,6 +66,7 @@ public class EditAlertFragment extends EventBusFragment {
 
         mDaySelectorView = (DaySelectorView) mRoot.findViewById(R.id.day_selector_view);
         mLineSelectorView = (LineSelectorView) mRoot.findViewById(R.id.line_selector_view);
+        mTimeInputField = (EditText) mRoot.findViewById(R.id.time_input);
     }
 
     private void updateDays() {
@@ -71,6 +77,10 @@ public class EditAlertFragment extends EventBusFragment {
         mLineSelectorView.setSelectedLines(mAlert.getLines());
     }
 
+    private void updateTimes() {
+        mTimeInputField.setText(Time.buildString(mAlert.getTimes(), " "));
+    }
+    
     private void setupButtons() {
         mCancelButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -88,6 +98,23 @@ public class EditAlertFragment extends EventBusFragment {
         });
     }
 
+    private Set<Time> parseTimes() {
+        String input = mTimeInputField.getText().toString();
+        String[] candidates = input.split(" ");
+        ImmutableSet.Builder<Time> builder = ImmutableSet.<Time>builder();
+        for(String candidate : candidates) {
+            String[] parts = candidate.split(":");
+            try {
+                int hour = Integer.parseInt(parts[0]);
+                int minute = Integer.parseInt(parts[1]);
+                builder.add(new Time(hour, minute));
+            } catch(Exception e) {
+                
+            }
+        }
+        return builder.build();
+    }
+    
     private void updateAlert() {
         LineStatusAlert alert = LineStatusAlert.builder(mAlert)
                 .title(mAlertTitle.getText().toString())
@@ -95,6 +122,8 @@ public class EditAlertFragment extends EventBusFragment {
                 .addDays(mDaySelectorView.getSelectedDays())
                 .clearLines()
                 .addLine(mLineSelectorView.getSelectedLines())
+                .clearTimes()
+                .addTime(parseTimes())
                 .build();
 
         ModifyAlertRequest request = new ModifyAlertRequest(alert);
@@ -115,5 +144,6 @@ public class EditAlertFragment extends EventBusFragment {
         updateTitle();
         updateDays();
         updateLines();
+        updateTimes();
     }
 }
