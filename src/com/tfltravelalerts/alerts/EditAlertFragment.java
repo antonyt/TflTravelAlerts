@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.google.common.collect.ImmutableSet;
 import com.tfltravelalerts.R;
+import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
-import com.tfltravelalerts.alerts.events.ModifyAlertRequest;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
@@ -43,7 +43,11 @@ public class EditAlertFragment extends EventBusFragment {
 
     private void retrieveArgs() {
         Bundle bundle = getArguments();
-        mAlertId = bundle.getInt(ALERT_ID_KEY, -1);
+        if (bundle != null) {
+            mAlertId = bundle.getInt(ALERT_ID_KEY, -1);
+        } else {
+            mAlertId = -1;
+        }
     }
 
     @Override
@@ -80,7 +84,7 @@ public class EditAlertFragment extends EventBusFragment {
     private void updateTimes() {
         mTimeInputField.setText(Time.buildString(mAlert.getTimes(), " "));
     }
-    
+
     private void setupButtons() {
         mCancelButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -101,22 +105,22 @@ public class EditAlertFragment extends EventBusFragment {
     private Set<Time> parseTimes() {
         String input = mTimeInputField.getText().toString();
         String[] candidates = input.split(" ");
-        ImmutableSet.Builder<Time> builder = ImmutableSet.<Time>builder();
-        for(String candidate : candidates) {
+        ImmutableSet.Builder<Time> builder = ImmutableSet.<Time> builder();
+        for (String candidate : candidates) {
             String[] parts = candidate.split(":");
             try {
                 int hour = Integer.parseInt(parts[0]);
                 int minute = Integer.parseInt(parts[1]);
                 builder.add(new Time(hour, minute));
-            } catch(Exception e) {
-                
+            } catch (Exception e) {
+
             }
         }
         return builder.build();
     }
-    
+
     private void updateAlert() {
-        LineStatusAlert alert = LineStatusAlert.builder(mAlert)
+        LineStatusAlert alert = LineStatusAlert.builder(mAlertId)
                 .title(mAlertTitle.getText().toString())
                 .clearDays()
                 .addDays(mDaySelectorView.getSelectedDays())
@@ -126,7 +130,7 @@ public class EditAlertFragment extends EventBusFragment {
                 .addTime(parseTimes())
                 .build();
 
-        ModifyAlertRequest request = new ModifyAlertRequest(alert);
+        AddOrUpdateAlertRequest request = new AddOrUpdateAlertRequest(alert);
         getEventBus().post(request);
     }
 
@@ -139,11 +143,13 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     public void onEventMainThread(AlertsUpdatedEvent event) {
-        mAlert = event.getData().getAlertById(mAlertId);
-
-        updateTitle();
-        updateDays();
-        updateLines();
-        updateTimes();
+        LineStatusAlert alert = event.getData().getAlertById(mAlertId);
+        if (alert != null) {
+            mAlert = alert;
+            updateTitle();
+            updateDays();
+            updateLines();
+            updateTimes();
+        }
     }
 }

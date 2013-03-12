@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.tfltravelalerts.alerts.service.AlertIdGenerator;
 
 public class LineStatusAlert {
 
@@ -52,7 +53,7 @@ public class LineStatusAlert {
     public static Builder builder(LineStatusAlert alert) {
         return new Builder(alert);
     }
-
+    
     public static class Builder {
 
         private int mId = -1;
@@ -62,7 +63,11 @@ public class LineStatusAlert {
         private Set<Time> mTimes = new HashSet<Time>();
 
         public Builder(LineStatusAlert alert) {
-            mId = alert.getId();
+            if(alert.getId() == -1) {
+                mId = AlertIdGenerator.generateId();
+            } else {
+                mId = alert.getId();
+            }
             mTitle = alert.getTitle();
             mLines = Sets.newHashSet(alert.getLines());
             mDays = Sets.newHashSet(alert.getDays());
@@ -70,7 +75,15 @@ public class LineStatusAlert {
         }
 
         public Builder(int id) {
-            mId = id;
+            if(id == -1) {
+                mId = AlertIdGenerator.generateId();
+            } else {
+                mId = id;
+            }
+        }
+        
+        public Builder() {
+            mId = AlertIdGenerator.generateId();
         }
 
         public Builder title(String title) {

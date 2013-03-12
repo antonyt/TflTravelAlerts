@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
@@ -36,6 +37,16 @@ public class ViewAlertsFragment extends EventBusFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.alerts_list_menu, menu);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.new_alert) {
+            Intent intent = new Intent(getActivity(), EditAlertActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
     
     @Override

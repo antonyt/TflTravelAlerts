@@ -35,6 +35,18 @@ public class LineStatusAlertSet {
         alerts.set(alerts.indexOf(alert), alert);
         return new LineStatusAlertSet(alerts);
     }
+    
+    public LineStatusAlertSet addOrUpdateAlert(LineStatusAlert alert) {
+        List<LineStatusAlert> alerts = new ArrayList<LineStatusAlert>(mAlerts);
+        int index = alerts.indexOf(alert);
+        if (index == -1) {
+            alerts.add(alert);
+        } else {
+            alerts.set(index, alert);
+        }
+        return new LineStatusAlertSet(alerts);
+        
+    }
 
     public LineStatusAlert getAlertById(int id) {
         for (LineStatusAlert alert : mAlerts) {
