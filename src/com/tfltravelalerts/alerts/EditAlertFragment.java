@@ -12,10 +12,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.common.collect.ImmutableSet;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
+import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
@@ -39,6 +43,23 @@ public class EditAlertFragment extends EventBusFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         retrieveArgs();
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.alerts_add_edit_menu, menu);
+        menu.findItem(R.id.delete).setVisible(mAlertId != -1);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.delete) {
+            deleteAlert();
+            finishActivity();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void retrieveArgs() {
@@ -131,6 +152,11 @@ public class EditAlertFragment extends EventBusFragment {
                 .build();
 
         AddOrUpdateAlertRequest request = new AddOrUpdateAlertRequest(alert);
+        getEventBus().post(request);
+    }
+    
+    private void deleteAlert() {
+        DeleteAlertRequest request = new DeleteAlertRequest(mAlert);
         getEventBus().post(request);
     }
 
