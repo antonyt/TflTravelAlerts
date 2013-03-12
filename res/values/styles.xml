@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- App theme -->
     <style name="TflTheme" parent="@style/Holo.Theme.Light.DarkActionBar"></style>
+
+    <!-- Day selector -->
+    <style name="DaySelector">
+        <item name="android:background">@drawable/day_selector_background</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">@dimen/triple_spacing_unit</item>
+        <item name="android:layout_height">@dimen/triple_spacing_unit</item>
+        <item name="android:layout_margin">@dimen/quarter_spacing_unit</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/day_selector_text_color</item>
+    </style>
 
 </resources>

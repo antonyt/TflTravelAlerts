@@ -2,10 +2,12 @@
 package com.tfltravelalerts.model;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 public class LineStatusAlert {
 
@@ -62,9 +64,9 @@ public class LineStatusAlert {
         public Builder(LineStatusAlert alert) {
             mId = alert.getId();
             mTitle = alert.getTitle();
-            mLines = alert.getLines();
-            mDays = alert.getDays();
-            mTimes = alert.getTimes();
+            mLines = Sets.newHashSet(alert.getLines());
+            mDays = Sets.newHashSet(alert.getDays());
+            mTimes = Sets.newHashSet(alert.getTimes());
         }
 
         public Builder(int id) {
@@ -86,6 +88,11 @@ public class LineStatusAlert {
             return this;
         }
 
+        public Builder addDays(Collection<Day> days) {
+            mDays.addAll(days);
+            return this;
+        }
+        
         public Builder addDay(Day... day) {
             mDays.addAll(Arrays.asList(day));
             return this;

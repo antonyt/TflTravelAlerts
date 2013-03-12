@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.tfltravelalerts.alerts.DaySelectorView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/day_selector_monday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_monday" />
+
+        <CheckBox
+            android:id="@+id/day_selector_tuesday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_tuesday" />
+
+        <CheckBox
+            android:id="@+id/day_selector_wednesday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_wednesday" />
+
+        <CheckBox
+            android:id="@+id/day_selector_thursday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_thursday" />
+
+        <CheckBox
+            android:id="@+id/day_selector_friday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_friday" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <CheckBox
+            android:id="@+id/day_selector_saturday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_saturday" />
+
+        <CheckBox
+            android:id="@+id/day_selector_sunday"
+            style="@style/DaySelector"
+            android:text="@string/day_super_short_sunday" />
+    </LinearLayout>
+
+</com.tfltravelalerts.alerts.DaySelectorView>
