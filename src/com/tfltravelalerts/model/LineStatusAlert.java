@@ -16,14 +16,14 @@ public class LineStatusAlert {
     private final String mTitle;
     private final ImmutableSet<Line> mLines;
     private final ImmutableSet<Day> mDays;
-    private final ImmutableSet<Time> mTimes;
+    private final Time mTime;
 
-    private LineStatusAlert(int id, String title, Set<Line> lines, Set<Day> days, Set<Time> times) {
+    private LineStatusAlert(int id, String title, Set<Line> lines, Set<Day> days, Time time) {
         mId = id;
         mTitle = title;
         mLines = ImmutableSet.copyOf(lines);
         mDays = ImmutableSet.copyOf(days);
-        mTimes = ImmutableSet.copyOf(times);
+        mTime = time;
     }
 
     public String getTitle() {
@@ -38,8 +38,8 @@ public class LineStatusAlert {
         return mDays;
     }
 
-    public ImmutableSet<Time> getTimes() {
-        return mTimes;
+    public Time getTime() {
+        return mTime;
     }
 
     public int getId() {
@@ -60,7 +60,7 @@ public class LineStatusAlert {
         private String mTitle;
         private Set<Line> mLines = new HashSet<Line>();
         private Set<Day> mDays = new HashSet<Day>();
-        private Set<Time> mTimes = new HashSet<Time>();
+        private Time mTime;
 
         public Builder(LineStatusAlert alert) {
             if(alert.getId() == -1) {
@@ -71,7 +71,7 @@ public class LineStatusAlert {
             mTitle = alert.getTitle();
             mLines = Sets.newHashSet(alert.getLines());
             mDays = Sets.newHashSet(alert.getDays());
-            mTimes = Sets.newHashSet(alert.getTimes());
+            mTime = alert.getTime();
         }
 
         public Builder(int id) {
@@ -121,23 +121,13 @@ public class LineStatusAlert {
             return this;
         }
 
-        public Builder addTime(Time... time) {
-            mTimes.addAll(Arrays.asList(time));
-            return this;
-        }
-
-        public Builder addTime(Collection<Time> times) {
-            mTimes.addAll(times);
-            return this;
-        }
-
-        public Builder clearTimes() {
-            mTimes.clear();
+        public Builder setTime(Time time) {
+            mTime = time;
             return this;
         }
 
         public LineStatusAlert build() {
-            return new LineStatusAlert(mId, mTitle, mLines, mDays, mTimes);
+            return new LineStatusAlert(mId, mTitle, mLines, mDays, mTime);
         }
     }
 

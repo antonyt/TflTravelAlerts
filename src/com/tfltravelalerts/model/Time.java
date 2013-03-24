@@ -66,5 +66,11 @@ public class Time implements Comparable<Time> {
         int minDiff = this.getMinute() - another.getMinute();
         return hourDiff != 0 ? hourDiff : minDiff;
     }
+    
+    public int differenceTo(Time another) {
+    	 int hourDiff = another.getHour() - this.getHour();
+         int minDiff = another.getMinute() - this.getMinute();
+         return hourDiff * 60 + minDiff;
+    }
 
 }

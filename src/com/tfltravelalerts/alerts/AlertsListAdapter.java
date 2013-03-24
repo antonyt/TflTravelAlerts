@@ -52,11 +52,11 @@ public class AlertsListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
-        if(convertView == null) {
+        if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = mLayoutInflater.inflate(R.layout.alerts_list_row, parent, false);
             convertView.setTag(viewHolder);
-            
+
             viewHolder.title = (TextView) convertView.findViewById(R.id.alerts_title);
             viewHolder.lines = (TextView) convertView.findViewById(R.id.alerts_lines);
             viewHolder.days = (TextView) convertView.findViewById(R.id.alerts_days);
@@ -64,14 +64,17 @@ public class AlertsListAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        
+
         LineStatusAlert alert = getItem(position);
-        
+
         viewHolder.title.setText(alert.getTitle());
         viewHolder.lines.setText(Line.buildString(alert.getLines()));
         viewHolder.days.setText(Day.buildShortString(alert.getDays()));
-        viewHolder.times.setText(Time.buildString(alert.getTimes()));
-        
+        Time time = alert.getTime();
+        if (time != null) {
+            viewHolder.times.setText(time.toString());
+        }
+
         return convertView;
     }
 
@@ -81,5 +84,5 @@ public class AlertsListAdapter extends BaseAdapter {
         TextView days;
         TextView times;
     }
-    
+
 }

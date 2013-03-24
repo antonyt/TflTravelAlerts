@@ -1,13 +1,12 @@
 
 package com.tfltravelalerts.alerts;
 
-import java.util.Set;
-
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.common.collect.ImmutableSet;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
@@ -27,6 +25,8 @@ import com.tfltravelalerts.model.Time;
 public class EditAlertFragment extends EventBusFragment {
 
     public static final String ALERT_ID_KEY = "alertId";
+
+	private static final String LOG_TAG = "EditAlertFragment";
 
     private int mAlertId;
     private LineStatusAlert mAlert;
@@ -103,7 +103,7 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     private void updateTimes() {
-        mTimeInputField.setText(Time.buildString(mAlert.getTimes(), " "));
+        mTimeInputField.setText(mAlert.getTime().toString());
     }
 
     private void setupButtons() {
@@ -123,21 +123,17 @@ public class EditAlertFragment extends EventBusFragment {
         });
     }
 
-    private Set<Time> parseTimes() {
+    private Time parseTime() {
         String input = mTimeInputField.getText().toString();
-        String[] candidates = input.split(" ");
-        ImmutableSet.Builder<Time> builder = ImmutableSet.<Time> builder();
-        for (String candidate : candidates) {
-            String[] parts = candidate.split(":");
+            String[] parts = input.split(":");
             try {
                 int hour = Integer.parseInt(parts[0]);
                 int minute = Integer.parseInt(parts[1]);
-                builder.add(new Time(hour, minute));
+                return new Time(hour, minute);
             } catch (Exception e) {
-
+            	Log.w(LOG_TAG, "parseTime: failed to parse", e);
             }
-        }
-        return builder.build();
+        return null;
     }
 
     private void updateAlert() {
@@ -147,8 +143,7 @@ public class EditAlertFragment extends EventBusFragment {
                 .addDays(mDaySelectorView.getSelectedDays())
                 .clearLines()
                 .addLine(mLineSelectorView.getSelectedLines())
-                .clearTimes()
-                .addTime(parseTimes())
+                .setTime(parseTime())
                 .build();
 
         AddOrUpdateAlertRequest request = new AddOrUpdateAlertRequest(alert);

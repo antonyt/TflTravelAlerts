@@ -64,4 +64,9 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_new">New</string>
     
+    <!-- Notifications -->
+    
+    <string name="notifications_title">Travel alerts for %s</string>
+    <string name="notifications_good_service">Good service on all selected lines</string>
+    <string name="notifications_problem_list_short_message">Disruptions on lines %s</string>
 </resources>

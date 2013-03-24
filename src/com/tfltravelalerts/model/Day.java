@@ -67,7 +67,7 @@ public enum Day {
     public static Day[] allDays() {
         return values();
     }
-    
+
     @Override
     public String toString() {
         Context context = TflApplication.getLastInstance();
@@ -78,5 +78,23 @@ public enum Day {
         List<Day> sortedDays = new ArrayList<Day>(days);
         Collections.sort(sortedDays);
         return Joiner.on(", ").join(sortedDays);
+    }
+
+    /**
+     * Calculates the minimum number of days in the week between this and
+     * another. A negative number means that the other day is reached quicker if
+     * going backwards.
+     * 
+     * @param another
+     * @return
+     */
+    public int daysBetween(Day another) {
+        if (this.ordinal() > another.ordinal()) {
+            // do the calculation when this is before another
+            return -another.daysBetween(this);
+        }
+        int delta = another.ordinal() - this.ordinal();
+        int complement = Day.values().length - delta;
+        return Math.abs(complement) < Math.abs(delta) ? -complement : delta;
     }
 }
