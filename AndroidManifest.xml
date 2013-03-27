@@ -52,6 +52,11 @@
                 <category android:name="com.tfltravelalerts" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".notification.TflAlarmBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="com.tfltravelalerts.alarm" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

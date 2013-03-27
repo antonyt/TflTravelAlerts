@@ -2,6 +2,7 @@
 package com.tfltravelalerts.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -13,28 +14,34 @@ import com.tfltravelalerts.R;
 import com.tfltravelalerts.TflApplication;
 
 public enum Day {
-    MONDAY(R.string.day_full_monday, R.string.day_short_monday, R.string.day_super_short_monday),
+    MONDAY(Calendar.MONDAY, R.string.day_full_monday, R.string.day_short_monday,
+            R.string.day_super_short_monday),
 
-    TUESDAY(R.string.day_full_tuesday, R.string.day_short_tuesday, R.string.day_super_short_tuesday),
+    TUESDAY(Calendar.TUESDAY, R.string.day_full_tuesday, R.string.day_short_tuesday,
+            R.string.day_super_short_tuesday),
 
-    WEDNESDAY(R.string.day_full_wednesday, R.string.day_short_wednesday,
+    WEDNESDAY(Calendar.WEDNESDAY, R.string.day_full_wednesday, R.string.day_short_wednesday,
             R.string.day_super_short_wednesday),
 
-    THURSDAY(R.string.day_full_thursday, R.string.day_short_thursday,
+    THURSDAY(Calendar.THURSDAY, R.string.day_full_thursday, R.string.day_short_thursday,
             R.string.day_super_short_thursday),
 
-    FRIDAY(R.string.day_full_friday, R.string.day_short_friday, R.string.day_super_short_friday),
+    FRIDAY(Calendar.FRIDAY, R.string.day_full_friday, R.string.day_short_friday,
+            R.string.day_super_short_friday),
 
-    SATURDAY(R.string.day_full_saturday, R.string.day_short_saturday,
+    SATURDAY(Calendar.SATURDAY, R.string.day_full_saturday, R.string.day_short_saturday,
             R.string.day_super_short_saturday),
 
-    SUNDAY(R.string.day_full_sunday, R.string.day_short_sunday, R.string.day_super_short_sunday);
+    SUNDAY(Calendar.SUNDAY, R.string.day_full_sunday, R.string.day_short_sunday,
+            R.string.day_super_short_sunday);
 
     private int mNormalNameResId;
     private int mShortNameResId;
     private int mSuperShortNameResId;
+    private int mCalendarDay;
 
-    private Day(int normalNameResId, int shortNameResId, int superShortNameResId) {
+    private Day(int calendarDay, int normalNameResId, int shortNameResId, int superShortNameResId) {
+        mCalendarDay = calendarDay;
         mNormalNameResId = normalNameResId;
         mShortNameResId = shortNameResId;
         mSuperShortNameResId = superShortNameResId;
@@ -52,6 +59,10 @@ public enum Day {
         return mSuperShortNameResId;
     }
 
+    public int getCalendarDay() {
+        return mCalendarDay;
+    }
+    
     public static Day[] weekdays() {
         return new Day[] {
                 MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY

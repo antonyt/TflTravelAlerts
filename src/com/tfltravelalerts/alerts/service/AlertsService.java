@@ -9,6 +9,8 @@ import android.os.IBinder;
 
 import com.tfltravelalerts.alerts.events.AddAlertRequest;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
+import com.tfltravelalerts.alerts.events.AlertAddedEvent;
+import com.tfltravelalerts.alerts.events.AlertDeletedEvent;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
 import com.tfltravelalerts.alerts.events.LoadAlertsRequest;
@@ -42,7 +44,6 @@ public class AlertsService extends EventBusService {
             AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
             getEventBus().postSticky(event);
         }
-
     }
 
     public void onEventAsync(AddAlertRequest request) {
@@ -51,8 +52,11 @@ public class AlertsService extends EventBusService {
         synchronized (this) {
             mAlerts = mAlerts.addAlert(alert);
             AlertsStore.save(mAlerts);
-            AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(event);
+            
+            AlertAddedEvent addEvent = new AlertAddedEvent(alert);
+            getEventBus().postSticky(addEvent);
+            AlertsUpdatedEvent updateEvent = new AlertsUpdatedEvent(mAlerts);
+            getEventBus().postSticky(updateEvent);
         }
     }
 
@@ -62,8 +66,11 @@ public class AlertsService extends EventBusService {
         synchronized (this) {
             mAlerts = mAlerts.removeAlert(alert);
             AlertsStore.save(mAlerts);
-            AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(event);
+            
+            AlertDeletedEvent deleteEvent = new AlertDeletedEvent(alert);
+            getEventBus().postSticky(deleteEvent);
+            AlertsUpdatedEvent updateEvent = new AlertsUpdatedEvent(mAlerts);
+            getEventBus().postSticky(updateEvent);
         }
     }
 

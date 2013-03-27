@@ -2,6 +2,7 @@
 package com.tfltravelalerts.model;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,7 +54,7 @@ public class LineStatusAlert {
     public static Builder builder(LineStatusAlert alert) {
         return new Builder(alert);
     }
-    
+
     public static class Builder {
 
         private int mId = -1;
@@ -63,7 +64,7 @@ public class LineStatusAlert {
         private Time mTime;
 
         public Builder(LineStatusAlert alert) {
-            if(alert.getId() == -1) {
+            if (alert.getId() == -1) {
                 mId = AlertIdGenerator.generateId();
             } else {
                 mId = alert.getId();
@@ -75,13 +76,13 @@ public class LineStatusAlert {
         }
 
         public Builder(int id) {
-            if(id == -1) {
+            if (id == -1) {
                 mId = AlertIdGenerator.generateId();
             } else {
                 mId = id;
             }
         }
-        
+
         public Builder() {
             mId = AlertIdGenerator.generateId();
         }
@@ -110,7 +111,7 @@ public class LineStatusAlert {
             mDays.addAll(days);
             return this;
         }
-        
+
         public Builder addDay(Day... day) {
             mDays.addAll(Arrays.asList(day));
             return this;
@@ -143,5 +144,32 @@ public class LineStatusAlert {
     @Override
     public int hashCode() {
         return getId();
+    }
+
+    public long getNextAlertTime(long fromTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(fromTime);
+
+        while(calendar.get(Calendar.SECOND) != 0) {
+            calendar.add(Calendar.SECOND, 1);
+        }
+
+        while(calendar.get(Calendar.MINUTE) != mTime.getMinute()) {
+            calendar.add(Calendar.MINUTE, 1);
+        }
+
+        while(calendar.get(Calendar.HOUR_OF_DAY) != mTime.getHour()) {
+            calendar.add(Calendar.HOUR_OF_DAY, 1);
+        }
+
+        Set<Integer> calendarDays = Sets.newHashSet();
+        for(Day day : mDays) {
+            calendarDays.add(day.getCalendarDay());
+        }
+        while(!calendarDays.contains(calendar.get(Calendar.DAY_OF_WEEK))) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        return calendar.getTimeInMillis();
     }
 }

@@ -31,6 +31,10 @@ public class LineStatusUpdate {
     public String getDescription() {
         return mDescription;
     }
+    
+    public boolean isLineDisrupted() {
+        return !LineStatus.GOOD_SERVICE.equals(getLineStatus());
+    }
 
     public boolean problemResolvedSince(LineStatusUpdate lastUpdate) {
         return mLineStatus == LineStatus.GOOD_SERVICE && !this.equals(lastUpdate);
