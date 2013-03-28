@@ -4,10 +4,15 @@ package com.tfltravelalerts.model;
 import java.util.Date;
 import java.util.List;
 
+import android.util.Log;
+
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 public class LineStatusUpdateSet {
 
+    private static final String LOG_TAG = "LineStatusUpdateSet";
+    
     private final Date mDate;
     private final ImmutableList<LineStatusUpdate> mLineStatusUpdates;
 
@@ -33,11 +38,58 @@ public class LineStatusUpdateSet {
         return null;
     }
     
+    public LineStatusUpdateSet getUpdatesForAlert(LineStatusAlert alert) {
+        Builder<LineStatusUpdate> builder = ImmutableList. <LineStatusUpdate>builder();
+        for(LineStatusUpdate lineStatusUpdate : mLineStatusUpdates) {
+            if(alert.getLines().contains(lineStatusUpdate)) {
+                builder.add(lineStatusUpdate);
+            }
+        }
+        return new LineStatusUpdateSet(mDate, builder.build());
+    }
+
+    public LineStatusUpdateSet getDisruptionUpdates() {
+        Builder<LineStatusUpdate> builder = ImmutableList. <LineStatusUpdate>builder();
+        for(LineStatusUpdate lineStatusUpdate : mLineStatusUpdates) {
+            if(lineStatusUpdate.isLineDisrupted()) {
+                builder.add(lineStatusUpdate);
+            }
+        }
+        return new LineStatusUpdateSet(mDate, builder.build());
+    }
+    
     public boolean isOldResult() {
         int leniencyInterval = 1 * 60 * 60 * 1000;
         long then = mDate.getTime(); 
         long now = System.currentTimeMillis();
         return (now - then) > leniencyInterval;
-        
+    }
+    
+    public int newProblemsFound(LineStatusUpdateSet newUpdateSet) {
+        int count = 0;
+        for(LineStatusUpdate lineStatusUpdate : mLineStatusUpdates) {
+            LineStatusUpdate newUpdate = newUpdateSet.getUpdateForLine(lineStatusUpdate.getLine());
+            if(newUpdate != null && newUpdate.foundNewProblemSince(lineStatusUpdate)) {
+                count++;
+            }
+        }
+        Log.d(LOG_TAG, "new problems found = " + count);
+        return count;
+    }
+
+    public int oldProblemsResolved(LineStatusUpdateSet newUpdateSet) {
+        int count = 0;
+        for(LineStatusUpdate lineStatusUpdate : mLineStatusUpdates) {
+            LineStatusUpdate newUpdate = newUpdateSet.getUpdateForLine(lineStatusUpdate.getLine());
+            if(newUpdate != null && newUpdate.problemResolvedSince(lineStatusUpdate)) {
+                count++;
+            }
+        }
+        Log.d(LOG_TAG, "old problems resolved = " + count);
+        return count;
+    }
+
+    public boolean lineStatusChanged(LineStatusUpdateSet newUpdateSet) {
+        return newProblemsFound(newUpdateSet) > 0 || oldProblemsResolved(newUpdateSet) > 0;
     }
 }

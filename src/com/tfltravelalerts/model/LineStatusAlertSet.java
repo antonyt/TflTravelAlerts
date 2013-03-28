@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList.Builder;
 
 public class LineStatusAlertSet {
 
@@ -16,6 +17,16 @@ public class LineStatusAlertSet {
 
     public ImmutableList<LineStatusAlert> getAlerts() {
         return mAlerts;
+    }
+
+    public ImmutableList<LineStatusAlert> getActiveAlerts(DayTime now) {
+        Builder<LineStatusAlert> builder = ImmutableList.<LineStatusAlert>builder();
+        for(LineStatusAlert alert : mAlerts) {
+            if(alert.isActive(now)) {
+                builder.add(alert);
+            }
+        }
+        return builder.build();
     }
 
     public LineStatusAlertSet addAlert(LineStatusAlert alert) {
@@ -35,7 +46,7 @@ public class LineStatusAlertSet {
         alerts.set(alerts.indexOf(alert), alert);
         return new LineStatusAlertSet(alerts);
     }
-    
+
     public LineStatusAlertSet addOrUpdateAlert(LineStatusAlert alert) {
         List<LineStatusAlert> alerts = new ArrayList<LineStatusAlert>(mAlerts);
         int index = alerts.indexOf(alert);
@@ -45,7 +56,7 @@ public class LineStatusAlertSet {
             alerts.set(index, alert);
         }
         return new LineStatusAlertSet(alerts);
-        
+
     }
 
     public LineStatusAlert getAlertById(int id) {

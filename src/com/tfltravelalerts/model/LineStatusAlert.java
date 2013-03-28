@@ -172,4 +172,9 @@ public class LineStatusAlert {
 
         return calendar.getTimeInMillis();
     }
+    
+    public boolean isActive(DayTime now) {
+        // TODO: just move alert active code into here?
+        return LineStatusAlertUtil.alertActiveForTime(this, now);
+    }
 }

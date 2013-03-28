@@ -3,6 +3,8 @@ package com.tfltravelalerts.model;
 
 import android.content.Context;
 
+import com.tfltravelalerts.TflApplication;
+
 /**
  * A description of the {@link LineStatus} of a {@link Line}. Also includes a
  * text description.
@@ -31,7 +33,7 @@ public class LineStatusUpdate {
     public String getDescription() {
         return mDescription;
     }
-    
+
     public boolean isLineDisrupted() {
         return !LineStatus.GOOD_SERVICE.equals(getLineStatus());
     }
@@ -43,16 +45,21 @@ public class LineStatusUpdate {
     public boolean foundNewProblemSince(LineStatusUpdate lastUpdate) {
         return mLineStatus != LineStatus.GOOD_SERVICE && !this.equals(lastUpdate);
     }
-    
-    public void writeStatusLine(StringBuilder sb, Context c) {
-        sb.append(mLine);
-        sb.append(": ");
-        sb.append(c.getString(mLineStatus.getStatusResId()));
 
+    @Override
+    public String toString() {
+        Context context = TflApplication.getLastInstance();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(mLine);
+        stringBuilder.append(": ");
+        stringBuilder.append(context.getString(mLineStatus.getStatusResId()));
         if (mDescription.length() > 0) {
-            sb.append(" - ");
-            sb.append(mDescription);
+            stringBuilder.append(" - ");
+            stringBuilder.append(mDescription);
         }
+
+        return stringBuilder.toString();
     }
 
     @Override

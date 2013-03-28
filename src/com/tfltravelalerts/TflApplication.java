@@ -28,7 +28,7 @@ public class TflApplication extends Application {
         startService(alertsService);
 
         TfLNotificationManager tflNotificationManager = new TfLNotificationManager();
-        EventBus.getDefault().register(tflNotificationManager);
+        EventBus.getDefault().registerSticky(tflNotificationManager);
 
         TflAlarmManager tflAlarmManager = new TflAlarmManager();
         EventBus.getDefault().registerSticky(tflAlarmManager);
