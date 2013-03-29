@@ -25,6 +25,10 @@
     <string name="line_status_severe_delays">Severe Delays</string>
     <string name="line_status_part_closure">Part Closure</string>
     <string name="line_status_planned_closure">Planned Closure</string>
+    <string name="line_status_suspended">Suspended</string>
+    <string name="line_status_part_suspended">Part Suspended</string>
+    <string name="line_status_reduced_service">Reduced Service</string>
+    <string name="line_status_bus_service">Bus Service</string>
     
     <!-- Days -->
     <string name="day_full_monday">Monday</string>
