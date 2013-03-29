@@ -1,12 +1,12 @@
 
 package com.tfltravelalerts.notification;
 
-import org.holoeverywhere.util.SparseArray;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
