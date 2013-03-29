@@ -41,7 +41,7 @@ public class LineStatusUpdateSet {
     public LineStatusUpdateSet getUpdatesForAlert(LineStatusAlert alert) {
         Builder<LineStatusUpdate> builder = ImmutableList. <LineStatusUpdate>builder();
         for(LineStatusUpdate lineStatusUpdate : mLineStatusUpdates) {
-            if(alert.getLines().contains(lineStatusUpdate)) {
+            if(alert.getLines().contains(lineStatusUpdate.getLine())) {
                 builder.add(lineStatusUpdate);
             }
         }
