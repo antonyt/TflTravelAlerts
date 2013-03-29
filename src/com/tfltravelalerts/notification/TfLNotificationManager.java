@@ -29,10 +29,16 @@ public class TfLNotificationManager {
 
     private LineStatusAlertSet mAlerts;
     private LineStatusUpdateSet mLineStatus;
-    private SparseArray<LineStatusUpdateSet> mNotifiedUpdates = new SparseArray<LineStatusUpdateSet>();
+    private SparseArray<LineStatusUpdateSet> mNotifiedUpdates;
 
     public TfLNotificationManager() {
         mContext = TflApplication.getLastInstance();
+        SparseArray<LineStatusUpdateSet> notifiedUptates = TfLNotificationManagerStore.load();
+        if(notifiedUptates == null) {
+            mNotifiedUpdates = new SparseArray<LineStatusUpdateSet>();
+        } else {
+            mNotifiedUpdates = notifiedUptates;
+        }
     }
 
     public void onEvent(LineStatusUpdateSuccess update) {
@@ -51,6 +57,7 @@ public class TfLNotificationManager {
         int alertId = update.getData().getId();
         Log.d(LOG_TAG, "on AddOrUpdateAlertRequest - removing information about alert " + alertId);
         mNotifiedUpdates.remove(alertId);
+        TfLNotificationManagerStore.saveNotifiedUpdates(mNotifiedUpdates);
     }
 
     private void checkNotifications() {
@@ -99,6 +106,7 @@ public class TfLNotificationManager {
             Notification notification = buildNotification(alert, mLineStatus);
             nm.notify(NOTIFICATION_TAG, alert.getId(), notification);
             mNotifiedUpdates.put(alert.getId(), mLineStatus);
+            TfLNotificationManagerStore.saveNotifiedUpdates(mNotifiedUpdates);
         } else {
             Log.i(LOG_TAG, "showOrUpdateNotification: not showing notification due to no new data");
         }
