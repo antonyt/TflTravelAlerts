@@ -4,12 +4,12 @@ package com.tfltravelalerts.notification;
 import java.util.Date;
 
 import org.holoeverywhere.app.Application;
-import org.holoeverywhere.widget.Toast;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.alerts.events.AlertDeletedEvent;
@@ -23,6 +23,7 @@ import com.tfltravelalerts.model.LineStatusAlertSet;
  */
 public class TflAlarmManager {
 
+    final private String LOG_TAG = "TflAlarmManager";
     private Application mContext;
     private LineStatusAlertSet mLineStatusAlertSet;
 
@@ -47,15 +48,16 @@ public class TflAlarmManager {
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = makePendingIntentForAlert(alert);
         alarmManager.cancel(pendingIntent);
-
-        Toast.makeText(mContext, "removing alarm", Toast.LENGTH_SHORT).show();
+        Log.i(LOG_TAG, "removing alarm for alert " + alert.toString());
+        // Toast.makeText(mContext, "removing alarm",
+        // Toast.LENGTH_SHORT).show();
     }
 
     private void setAlarms() {
-        if(mLineStatusAlertSet == null) {
+        if (mLineStatusAlertSet == null) {
             return;
         }
-        
+
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 
         long now = System.currentTimeMillis();
@@ -64,8 +66,10 @@ public class TflAlarmManager {
             long triggerTime = alert.getNextAlertTime(now);
             alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
 
-            Toast.makeText(mContext, "setting alarm for " + new Date(triggerTime),
-                    Toast.LENGTH_SHORT).show();
+            Date date = new Date(triggerTime);
+            // Toast.makeText(mContext, "setting alarm for " + date,
+            // Toast.LENGTH_SHORT).show();
+            Log.i(LOG_TAG, "setting alart for " + alert.toString() + " at " + date);
         }
     }
 
