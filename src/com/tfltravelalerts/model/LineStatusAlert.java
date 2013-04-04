@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 import com.tfltravelalerts.alerts.service.AlertIdGenerator;
 
 public class LineStatusAlert {
+    private static final String LOG_TAG = "LineStatusAlertUtil";
     private final static int LOOK_AHEAD_FOR_ALERT_TIME = 60; // unit: minutes
     private final static int LOOK_BEHIND_FOR_ALERT_TIME = -30; // unit: minutes
     
@@ -175,8 +176,13 @@ public class LineStatusAlert {
         for(Day day : mDays) {
             calendarDays.add(day.getCalendarDay());
         }
-        while(!calendarDays.contains(calendar.get(Calendar.DAY_OF_WEEK))) {
-            calendar.add(Calendar.DATE, 1);
+        if(calendarDays.size() > 0) {
+            //if we don't do this check we would go into an infinite loop
+            while(!calendarDays.contains(calendar.get(Calendar.DAY_OF_WEEK))) {
+                calendar.add(Calendar.DATE, 1);
+            }
+        } else {
+            Log.e("LineStatusAlert", "getNextAlertTime: there are no days in alert "+toString());
         }
 
         return calendar.getTimeInMillis();
@@ -189,7 +195,7 @@ public class LineStatusAlert {
     public static boolean alertActiveForTime(LineStatusAlert alert, DayTime queryTime) {
         Time time = alert.getTime();
         if(time == null) {
-            Log.w("LineStatusAlertUtil", "alertActiveForTime: alert time is null; returning false");
+            Log.w(LOG_TAG, "alertActiveForTime: alert time is null; returning false");
             return false;
         }
         DayTime alertTime = new DayTime(null, time);
