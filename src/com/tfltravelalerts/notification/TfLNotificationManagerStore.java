@@ -20,7 +20,7 @@ public class TfLNotificationManagerStore {
     private static final String SHARED_PREFERENCE_NAME = "TfLNotificationManagerStore";
     private static final String NOTIFIED_UPDATES_KEY = "NotifiedUpdates";
 
-    public static void saveNotifiedUpdates(SparseArray<LineStatusUpdateSet> notifiedUpdates) {
+    public static void save(SparseArray<LineStatusUpdateSet> notifiedUpdates) {
         SharedPreferences preferences = getSharedPreferences();
         String json = new Gson().toJson(notifiedUpdates);
         preferences.edit().putString(NOTIFIED_UPDATES_KEY, json).commit();

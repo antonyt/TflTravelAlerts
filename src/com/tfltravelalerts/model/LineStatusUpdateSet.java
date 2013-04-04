@@ -57,9 +57,28 @@ public class LineStatusUpdateSet {
         }
         return new LineStatusUpdateSet(mDate, builder.build());
     }
-    
+
+    /**
+     * Used in main screen to know if we should refresh data
+     * @return
+     */
     public boolean isOldResult() {
         int leniencyInterval = 1 * 60 * 60 * 1000;
+        long then = mDate.getTime(); 
+        long now = System.currentTimeMillis();
+        return (now - then) > leniencyInterval;
+    }
+    
+    /**
+     * Used when we get new line statuses and then compare this status
+     * with the latest notified status to know if there are any changes.
+     * 
+     * If this method returns false, it means that the data is too old
+     * to be compared with the current data.
+     * @return
+     */
+    public boolean isExpiredResult() {
+        int leniencyInterval = 2 * 60 * 60 * 1000;
         long then = mDate.getTime(); 
         long now = System.currentTimeMillis();
         return (now - then) > leniencyInterval;

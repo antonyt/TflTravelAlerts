@@ -57,7 +57,7 @@ public class TfLNotificationManager {
         int alertId = update.getData().getId();
         Log.d(LOG_TAG, "on AddOrUpdateAlertRequest - removing information about alert " + alertId);
         mNotifiedUpdates.remove(alertId);
-        TfLNotificationManagerStore.saveNotifiedUpdates(mNotifiedUpdates);
+        TfLNotificationManagerStore.save(mNotifiedUpdates);
     }
 
     private void checkNotifications() {
@@ -91,7 +91,7 @@ public class TfLNotificationManager {
             Notification notification = buildNotification(alert, mLineStatus);
             nm.notify(NOTIFICATION_TAG, alert.getId(), notification);
             mNotifiedUpdates.put(alert.getId(), mLineStatus);
-            TfLNotificationManagerStore.saveNotifiedUpdates(mNotifiedUpdates);
+            TfLNotificationManagerStore.save(mNotifiedUpdates);
         } else {
             Log.i(LOG_TAG, "showOrUpdateNotification: not showing notification due to no new data");
         }
@@ -102,6 +102,12 @@ public class TfLNotificationManager {
         if (notifiedUpdateSet == null) {
             Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                     + "; no previous notification detected!");
+            return true;
+        }
+        
+        if(notifiedUpdateSet.isExpiredResult()) {
+            Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
+                    + "; last result has expired");
             return true;
         }
         
