@@ -86,7 +86,11 @@ public class LineStatusListAdapter extends BaseAdapter {
         convertView.setBackgroundResource(line.getColorResId());
 
         if (lineStatusUpdate != null) {
-            viewHolder.description.setText(lineStatusUpdate.getLineStatus().getStatusResId());
+            if(lineStatusUpdate.getLineStatus() != null) {
+                viewHolder.description.setText(lineStatusUpdate.getLineStatus().getStatusResId());
+            } else {
+                viewHolder.description.setText("?");
+            }
         } else {
             viewHolder.description.setText("");
         }

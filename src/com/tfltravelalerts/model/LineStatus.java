@@ -12,8 +12,8 @@ public enum LineStatus {
     SEVERE_DELAYS("SD", R.string.line_status_severe_delays),
     PART_CLOSURE("PC", R.string.line_status_part_closure),
     PLANNED_CLOSURE("CS", R.string.line_status_planned_closure),
+    SUSPENDED("SU", R.string.line_status_suspended),
     //TODO check ids with the following statuses
-    SUSPENDED("SP", R.string.line_status_suspended),
     PART_SUSPENDED("PS", R.string.line_status_part_suspended),
     REDUCED_SERVICE("RS", R.string.line_status_reduced_service),
     BUS_SERVICE("BS", R.string.line_status_bus_service);
