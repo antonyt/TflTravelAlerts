@@ -56,7 +56,7 @@ public class Time implements Comparable<Time> {
     public static String buildString(Collection<Time> times, String separator) {
         List<Time> sortedTimes = new ArrayList<Time>(times);
         Collections.sort(sortedTimes);
-        
+
         return Joiner.on(separator).join(sortedTimes);
     }
 
@@ -66,11 +66,10 @@ public class Time implements Comparable<Time> {
         int minDiff = this.getMinute() - another.getMinute();
         return hourDiff != 0 ? hourDiff : minDiff;
     }
-    
-    public int differenceTo(Time another) {
-    	 int hourDiff = another.getHour() - this.getHour();
-         int minDiff = another.getMinute() - this.getMinute();
-         return hourDiff * 60 + minDiff;
-    }
 
+    public int differenceTo(Time another) {
+        int hourDiff = another.getHour() - this.getHour();
+        int minDiff = another.getMinute() - this.getMinute();
+        return hourDiff * 60 + minDiff;
+    }
 }

@@ -2,6 +2,7 @@ package com.tfltravelalerts.test;
 
 import junit.framework.TestCase;
 
+import com.google.gson.GsonBuilder;
 import com.tfltravelalerts.model.Time;
 
 public class TimeTest extends TestCase {
@@ -31,5 +32,21 @@ public class TimeTest extends TestCase {
 		assertEquals(tenToMidnight.differenceTo(tenPastMidnight), -1420);
 		assertEquals(tenPastMidnight.differenceTo(tenToMidnight), 1420);
 	}
+	
+	public void testSerializeAndRestore() {
+	    String json = new GsonBuilder().create().toJson(tenPastNoon);
+	    Time restoredObject = new GsonBuilder().create().fromJson(json, Time.class);
+        assertEquals(tenPastNoon, restoredObject);
+	}
+
+    public void testSerialization() {
+        String json = new GsonBuilder().create().toJson(tenPastNoon);
+        assertEquals(json, "{\"mHour\":12,\"mMinute\":10}");
+    }
+    public void testDeserialization() {
+        String json = "{\"mHour\":12,\"mMinute\":10}";
+        Time restoredObject = new GsonBuilder().create().fromJson(json, Time.class);
+        assertEquals(tenPastNoon, restoredObject);
+    }
 
 }
