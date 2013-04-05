@@ -72,8 +72,10 @@ public class TfLNotificationManager {
         // from one day to another
 
         DayTime now = DayTime.now();
-        for (LineStatusAlert alert : mAlerts.getActiveAlerts(now)) {
-            showOrUpdateNotification(alert);
+        if(mAlerts != null) {
+            for (LineStatusAlert alert : mAlerts.getActiveAlerts(now)) {
+                showOrUpdateNotification(alert);
+            }
         }
     }
 
