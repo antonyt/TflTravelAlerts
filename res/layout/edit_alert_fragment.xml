@@ -1,68 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/app_background"
-    android:orientation="vertical"
-    android:padding="@dimen/normal_spacing_unit" >
-
-    <!-- Input fields -->
-
-    <EditText
-        android:id="@+id/alert_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_spacing_unit"
-        android:hint="@string/alert_title"
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/large_text_size" />
-
-    <include
-        android:id="@+id/day_selector_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_spacing_unit"
-        layout="@layout/day_selector_view" />
-
-    <include
-        android:id="@+id/line_selector_view"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_spacing_unit"
-        layout="@layout/line_selector_view" />
-
-    <!-- TODO: implement better input mechanism for time -->
-
-    <EditText
-        android:id="@+id/time_input"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/normal_spacing_unit"
-        android:singleLine="true"
-        android:textColor="@color/white" />
-
-    <!-- Buttons -->
+    android:background="@color/app_background">
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/normal_spacing_unit" >
 
-        <Button
-            android:id="@+id/cancel_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/action_cancel"
-            android:textColor="@color/white" />
+        <!-- Input fields -->
 
-        <Button
-            android:id="@+id/save_button"
-            android:layout_width="0dp"
+        <EditText
+            android:id="@+id/alert_title"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/action_save"
-            android:textColor="@color/white" />
+            android:layout_marginBottom="@dimen/normal_spacing_unit"
+            android:hint="@string/edit_alert_alert_title_hint"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/large_text_size" />
+		<!-- cursor drawable to null will change the cursor color to the text color
+		otherwise it would use the theme color which wasn't a good match -->
+        
+        <TextView
+            android:id="@+id/time_input"
+            style="@style/Holo.EditText.Light"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/normal_spacing_unit"
+            android:focusable="true"
+            android:textIsSelectable="false"
+            android:textColor="@color/white"
+            android:hint="@string/edit_alert_time_field_hint" />
+
+        <include
+            android:id="@+id/day_selector_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/normal_spacing_unit"
+            layout="@layout/day_selector_view" />
+
+        <include
+            android:id="@+id/line_selector_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/normal_spacing_unit"
+            layout="@layout/line_selector_view" />
+
+        <!-- Buttons -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_cancel"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/action_save"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
