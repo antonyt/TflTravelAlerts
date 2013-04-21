@@ -1,7 +1,6 @@
 
 package com.tfltravelalerts;
 
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
 
 import android.os.Bundle;
@@ -9,10 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
+import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.viewpagerindicator.PageIndicator;
 
-public class MainActivity extends Activity {
+public class MainActivity extends TflBaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

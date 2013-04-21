@@ -1,7 +1,6 @@
 
 package com.tfltravelalerts.common;
 
-import org.holoeverywhere.app.Activity;
 import org.holoeverywhere.app.Fragment;
 
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import com.tfltravelalerts.R;
 /**
  * Base class for an activity that displays a single fragment.
  */
-public abstract class SinglePaneFragmentActivity extends Activity {
+public abstract class SinglePaneFragmentActivity extends TflBaseActivity {
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -26,4 +25,5 @@ public abstract class SinglePaneFragmentActivity extends Activity {
 
     protected abstract Fragment buildFragment();
 
+    
 }

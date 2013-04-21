@@ -27,7 +27,8 @@
         android:name="com.tfltravelalerts.TflApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/TflTheme" >
+        android:theme="@style/TflTheme" 
+        android:debuggable="true">
         <activity android:name="MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
