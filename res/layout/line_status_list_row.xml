@@ -4,10 +4,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
-    android:paddingBottom="@dimen/one_and_half_spacing_unit"
+    android:paddingBottom="@dimen/normal_spacing_unit"
     android:paddingLeft="@dimen/normal_spacing_unit"
     android:paddingRight="@dimen/normal_spacing_unit"
-    android:paddingTop="@dimen/one_and_half_spacing_unit"
+    android:paddingTop="@dimen/normal_spacing_unit"
     android:textColor="@color/white"
     android:textIsSelectable="false"
     android:shadowColor="@color/shadow_color"
@@ -15,4 +15,5 @@
     android:shadowDy="1"
     android:shadowRadius="3"
     android:textStyle="bold"
+    android:gravity="center_vertical"
     android:textSize="@dimen/extra_large_text_size" />
