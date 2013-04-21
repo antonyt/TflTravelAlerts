@@ -3,6 +3,7 @@
 
     <!-- App info -->
     <string name="app_name">TfL Travel Alerts</string>
+    <string name="app_name_launcher">TfL Alerts</string>
 
     <!-- Line names -->
     <string name="line_name_bakerloo">Bakerloo</string>
