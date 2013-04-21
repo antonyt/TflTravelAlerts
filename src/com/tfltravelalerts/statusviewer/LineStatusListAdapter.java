@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.model.Line;
+import com.tfltravelalerts.model.LineStatus;
 import com.tfltravelalerts.model.LineStatusUpdate;
 
 /**
@@ -66,41 +67,32 @@ public class LineStatusListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder;
+        TextView row;
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.line_status_list_row, parent, false);
-            viewHolder = new ViewHolder();
-            convertView.setTag(viewHolder);
-
-            viewHolder.title = (TextView) convertView.findViewById(R.id.line_name);
-            viewHolder.description = (TextView) convertView
-                    .findViewById(R.id.line_status_description);
+            row  = (TextView) mInflater.inflate(R.layout.line_status_list_row, parent, false);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            row = (TextView) convertView;
+            //clear previous state
+            row.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
         Line line = getItem(position);
         LineStatusUpdate lineStatusUpdate = getLineStatusUpdate(position);
 
-        viewHolder.title.setText(line.getNameResId());
-        convertView.setBackgroundResource(line.getColorResId());
+        row.setText(line.getNameResId());
+        row.setBackgroundResource(line.getColorResId());
 
         if (lineStatusUpdate != null) {
-            if(lineStatusUpdate.getLineStatus() != null) {
-                viewHolder.description.setText(lineStatusUpdate.getLineStatus().getStatusResId());
-            } else {
-                viewHolder.description.setText("?");
+            int resId = R.drawable.line_status_unknown;
+            LineStatus lineStatus = lineStatusUpdate.getLineStatus();
+            if(lineStatus != null) {
+                resId = lineStatus.getStatusIcon();
             }
+            row.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
         } else {
-            viewHolder.description.setText("");
+           //if no update yet, show nothing (loading updates?)
         }
 
-        return convertView;
+        return row;
     }
-
-    static class ViewHolder {
-        TextView title;
-        TextView description;
-    }
-
 }

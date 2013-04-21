@@ -22,6 +22,7 @@
     <color name="gray">#777777</color>
     <color name="dark_gray">#444444</color>
     <color name="light_gray">#AAAAAA</color>
+    <color name="shadow_color">#bb111111</color>
     
     <!-- App colors -->
     <color name="app_background">@color/dark_gray</color>
