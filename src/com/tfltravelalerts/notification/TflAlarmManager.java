@@ -18,6 +18,8 @@ import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.LineStatusAlertSet;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Class to setup alarms to refresh data according to alert times.
  */
@@ -28,6 +30,7 @@ public class TflAlarmManager {
     private LineStatusAlertSet mLineStatusAlertSet;
 
     public TflAlarmManager() {
+        EventBus.getDefault().registerSticky(this);
         mContext = TflApplication.getLastInstance();
     }
 

@@ -17,6 +17,8 @@ import com.tfltravelalerts.model.LineStatusAlertSet;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * TODO: write doc
  */
@@ -32,6 +34,7 @@ public class TfLNotificationManager {
     private SparseArray<LineStatusUpdateSet> mNotifiedUpdates;
 
     public TfLNotificationManager() {
+        EventBus.getDefault().registerSticky(this);
         mContext = TflApplication.getLastInstance();
         SparseArray<LineStatusUpdateSet> notifiedUptates = TfLNotificationManagerStore.load();
         if(notifiedUptates == null) {

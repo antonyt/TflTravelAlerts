@@ -38,8 +38,6 @@
         <activity android:name=".statusviewer.LineStatusViewerDetailActivity" />
         <activity android:name=".alerts.EditAlertActivity" />
 
-        <service android:name=".statusviewer.service.LineStatusService" />
-        <service android:name=".alerts.service.AlertsService" />
         <service android:name=".GCMIntentService" />
 
         <receiver

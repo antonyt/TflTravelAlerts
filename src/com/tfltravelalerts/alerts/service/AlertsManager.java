@@ -4,9 +4,6 @@ package com.tfltravelalerts.alerts.service;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import android.content.Intent;
-import android.os.IBinder;
-
 import com.tfltravelalerts.alerts.events.AddAlertRequest;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertAddedEvent;
@@ -15,25 +12,24 @@ import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
 import com.tfltravelalerts.alerts.events.LoadAlertsRequest;
 import com.tfltravelalerts.alerts.events.ModifyAlertRequest;
-import com.tfltravelalerts.common.eventbus.EventBusService;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.LineStatusAlertSet;
 
-public class AlertsService extends EventBusService {
+import de.greenrobot.event.EventBus;
+
+public class AlertsManager {
 
     private LineStatusAlertSet mAlerts = new LineStatusAlertSet(new ArrayList<LineStatusAlert>());
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
+    public AlertsManager() {
+        getEventBus().registerSticky(this);
         getEventBus().post(new LoadAlertsRequest());
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    private EventBus getEventBus() {
+        return EventBus.getDefault();
     }
-
+    
     public void onEventAsync(LoadAlertsRequest request) {
         LineStatusAlertSet alerts = AlertsStore.load();
         if(alerts == null) {
