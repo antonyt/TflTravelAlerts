@@ -71,7 +71,7 @@ public class TimePickerFragment extends DialogFragment implements
         Log.d(LOG_TAG, "onTimeSet: " + hour + " " + minute);
         mHour = hour;
         mMinute = minute;
-        EventBus.getDefault().postSticky(new AlertTimeSelected(new Time(mHour, mMinute)));
+        EventBus.getDefault().post(new AlertTimeSelected(new Time(mHour, mMinute)));
         dismissAllowingStateLoss();
     }
 

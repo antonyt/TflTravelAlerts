@@ -31,8 +31,6 @@ import com.tfltravelalerts.common.persistence.ImmutableSetDeserializer;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
 
-import de.greenrobot.event.EventBus;
-
 public class EditAlertFragment extends EventBusFragment {
 
     public static final String ALERT_ID_KEY = "alertId";
@@ -115,8 +113,6 @@ public class EditAlertFragment extends EventBusFragment {
     
     public void onEventMainThread(AlertTimeSelected newTime) {
         mTimeInputField.setText(newTime.getData().toString());
-        //avoid getting this next time we return here
-        EventBus.getDefault().removeStickyEvent(newTime);
     }
     
     private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
@@ -243,8 +239,6 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     private void showTimePickerDialog() {
-        //avoid getting results from previous calls
-        EventBus.getDefault().removeStickyEvent(AlertTimeSelected.class);
         if(mTimePickerFragment == null) {
             mTimePickerFragment = new TimePickerFragment();
         }
