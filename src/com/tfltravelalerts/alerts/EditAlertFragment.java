@@ -1,7 +1,6 @@
 
 package com.tfltravelalerts.alerts;
 
-
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
@@ -16,18 +15,12 @@ import android.view.ViewGroup;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertTimeSelected;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
-import com.tfltravelalerts.common.persistence.ImmutableListDeserializer;
-import com.tfltravelalerts.common.persistence.ImmutableSetDeserializer;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
 
@@ -35,7 +28,6 @@ public class EditAlertFragment extends EventBusFragment {
 
     public static final String ALERT_ID_KEY = "alertId";
     private static final String LOG_TAG = "EditAlertFragment";
-    private static final String RETAINED_ALERT_KEY = "RetainedAlert";
 
     private int mAlertId;
     private LineStatusAlert mAlert;
@@ -49,7 +41,7 @@ public class EditAlertFragment extends EventBusFragment {
     private Button mSaveButton;
 
     private TimePickerFragment mTimePickerFragment;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,34 +79,28 @@ public class EditAlertFragment extends EventBusFragment {
         inflateRootView(inflater, container);
         findViews();
         setupViews();
-        restoreState(savedInstanceState);
         return mRoot;
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        LineStatusAlert alert = buildAlertOnScreen();
-        String json = new Gson().toJson(alert);
-        outState.putString(RETAINED_ALERT_KEY, json);
-    }
-
-    private void restoreState(Bundle savedInstanceState) {
-        if(savedInstanceState != null && savedInstanceState.containsKey(RETAINED_ALERT_KEY)) {
-            String json = savedInstanceState.getString(RETAINED_ALERT_KEY);
-            mAlert = new GsonBuilder()
-            .registerTypeAdapter(ImmutableList.class, new ImmutableListDeserializer())
-            .registerTypeAdapter(ImmutableSet.class, new ImmutableSetDeserializer())
-            .create().fromJson(json, LineStatusAlert.class);
-            
-            updateUiFromAlert();
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        AlertsUpdatedEvent event = (AlertsUpdatedEvent) getEventBus().getStickyEvent(
+                AlertsUpdatedEvent.class);
+        if (event != null) {
+            onEventMainThread(event);
         }
     }
-    
+
+    @Override
+    protected boolean registerSticky() {
+        return false;
+    }
+
     public void onEventMainThread(AlertTimeSelected newTime) {
         mTimeInputField.setText(newTime.getData().toString());
     }
-    
+
     private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
         mRoot = inflater.inflate(R.layout.edit_alert_fragment, container, false);
     }
@@ -138,7 +124,7 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     private void updateTime() {
-        if(mAlert.getTime() == null) {
+        if (mAlert.getTime() == null) {
             mTimeInputField.setText("");
         } else {
             mTimeInputField.setText(mAlert.getTime().toString());
@@ -162,29 +148,17 @@ public class EditAlertFragment extends EventBusFragment {
         });
 
         mTimeInputField.setOnClickListener(new OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 Log.d(LOG_TAG, "timeInputField.onClick");
                 showTimePickerDialog();
             }
         });
-        
     }
 
     private Time parseTime() {
         String input = mTimeInputField.getText().toString();
-        if(input.length() > 0) {
-            String[] parts = input.split(":");
-            try {
-                int hour = Integer.parseInt(parts[0]);
-                int minute = Integer.parseInt(parts[1]);
-                return new Time(hour, minute);
-            } catch (Exception e) {
-                Log.w(LOG_TAG, "parseTime: failed to parse "+input, e);
-            }
-        }
-        return null;
+        return Time.parseTime(input);
     }
 
     private void updateAlert() {
@@ -220,12 +194,12 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     public void onEventMainThread(AlertsUpdatedEvent event) {
-        if(mAlert == null) {
-            //if we already have an alert it was restored from before
-            //and we don't want to overwrite it with the one saved
+        if (mAlert == null) {
+            // if we already have an alert it was restored from before
+            // and we don't want to overwrite it with the one saved
             LineStatusAlert alert = event.getData().getAlertById(mAlertId);
             if (alert != null) {
-                mAlert = LineStatusAlert.builder(alert).build();
+                mAlert = alert;
                 updateUiFromAlert();
             }
         }
@@ -239,14 +213,13 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     private void showTimePickerDialog() {
-        if(mTimePickerFragment == null) {
+        if (mTimePickerFragment == null) {
             mTimePickerFragment = new TimePickerFragment();
         }
-        Time t = parseTime();
-        if(t != null) {
-            mTimePickerFragment.setInitialTime(t.getHour(), t.getMinute());
+        Time time = parseTime();
+        if (time != null) {
+            mTimePickerFragment.setInitialTime(time.getHour(), time.getMinute());
         }
         mTimePickerFragment.show(getSupportFragmentManager());
-
     }
 }

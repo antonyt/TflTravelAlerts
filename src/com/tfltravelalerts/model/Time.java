@@ -6,10 +6,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import android.util.Log;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 
 public class Time implements Comparable<Time> {
+
+    private static final String TAG = Time.class.getName();
 
     private final int mHour;
     private final int mMinute;
@@ -58,6 +63,26 @@ public class Time implements Comparable<Time> {
         Collections.sort(sortedTimes);
 
         return Joiner.on(separator).join(sortedTimes);
+    }
+
+    /**
+     * @param timeString 12:34 format
+     * @return
+     */
+    public static Time parseTime(String timeString) {
+        if (Strings.isNullOrEmpty(timeString)) {
+            return null;
+        }
+
+        try {
+            String[] parts = timeString.split(":");
+            int hour = Integer.parseInt(parts[0]);
+            int minute = Integer.parseInt(parts[1]);
+            return new Time(hour, minute);
+        } catch (NumberFormatException e) {
+            Log.e(TAG, "Cannot parse time - " + timeString, e);
+            return null;
+        }
     }
 
     @Override

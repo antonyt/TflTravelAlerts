@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/normal_spacing_unit"
             android:textIsSelectable="false"
+            android:freezesText="true"
             android:textColor="@color/white"
             android:focusable="true" 
             android:focusableInTouchMode="false" 
