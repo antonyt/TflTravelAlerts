@@ -25,6 +25,8 @@ public class ViewAlertsFragment extends EventBusFragment {
 
     private View mRoot;
     private ListView mListView;
+    private View mEmptyView;
+
     private AlertsListAdapter mAdapter;
 
     @Override
@@ -65,6 +67,7 @@ public class ViewAlertsFragment extends EventBusFragment {
 
     private void findViews() {
         mListView = (ListView) mRoot.findViewById(R.id.alerts_list);
+        mEmptyView = mRoot.findViewById(R.id.empty_view);
     }
 
     private void setupListView() {
@@ -84,6 +87,13 @@ public class ViewAlertsFragment extends EventBusFragment {
     public void onEventMainThread(AlertsUpdatedEvent event) {
         List<LineStatusAlert> alerts = event.getData().getAlerts();
         mAdapter.updateAlerts(alerts);
+        if(alerts.isEmpty()) {
+            mListView.setVisibility(View.GONE);
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mListView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
 }
