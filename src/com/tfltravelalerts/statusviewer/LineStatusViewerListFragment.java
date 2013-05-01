@@ -11,7 +11,6 @@ import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
+import com.tfltravelalerts.common.CheatSheet;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;
@@ -94,15 +94,17 @@ public class LineStatusViewerListFragment extends EventBusFragment {
 
     public void setupRefreshIcon(MenuItem refresh) {
         refresh.setActionView(R.layout.refresh_icon);
-        mRefreshIcon = refresh.getActionView().findViewById(R.id.refresh_icon);
+        View actionView = refresh.getActionView();
+        mRefreshIcon = actionView.findViewById(R.id.refresh_icon);
         Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
         mRefreshIcon.setTag(anim);
-        mRefreshIcon.setOnClickListener(new OnClickListener() {
+        actionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateLineStatus();
             }
         });
+        CheatSheet.setup(actionView, R.string.action_refresh);
     }
 
     private void updateLineStatus() {
