@@ -34,23 +34,23 @@ public class ViewAlertsFragment extends EventBusFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-    
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.alerts_list_menu, menu);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.new_alert) {
+        if (item.getItemId() == R.id.new_alert) {
             Intent intent = new Intent(getActivity(), EditAlertActivity.class);
             startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflateRootView(inflater, container);
@@ -77,23 +77,17 @@ public class ViewAlertsFragment extends EventBusFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), EditAlertActivity.class);
-                int alertId = (int) id; 
+                int alertId = (int) id;
                 intent.putExtra(EditAlertActivity.ALERT_ID_KEY, alertId);
                 startActivity(intent);
             }
         });
+        mListView.setEmptyView(mEmptyView);
     }
 
     public void onEventMainThread(AlertsUpdatedEvent event) {
         List<LineStatusAlert> alerts = event.getData().getAlerts();
         mAdapter.updateAlerts(alerts);
-        if(alerts.isEmpty()) {
-            mListView.setVisibility(View.GONE);
-            mEmptyView.setVisibility(View.VISIBLE);
-        } else {
-            mListView.setVisibility(View.VISIBLE);
-            mEmptyView.setVisibility(View.GONE);
-        }
     }
 
 }

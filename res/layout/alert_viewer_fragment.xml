@@ -13,6 +13,7 @@
         android:padding="@dimen/half_spacing_unit"
         android:text="@string/alerts_list_empty_message"
         android:textSize="@dimen/normal_text_size"
+        android:layout_marginTop="20dp"
         android:visibility="gone" />
 
     <ListView
