@@ -6,13 +6,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
-public class Time implements Comparable<Time> {
+public class Time implements Comparable<Time>, Parcelable {
 
     private static final String TAG = Time.class.getName();
 
@@ -97,4 +99,31 @@ public class Time implements Comparable<Time> {
         int minDiff = another.getMinute() - this.getMinute();
         return hourDiff * 60 + minDiff;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mHour);
+        dest.writeInt(mMinute);
+    }
+    
+    public static Creator<Time> CREATOR = new Creator<Time>() {
+        
+        @Override
+        public Time[] newArray(int size) {
+            return new Time[size];
+        }
+        
+        @Override
+        public Time createFromParcel(Parcel source) {
+            int hour = source.readInt();
+            int minute = source.readInt();
+            return new Time(hour, minute);
+        }
+    };
+    
 }

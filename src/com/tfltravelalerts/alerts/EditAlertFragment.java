@@ -4,7 +4,6 @@ package com.tfltravelalerts.alerts;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
 import android.os.Bundle;
@@ -39,11 +38,9 @@ public class EditAlertFragment extends EventBusFragment {
     private EditText mAlertTitle;
     private DaySelectorView mDaySelectorView;
     private LineSelectorView mLineSelectorView;
-    private TextView mTimeInputField;
+    private TimeInputField mTimeInputField;
     private Button mCancelButton;
     private Button mSaveButton;
-
-    private TimePickerFragment mTimePickerFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +98,7 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     public void onEventMainThread(AlertTimeSelected newTime) {
-        mTimeInputField.setText(newTime.getData().toString());
+        mTimeInputField.setTime(newTime.getData());
     }
 
     private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
@@ -115,7 +112,7 @@ public class EditAlertFragment extends EventBusFragment {
 
         mDaySelectorView = (DaySelectorView) mRoot.findViewById(R.id.day_selector_view);
         mLineSelectorView = (LineSelectorView) mRoot.findViewById(R.id.line_selector_view);
-        mTimeInputField = (TextView) mRoot.findViewById(R.id.time_input);
+        mTimeInputField = (TimeInputField) mRoot.findViewById(R.id.time_input);
     }
 
     private void updateDays() {
@@ -127,11 +124,7 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     private void updateTime() {
-        if (mAlert.getTime() == null) {
-            mTimeInputField.setText("");
-        } else {
-            mTimeInputField.setText(mAlert.getTime().toString());
-        }
+        mTimeInputField.setTime(mAlert.getTime());
     }
 
     private void setupViews() {
@@ -141,14 +134,12 @@ public class EditAlertFragment extends EventBusFragment {
                 finishActivity();
             }
         });
-
         mSaveButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 updateAlert();
             }
         });
-
         mTimeInputField.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,11 +147,6 @@ public class EditAlertFragment extends EventBusFragment {
                 showTimePickerDialog();
             }
         });
-    }
-
-    private Time parseTime() {
-        String input = mTimeInputField.getText().toString();
-        return Time.parseTime(input);
     }
 
     private void updateAlert() {
@@ -177,7 +163,7 @@ public class EditAlertFragment extends EventBusFragment {
                 .addDays(mDaySelectorView.getSelectedDays())
                 .clearLines()
                 .addLine(mLineSelectorView.getSelectedLines())
-                .setTime(parseTime())
+                .setTime(mTimeInputField.getTime())
                 .build();
         return alert;
     }
@@ -194,14 +180,15 @@ public class EditAlertFragment extends EventBusFragment {
     private void updateTitle() {
         mAlertTitle.setText(mAlert.getTitle());
     }
-    
+
     public void onEventMainThread(ValidateAlertResult event) {
-        switch(event.getValidationResult()) {
+        switch (event.getValidationResult()) {
             case NO_DAYS:
             case NO_LINES:
             case NO_TIME:
             case NO_TITLE:
-                Toast.makeText(getActivity(), event.getValidationResult().getMessageResId(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), event.getValidationResult().getMessageResId(),
+                        Toast.LENGTH_SHORT).show();
                 break;
             case SUCCESS:
                 AddOrUpdateAlertRequest request = new AddOrUpdateAlertRequest(event.getAlert());
@@ -231,13 +218,8 @@ public class EditAlertFragment extends EventBusFragment {
     }
 
     private void showTimePickerDialog() {
-        if (mTimePickerFragment == null) {
-            mTimePickerFragment = new TimePickerFragment();
-        }
-        Time time = parseTime();
-        if (time != null) {
-            mTimePickerFragment.setInitialTime(time.getHour(), time.getMinute());
-        }
-        mTimePickerFragment.show(getSupportFragmentManager());
+        Time initialTime = mTimeInputField.getTime();
+        TimePickerFragment timePickerFragment = TimePickerFragment.newInstance(initialTime);
+        timePickerFragment.show(getSupportFragmentManager());
     }
 }
