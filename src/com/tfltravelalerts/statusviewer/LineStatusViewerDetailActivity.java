@@ -3,9 +3,10 @@ package com.tfltravelalerts.statusviewer;
 
 import org.holoeverywhere.app.Fragment;
 
-import com.tfltravelalerts.common.SinglePaneFragmentActivity;
-
 import android.os.Bundle;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.tfltravelalerts.common.SinglePaneFragmentActivity;
 
 /**
  * Activity to display status information for a single line.
@@ -26,4 +27,15 @@ public class LineStatusViewerDetailActivity extends SinglePaneFragmentActivity {
         return fragment;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+    
+    @Override
+    protected void onStop() {
+        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
+    }
 }

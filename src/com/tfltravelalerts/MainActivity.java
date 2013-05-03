@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
@@ -55,5 +56,17 @@ public class MainActivity extends TflBaseActivity {
 
         PageIndicator indicator = (PageIndicator) findViewById(R.id.view_pager_indicator);
         indicator.setViewPager(viewPager);
+    }
+    
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EasyTracker.getInstance().activityStart(this);
+    }
+    
+    @Override
+    protected void onStop() {
+        EasyTracker.getInstance().activityStop(this);
+        super.onStop();
     }
 }
