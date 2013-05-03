@@ -5,6 +5,7 @@ import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.Button;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.TextView;
+import org.holoeverywhere.widget.Toast;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,8 @@ import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertTimeSelected;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
+import com.tfltravelalerts.alerts.events.ValidateAlertRequest;
+import com.tfltravelalerts.alerts.events.ValidateAlertResult;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
@@ -143,7 +146,6 @@ public class EditAlertFragment extends EventBusFragment {
             @Override
             public void onClick(View v) {
                 updateAlert();
-                finishActivity();
             }
         });
 
@@ -164,7 +166,7 @@ public class EditAlertFragment extends EventBusFragment {
     private void updateAlert() {
         LineStatusAlert alert = buildAlertOnScreen();
 
-        AddOrUpdateAlertRequest request = new AddOrUpdateAlertRequest(alert);
+        ValidateAlertRequest request = new ValidateAlertRequest(alert);
         getEventBus().post(request);
     }
 
@@ -191,6 +193,22 @@ public class EditAlertFragment extends EventBusFragment {
 
     private void updateTitle() {
         mAlertTitle.setText(mAlert.getTitle());
+    }
+    
+    public void onEventMainThread(ValidateAlertResult event) {
+        switch(event.getValidationResult()) {
+            case NO_DAYS:
+            case NO_LINES:
+            case NO_TIME:
+            case NO_TITLE:
+                Toast.makeText(getActivity(), event.getValidationResult().getMessageResId(), Toast.LENGTH_SHORT).show();
+                break;
+            case SUCCESS:
+                AddOrUpdateAlertRequest request = new AddOrUpdateAlertRequest(event.getAlert());
+                getEventBus().post(request);
+                finishActivity();
+                break;
+        }
     }
 
     public void onEventMainThread(AlertsUpdatedEvent event) {

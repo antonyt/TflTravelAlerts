@@ -4,14 +4,13 @@ package com.tfltravelalerts.alerts.service;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.tfltravelalerts.alerts.events.AddAlertRequest;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
-import com.tfltravelalerts.alerts.events.AlertAddedEvent;
 import com.tfltravelalerts.alerts.events.AlertDeletedEvent;
 import com.tfltravelalerts.alerts.events.AlertsUpdatedEvent;
 import com.tfltravelalerts.alerts.events.DeleteAlertRequest;
 import com.tfltravelalerts.alerts.events.LoadAlertsRequest;
-import com.tfltravelalerts.alerts.events.ModifyAlertRequest;
+import com.tfltravelalerts.alerts.events.ValidateAlertRequest;
+import com.tfltravelalerts.alerts.events.ValidateAlertResult;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.LineStatusAlertSet;
 
@@ -43,20 +42,6 @@ public class AlertsManager {
         }
     }
 
-    public void onEventAsync(AddAlertRequest request) {
-        LineStatusAlert alert = request.getData();
-
-        synchronized (this) {
-            mAlerts = mAlerts.addAlert(alert);
-            mAlertsStore.save(mAlerts);
-            
-            AlertAddedEvent addEvent = new AlertAddedEvent(alert);
-            getEventBus().postSticky(addEvent);
-            AlertsUpdatedEvent updateEvent = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(updateEvent);
-        }
-    }
-
     public void onEventAsync(DeleteAlertRequest request) {
         LineStatusAlert alert = request.getData();
 
@@ -71,17 +56,6 @@ public class AlertsManager {
         }
     }
 
-    public void onEventAsync(ModifyAlertRequest request) {
-        LineStatusAlert alert = request.getData();
-
-        synchronized (this) {
-            mAlerts = mAlerts.updateAlert(alert);
-            mAlertsStore.save(mAlerts);
-            AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(event);
-        }
-    }
-
     public void onEventAsync(AddOrUpdateAlertRequest request) {
         LineStatusAlert alert = request.getData();
         
@@ -91,6 +65,14 @@ public class AlertsManager {
             AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
             getEventBus().postSticky(event);
         }
+    }
+    
+    public void onEventAsync(ValidateAlertRequest request) {
+        LineStatusAlert alert = request.getData();
+        
+        AlertValidationResult validationResult = AlertValidator.validateAlert(alert);
+        ValidateAlertResult event = new ValidateAlertResult(alert, validationResult);
+        getEventBus().post(event);
     }
 
 }

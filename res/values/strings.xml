@@ -63,6 +63,12 @@
     <string name="edit_alert_alert_title_hint">Alert Title</string>
     <string name="edit_alert_time_field_hint">Time of departure</string>
 
+    <!-- Validation messages -->
+    <string name="edit_alert_validation_no_title">Please enter a title!</string>
+    <string name="edit_alert_validation_no_time">Please enter a time!</string>
+    <string name="edit_alert_validation_no_days">Please select at least one day!</string>
+    <string name="edit_alert_validation_no_lines">Please select at least one line!</string>
+    
     <!-- Action titles -->
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
