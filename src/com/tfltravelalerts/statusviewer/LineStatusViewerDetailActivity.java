@@ -14,6 +14,7 @@ import com.tfltravelalerts.common.SinglePaneFragmentActivity;
 public class LineStatusViewerDetailActivity extends SinglePaneFragmentActivity {
 
     public static final String LINE_ID_ARGS_KEY = LineStatusViewerDetailFragment.LINE_ID_ARGS_KEY;
+    public static final String IS_WEEKEND_ARGS_KEY = LineStatusViewerDetailFragment.IS_WEEKEND_ARGS_KEY;
 
     @Override
     protected Fragment buildFragment() {

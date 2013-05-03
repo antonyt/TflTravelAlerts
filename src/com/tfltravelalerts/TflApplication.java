@@ -12,6 +12,7 @@ import com.tfltravelalerts.debug.ExceptionViewerUtils;
 import com.tfltravelalerts.notification.TfLNotificationManager;
 import com.tfltravelalerts.notification.TflAlarmManager;
 import com.tfltravelalerts.statusviewer.service.LineStatusManager;
+import com.tfltravelalerts.weekend.service.WeekendStatusManager;
 
 public class TflApplication extends Application implements UncaughtExceptionHandler {
 
@@ -39,6 +40,7 @@ public class TflApplication extends Application implements UncaughtExceptionHand
         new TflAlarmManager();
         new AlertsManager();
         new LineStatusManager();
+        new WeekendStatusManager();
     }
 
     @Override

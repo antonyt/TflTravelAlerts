@@ -14,6 +14,7 @@ import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusUpdate;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
+import com.tfltravelalerts.weekend.events.WeekendStatusUpdateSuccess;
 
 /**
  * Fragment to view the detailed status of a single line.
@@ -21,19 +22,22 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 public class LineStatusViewerDetailFragment extends EventBusFragment {
 
     public static String LINE_ID_ARGS_KEY = "line";
+    public static String IS_WEEKEND_ARGS_KEY = "isWeekend";
 
     private View mRoot;
     private TextView mTitle;
     private TextView mDescription;
 
+    private boolean mIsWeekend;
     private Line mLine;
     private LineStatusUpdate mLineStatusUpdate;
 
-    public static LineStatusViewerDetailFragment newInstance(int lineId) {
+    public static LineStatusViewerDetailFragment newInstance(int lineId, boolean isWeekend) {
         LineStatusViewerDetailFragment fragment = new LineStatusViewerDetailFragment();
 
         Bundle args = new Bundle();
         args.putInt(LINE_ID_ARGS_KEY, lineId);
+        args.putBoolean(IS_WEEKEND_ARGS_KEY, isWeekend);
         fragment.setArguments(args);
 
         return fragment;
@@ -48,6 +52,7 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
     private void retrieveArgs() {
         Bundle args = getArguments();
         mLine = Line.getLineById(args.getInt(LINE_ID_ARGS_KEY));
+        mIsWeekend = args.getBoolean(IS_WEEKEND_ARGS_KEY);
     }
 
     @Override
@@ -78,7 +83,7 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
     }
 
     public void updateStatus() {
-        if(mLineStatusUpdate != null) {
+        if (mLineStatusUpdate != null) {
             mDescription.setText(mLineStatusUpdate.getDescription());
         } else {
             mDescription.setText("");
@@ -86,9 +91,19 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
     }
 
     public void onEventMainThread(LineStatusUpdateSuccess lineStatusUpdateEvent) {
-        LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getData();
-        mLineStatusUpdate = lineStatusUpdateSet.getUpdateForLine(mLine);
-        updateStatus();
+        if (!mIsWeekend) {
+            LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getData();
+            mLineStatusUpdate = lineStatusUpdateSet.getUpdateForLine(mLine);
+            updateStatus();
+        }
+    }
+
+    public void onEventMainThread(WeekendStatusUpdateSuccess lineStatusUpdateEvent) {
+        if (mIsWeekend) {
+            LineStatusUpdateSet lineStatusUpdateSet = lineStatusUpdateEvent.getData();
+            mLineStatusUpdate = lineStatusUpdateSet.getUpdateForLine(mLine);
+            updateStatus();
+        }
     }
 
 }

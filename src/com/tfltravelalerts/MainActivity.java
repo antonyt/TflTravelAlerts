@@ -14,6 +14,7 @@ import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.debug.ExceptionViewerActivity;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
+import com.tfltravelalerts.weekend.WeekendStatusViewerListFragment;
 import com.viewpagerindicator.PageIndicator;
 
 public class MainActivity extends TflBaseActivity {
@@ -28,6 +29,13 @@ public class MainActivity extends TflBaseActivity {
 
         setupViewPager();
         setupActionBar();
+        
+        // TODO: remember current fragment
+        if (savedInstanceState == null) {
+            mViewPager.setCurrentItem(1);
+        } else {
+
+        }
     }
 
     private void setupViewPager() {
@@ -36,15 +44,17 @@ public class MainActivity extends TflBaseActivity {
 
             @Override
             public int getCount() {
-                return 2;
+                return 3;
             }
 
             @Override
             public Fragment getItem(int position) {
                 switch (position) {
                     case 0:
-                        return new LineStatusViewerListFragment();
+                        return new WeekendStatusViewerListFragment();
                     case 1:
+                        return new LineStatusViewerListFragment();
+                    case 2:
                         return new ViewAlertsFragment();
                     default:
                         return null;
@@ -55,8 +65,10 @@ public class MainActivity extends TflBaseActivity {
             public CharSequence getPageTitle(int position) {
                 switch (position) {
                     case 0:
-                        return "Line Status";
+                        return "Weekend";
                     case 1:
+                        return "Line Status";
+                    case 2:
                         return "Alerts";
                     default:
                         return super.getPageTitle(position);
@@ -71,10 +83,10 @@ public class MainActivity extends TflBaseActivity {
     private void setupActionBar() {
         getSupportActionBar().setHomeButtonEnabled(TflApplication.DEBUG);
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(this, ExceptionViewerActivity.class);
             startActivity(intent);
             return true;
