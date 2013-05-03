@@ -10,13 +10,13 @@
     <string name="line_name_central">Central</string>
     <string name="line_name_circle">Circle</string>
     <string name="line_name_district">District</string>
-    <string name="line_name_hammersmith_and_city">Hammersmith and City</string>
+    <string name="line_name_hammersmith_and_city">Hammersmith &amp; City</string>
     <string name="line_name_jubilee">Jubilee</string>
     <string name="line_name_metropolitan">Metropolitan</string>
     <string name="line_name_northern">Northern</string>
     <string name="line_name_piccadilly">Piccadilly</string>
     <string name="line_name_victoria">Victoria</string>
-    <string name="line_name_waterloo_and_city">Waterloo and City</string>
+    <string name="line_name_waterloo_and_city">Waterloo &amp; City</string>
     <string name="line_name_overground">Overground</string>
     <string name="line_name_dlr">DLR</string>
 
@@ -48,13 +48,13 @@
     <string name="day_short_saturday">Sat</string>
     <string name="day_short_sunday">Sun</string>
 
-    <string name="day_super_short_monday">M</string>
-    <string name="day_super_short_tuesday">Tu</string>
-    <string name="day_super_short_wednesday">W</string>
-    <string name="day_super_short_thursday">Th</string>
-    <string name="day_super_short_friday">F</string>
-    <string name="day_super_short_saturday">Sa</string>
-    <string name="day_super_short_sunday">Su</string>
+    <string name="day_super_short_monday">Mon</string>
+    <string name="day_super_short_tuesday">Tue</string>
+    <string name="day_super_short_wednesday">Wed</string>
+    <string name="day_super_short_thursday">Thu</string>
+    <string name="day_super_short_friday">Fri</string>
+    <string name="day_super_short_saturday">Sat</string>
+    <string name="day_super_short_sunday">Sun</string>
     
     <!-- Line status list messages -->
     <string name="last_update_time">Last update time: %s</string>

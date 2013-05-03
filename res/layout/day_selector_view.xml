@@ -49,6 +49,21 @@
             android:id="@+id/day_selector_sunday"
             style="@style/DaySelector"
             android:text="@string/day_super_short_sunday" />
+
+        <CheckBox
+            style="@style/DaySelector"
+            android:text=" "
+            android:visibility="invisible" />
+
+        <CheckBox
+            style="@style/DaySelector"
+            android:text=" "
+            android:visibility="invisible" />
+
+        <CheckBox
+            style="@style/DaySelector"
+            android:text=" "
+            android:visibility="invisible" />
     </LinearLayout>
 
 </com.tfltravelalerts.alerts.DaySelectorView>

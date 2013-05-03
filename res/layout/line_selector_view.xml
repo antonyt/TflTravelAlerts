@@ -18,6 +18,12 @@
             android:id="@+id/line_selector_central"
             style="@style/LineSelector"
             android:text="@string/line_name_central" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <CheckBox
             android:id="@+id/line_selector_circle"
@@ -44,6 +50,12 @@
             android:id="@+id/line_selector_jubilee"
             style="@style/LineSelector"
             android:text="@string/line_name_jubilee" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <CheckBox
             android:id="@+id/line_selector_metropolitan"
@@ -70,6 +82,12 @@
             android:id="@+id/line_selector_victoria"
             style="@style/LineSelector"
             android:text="@string/line_name_victoria" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <CheckBox
             android:id="@+id/line_selector_waterloo_and_city"
@@ -91,6 +109,11 @@
             android:id="@+id/line_selector_dlr"
             style="@style/LineSelector"
             android:text="@string/line_name_dlr" />
+
+        <CheckBox
+            style="@style/LineSelector"
+            android:visibility="invisible"
+            android:text=" " />
     </LinearLayout>
 
 </com.tfltravelalerts.alerts.LineSelectorView>
