@@ -25,6 +25,7 @@
 
     <!-- Line selector -->
     <style name="LineSelector" parent="@style/MultiSelector">
+        <item name="android:textColor">@drawable/line_status_selector_text_color</item>
     </style>
     
 </resources>

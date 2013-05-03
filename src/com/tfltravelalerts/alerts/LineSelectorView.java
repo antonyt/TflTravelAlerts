@@ -3,10 +3,13 @@ package com.tfltravelalerts.alerts;
 
 import java.util.Set;
 
+import org.holoeverywhere.drawable.StateListDrawable;
 import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.LinearLayout;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -21,6 +24,10 @@ import com.tfltravelalerts.model.Line;
  * TODO: unify with {@link DaySelectorView}.
  */
 public class LineSelectorView extends LinearLayout {
+
+    private static final int[] CHECKED_STATE = {
+            android.R.attr.state_checked
+    };
 
     public LineSelectorView(Context context, AttributeSet attrs, int defStyleRes) {
         super(context, attrs, defStyleRes);
@@ -51,6 +58,34 @@ public class LineSelectorView extends LinearLayout {
         findViewById(R.id.line_selector_waterloo_and_city).setTag(Line.WATERLOO_AND_CITY);
         findViewById(R.id.line_selector_overground).setTag(Line.OVERGROUND);
         findViewById(R.id.line_selector_dlr).setTag(Line.DLR);
+
+        updateBackgroundDrawables();
+    }
+
+    private void updateBackgroundDrawables() {
+        ViewVisitor.visitAll(this, new ViewVisitorCallback() {
+            @Override
+            public void onViewVisited(View view) {
+                if (view instanceof CheckBox && view.getTag() instanceof Line) {
+                    Line line = (Line) view.getTag();
+                    Drawable backgroundDrawable = makeBackgroundDrawable(line);
+                    view.setBackgroundDrawable(backgroundDrawable);
+                }
+            }
+        });
+    }
+
+    private Drawable makeBackgroundDrawable(Line line) {
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(CHECKED_STATE,
+                makeColorDrawable(line.getColorResId()));
+        stateListDrawable.addState(View.EMPTY_STATE_SET,
+                makeColorDrawable(R.color.translucent_dark_gray));
+        return stateListDrawable;
+    }
+
+    private ColorDrawable makeColorDrawable(int colorResId) {
+        return new ColorDrawable(getResources().getColor(colorResId));
     }
 
     public void setSelectedLines(final Set<Line> selectedLines) {
