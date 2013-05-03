@@ -16,6 +16,8 @@ import de.greenrobot.event.EventBus;
  */
 public class LineStatusManager {
 
+    private final LineStatusStore mLineStatusStore = new LineStatusStore();
+
     public LineStatusManager() {
         getEventBus().registerSticky(this);
         getEventBus().post(new LineStatusLoadRequest());
@@ -26,7 +28,7 @@ public class LineStatusManager {
     }
 
     public void onEventAsync(LineStatusLoadRequest request) {
-        LineStatusUpdateSet lineStatusUpdateSet = LineStatusStore.load();
+        LineStatusUpdateSet lineStatusUpdateSet = mLineStatusStore.load();
         if (lineStatusUpdateSet != null) {
             LineStatusUpdateSuccess event = new LineStatusUpdateSuccess(lineStatusUpdateSet);
             getEventBus().postSticky(event);
@@ -36,7 +38,7 @@ public class LineStatusManager {
     }
 
     public void onEventAsync(LineStatusSaveRequest request) {
-        LineStatusStore.save(request.getData());
+        mLineStatusStore.save(request.getData());
     }
 
     public void onEventAsync(LineStatusUpdateRequest request) {

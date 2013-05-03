@@ -19,6 +19,7 @@ import de.greenrobot.event.EventBus;
 
 public class AlertsManager {
 
+    private final AlertsStore mAlertsStore = new AlertsStore();
     private LineStatusAlertSet mAlerts = new LineStatusAlertSet(new ArrayList<LineStatusAlert>());
 
     public AlertsManager() {
@@ -31,7 +32,7 @@ public class AlertsManager {
     }
     
     public void onEventAsync(LoadAlertsRequest request) {
-        LineStatusAlertSet alerts = AlertsStore.load();
+        LineStatusAlertSet alerts = mAlertsStore.load();
         if(alerts == null) {
             alerts = new LineStatusAlertSet(Collections.<LineStatusAlert> emptyList());
         }
@@ -47,7 +48,7 @@ public class AlertsManager {
 
         synchronized (this) {
             mAlerts = mAlerts.addAlert(alert);
-            AlertsStore.save(mAlerts);
+            mAlertsStore.save(mAlerts);
             
             AlertAddedEvent addEvent = new AlertAddedEvent(alert);
             getEventBus().postSticky(addEvent);
@@ -61,7 +62,7 @@ public class AlertsManager {
 
         synchronized (this) {
             mAlerts = mAlerts.removeAlert(alert);
-            AlertsStore.save(mAlerts);
+            mAlertsStore.save(mAlerts);
             
             AlertDeletedEvent deleteEvent = new AlertDeletedEvent(alert);
             getEventBus().postSticky(deleteEvent);
@@ -75,7 +76,7 @@ public class AlertsManager {
 
         synchronized (this) {
             mAlerts = mAlerts.updateAlert(alert);
-            AlertsStore.save(mAlerts);
+            mAlertsStore.save(mAlerts);
             AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
             getEventBus().postSticky(event);
         }
@@ -86,7 +87,7 @@ public class AlertsManager {
         
         synchronized (this) {
             mAlerts = mAlerts.addOrUpdateAlert(alert);
-            AlertsStore.save(mAlerts);
+            mAlertsStore.save(mAlerts);
             AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
             getEventBus().postSticky(event);
         }
