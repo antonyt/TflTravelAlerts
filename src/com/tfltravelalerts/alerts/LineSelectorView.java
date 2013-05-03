@@ -77,6 +77,7 @@ public class LineSelectorView extends LinearLayout {
 
     private Drawable makeBackgroundDrawable(Line line) {
         StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.setExitFadeDuration(150);
         stateListDrawable.addState(CHECKED_STATE,
                 makeColorDrawable(line.getColorResId()));
         stateListDrawable.addState(View.EMPTY_STATE_SET,
