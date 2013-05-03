@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!-- GCM permissions -->
     <permission
@@ -38,6 +39,7 @@
         </activity>
         <activity android:name=".statusviewer.LineStatusViewerDetailActivity" />
         <activity android:name=".alerts.EditAlertActivity" />
+        <activity android:name=".debug.ExceptionViewerActivity" />
 
         <service android:name=".GCMIntentService" />
 

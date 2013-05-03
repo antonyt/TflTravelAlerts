@@ -3,26 +3,36 @@ package com.tfltravelalerts;
 
 import org.holoeverywhere.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
+import com.tfltravelalerts.debug.ExceptionViewerActivity;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.viewpagerindicator.PageIndicator;
 
 public class MainActivity extends TflBaseActivity {
 
+    private ViewPager mViewPager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-        
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+
+        setupViewPager();
+        setupActionBar();
+    }
+
+    private void setupViewPager() {
         // TODO: fixup
-        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
             public int getCount() {
@@ -55,15 +65,30 @@ public class MainActivity extends TflBaseActivity {
         });
 
         PageIndicator indicator = (PageIndicator) findViewById(R.id.view_pager_indicator);
-        indicator.setViewPager(viewPager);
+        indicator.setViewPager(mViewPager);
+    }
+
+    private void setupActionBar() {
+        getSupportActionBar().setHomeButtonEnabled(TflApplication.DEBUG);
     }
     
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, ExceptionViewerActivity.class);
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         EasyTracker.getInstance().activityStart(this);
     }
-    
+
     @Override
     protected void onStop() {
         EasyTracker.getInstance().activityStop(this);
