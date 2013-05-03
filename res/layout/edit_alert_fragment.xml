@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/app_background">
+    android:layout_height="fill_parent" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -18,28 +17,30 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/normal_spacing_unit"
             android:hint="@string/edit_alert_alert_title_hint"
+            android:imeOptions="flagNoExtractUi"
+            android:inputType="text|textCapSentences"
             android:singleLine="true"
             android:textColor="@color/white"
             android:textCursorDrawable="@null"
-            android:textSize="@dimen/large_text_size" 
-            android:inputType="text|textCapSentences"
-            android:imeOptions="flagNoExtractUi" />
-		<!-- cursor drawable to null will change the cursor color to the text color
-		otherwise it would use the theme color which wasn't a good match -->
-        
+            android:textSize="@dimen/large_text_size" />
+        <!--
+        cursor drawable to null will change the cursor color to the text color
+		otherwise it would use the theme color which wasn't a good match
+        -->
+
         <TextView
             android:id="@+id/time_input"
             style="@style/Holo.EditText.Light"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/normal_spacing_unit"
-            android:textIsSelectable="false"
+            android:focusable="true"
+            android:focusableInTouchMode="false"
             android:freezesText="true"
+            android:hint="@string/edit_alert_time_field_hint"
             android:textColor="@color/white"
-            android:focusable="true" 
-            android:focusableInTouchMode="false" 
-            android:hint="@string/edit_alert_time_field_hint" />
-        <!-- -->
+            android:textIsSelectable="false" />
+        <!--  -->
 
         <include
             android:id="@+id/day_selector_view"
