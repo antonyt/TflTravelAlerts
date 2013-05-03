@@ -24,5 +24,5 @@
     <style name="LineSelector" parent="@style/MultiSelector">
         <item name="android:layout_width">@dimen/quadruple_spacing_unit</item>
     </style>
-
+    
 </resources>
