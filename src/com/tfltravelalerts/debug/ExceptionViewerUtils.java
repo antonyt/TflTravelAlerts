@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
 
@@ -75,6 +78,13 @@ public class ExceptionViewerUtils {
         return null;
     }
 
+    public static void sendEmail(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(EXCEPTIONS_LOG_FILEPATH)));
+        activity.startActivity(intent);
+    }
+    
     public static void clearLog() {
         File file = new File(EXCEPTIONS_LOG_FILEPATH);
         file.delete();

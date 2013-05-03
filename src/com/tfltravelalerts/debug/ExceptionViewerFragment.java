@@ -42,8 +42,10 @@ public class ExceptionViewerFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        MenuItem menuItem = menu.add("Clear log");
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        MenuItem clearLog = menu.add("Clear log");
+        clearLog.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        MenuItem emailLog = menu.add("Email log");
+        emailLog.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
     }
     
     @Override
@@ -52,7 +54,11 @@ public class ExceptionViewerFragment extends Fragment {
             ExceptionViewerUtils.clearLog();
             showExceptions();
             return true;
-        } else {
+        } else if(item.getTitle().equals("Email log")) {
+            ExceptionViewerUtils.sendEmail(getActivity());
+            return true;
+        }
+        else {
             return super.onOptionsItemSelected(item);
         }
     }
