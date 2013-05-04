@@ -23,13 +23,15 @@ public class LineStatusAlert {
     private final ImmutableSet<Line> mLines;
     private final ImmutableSet<Day> mDays;
     private final Time mTime;
+    private final boolean mOnlyNotifyForDisruptions;
 
-    private LineStatusAlert(int id, String title, Set<Line> lines, Set<Day> days, Time time) {
+    private LineStatusAlert(int id, String title, Set<Line> lines, Set<Day> days, Time time, boolean onlyNotifyForDisruptions) {
         mId = id;
         mTitle = title;
         mLines = ImmutableSet.copyOf(lines);
         mDays = ImmutableSet.copyOf(days);
         mTime = time;
+        mOnlyNotifyForDisruptions = onlyNotifyForDisruptions;
     }
 
     public String getTitle() {
@@ -52,6 +54,10 @@ public class LineStatusAlert {
         return mId;
     }
     
+    public boolean onlyNotifyForDisruptions() {
+        return mOnlyNotifyForDisruptions;
+    }
+    
     @Override
     public String toString() {
         return "#"+getId()+" "+mTitle;
@@ -72,6 +78,7 @@ public class LineStatusAlert {
         private Set<Line> mLines = new HashSet<Line>();
         private Set<Day> mDays = new HashSet<Day>();
         private Time mTime;
+        private boolean mOnlyNotifyForDisruptions;
 
         public Builder(LineStatusAlert alert) {
             if (alert.getId() == -1) {
@@ -136,9 +143,14 @@ public class LineStatusAlert {
             mTime = time;
             return this;
         }
+        
+        public Builder setOnlyNotifyForDisruptions(boolean onlyNotifyForDisruptions) {
+            mOnlyNotifyForDisruptions = onlyNotifyForDisruptions;
+            return this;
+        }
 
         public LineStatusAlert build() {
-            return new LineStatusAlert(mId, mTitle, mLines, mDays, mTime);
+            return new LineStatusAlert(mId, mTitle, mLines, mDays, mTime, mOnlyNotifyForDisruptions);
         }
     }
 

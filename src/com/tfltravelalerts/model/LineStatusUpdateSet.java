@@ -111,4 +111,13 @@ public class LineStatusUpdateSet {
     public boolean lineStatusChanged(LineStatusUpdateSet newUpdateSet) {
         return newProblemsFound(newUpdateSet) > 0 || oldProblemsResolved(newUpdateSet) > 0;
     }
+    
+    public boolean isDisrupted() {
+        for(LineStatusUpdate lineStatusUpdate : mLineStatusUpdates) {
+            if(lineStatusUpdate.isLineDisrupted()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

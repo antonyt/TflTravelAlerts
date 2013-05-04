@@ -55,6 +55,13 @@
             android:layout_marginBottom="@dimen/normal_spacing_unit"
             layout="@layout/line_selector_view" />
 
+        <include
+            android:id="@+id/only_notify_for_disruptions_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/normal_spacing_unit"
+            layout="@layout/only_notify_for_disruptions_view" />
+
         <!-- Buttons -->
 
         <LinearLayout

@@ -62,7 +62,9 @@
     <!-- Edit alert messages -->
     <string name="edit_alert_alert_title_hint">Alert Title</string>
     <string name="edit_alert_time_field_hint">Time of departure</string>
+    <string name="edit_alert_only_notify_for_disruptions">Only notify for disruptions</string>
 
+    
     <!-- Validation messages -->
     <string name="edit_alert_validation_no_title">Please enter a title!</string>
     <string name="edit_alert_validation_no_time">Please enter a time!</string>

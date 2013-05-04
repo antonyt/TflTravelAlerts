@@ -66,7 +66,6 @@ public class TfLNotificationManager {
     private void checkNotifications() {
 
         // things to do:
-        // 7: option to show notifications only if there are disruptions
         // 8: fix icon in ticker
         // 11: ensure a sane activity stack when you open the notification
         // [Done? - just check]
@@ -103,7 +102,15 @@ public class TfLNotificationManager {
     }
 
     private boolean shouldShowNotification(LineStatusAlert alert) {
+        LineStatusUpdateSet currentUpdateSet = mLineStatus.getUpdatesForAlert(alert);
+        if(alert.onlyNotifyForDisruptions() && !currentUpdateSet.isDisrupted()) {
+            Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
+                    + "; service is good - surpress notification");
+            return false;
+        }
+        
         LineStatusUpdateSet notifiedUpdateSet = mNotifiedUpdates.get(alert.getId());
+        
         if (notifiedUpdateSet == null) {
             Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                     + "; no previous notification detected!");
@@ -117,8 +124,7 @@ public class TfLNotificationManager {
         }
         
         LineStatusUpdateSet oldUpdateSet = notifiedUpdateSet.getUpdatesForAlert(alert);
-        LineStatusUpdateSet currentUpdateSet = mLineStatus.getUpdatesForAlert(alert);
-
+        
         Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                 + "; checking for changes since last time...");
         return oldUpdateSet.lineStatusChanged(currentUpdateSet);

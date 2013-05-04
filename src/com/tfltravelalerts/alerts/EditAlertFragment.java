@@ -3,6 +3,7 @@ package com.tfltravelalerts.alerts;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.Button;
+import org.holoeverywhere.widget.CheckBox;
 import org.holoeverywhere.widget.EditText;
 import org.holoeverywhere.widget.Toast;
 
@@ -41,6 +42,7 @@ public class EditAlertFragment extends EventBusFragment {
     private TimeInputField mTimeInputField;
     private Button mCancelButton;
     private Button mSaveButton;
+    private CheckBox mOnlyNotifyForDisruptionsView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +115,7 @@ public class EditAlertFragment extends EventBusFragment {
         mDaySelectorView = (DaySelectorView) mRoot.findViewById(R.id.day_selector_view);
         mLineSelectorView = (LineSelectorView) mRoot.findViewById(R.id.line_selector_view);
         mTimeInputField = (TimeInputField) mRoot.findViewById(R.id.time_input);
+        mOnlyNotifyForDisruptionsView = (CheckBox) mRoot.findViewById(R.id.only_notify_for_disruptions_view);
     }
 
     private void updateDays() {
@@ -125,6 +128,10 @@ public class EditAlertFragment extends EventBusFragment {
 
     private void updateTime() {
         mTimeInputField.setTime(mAlert.getTime());
+    }
+    
+    private void updateOnlyNotifyForDisruptions() {
+        mOnlyNotifyForDisruptionsView.setChecked(mAlert.onlyNotifyForDisruptions());
     }
 
     private void setupViews() {
@@ -164,6 +171,7 @@ public class EditAlertFragment extends EventBusFragment {
                 .clearLines()
                 .addLine(mLineSelectorView.getSelectedLines())
                 .setTime(mTimeInputField.getTime())
+                .setOnlyNotifyForDisruptions(mOnlyNotifyForDisruptionsView.isChecked())
                 .build();
         return alert;
     }
@@ -215,6 +223,7 @@ public class EditAlertFragment extends EventBusFragment {
         updateDays();
         updateLines();
         updateTime();
+        updateOnlyNotifyForDisruptions();
     }
 
     private void showTimePickerDialog() {
