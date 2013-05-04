@@ -66,9 +66,6 @@ public class TfLNotificationManager {
     private void checkNotifications() {
 
         // things to do:
-        // 8: fix icon in ticker
-        // 11: ensure a sane activity stack when you open the notification
-        // [Done? - just check]
         // 14: when an alert comes to an end, we need to clear it from the
         // notified alerts as well otherwise it may hide a notification
         // from one day to another
