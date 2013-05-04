@@ -11,17 +11,28 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 
 import android.net.http.AndroidHttpClient;
+import android.util.Log;
 
+import com.tfltravelalerts.common.networkstate.NetworkState;
 import com.tfltravelalerts.model.LineStatusUpdate;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
+import com.tfltravelalerts.weekend.events.WeekendStatusUpdateRequest;
 
 /**
  * Fetches the latest line statuses via TfL Line Status API.
  */
 public class WeekendStatusUpdater {
 
+    private static final String LOG_TAG = "WeekendStatusUpdater";
+
     public static LineStatusApiResult update() {
+        if(!NetworkState.isConnected()) {
+            Log.i(LOG_TAG, "update: device is offline");
+            NetworkState.broadcastWhenConnected(new WeekendStatusUpdateRequest());
+            return new LineStatusApiResult(HttpStatus.SC_PRECONDITION_FAILED, null);
+        }
+        
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("android");
         HttpGet request = new HttpGet(
                 "http://www.tfl.gov.uk/tfl/businessandpartners/syndication/feed.aspx?email=tfltravelalerts@gmail.com&feedId=7");
