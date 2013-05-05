@@ -9,6 +9,10 @@ public class DayTime {
 		this.mDay = day;
 		this.mTime = time;
 	}
+	
+	public DayTime(Day day, int hour, int minute) {
+	    this(day, new Time(hour, minute));
+	}
 
 	private Day getDay() {
 		return mDay;

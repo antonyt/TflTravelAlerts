@@ -17,7 +17,7 @@ public class LineStatusAlert {
     private static final String LOG_TAG = "LineStatusAlertUtil";
     private final static int LOOK_AHEAD_FOR_ALERT_TIME = 60; // unit: minutes
     private final static int LOOK_BEHIND_FOR_ALERT_TIME = -30; // unit: minutes
-    
+
     private final int mId;
     private final String mTitle;
     private final ImmutableSet<Line> mLines;
@@ -25,7 +25,8 @@ public class LineStatusAlert {
     private final Time mTime;
     private final boolean mOnlyNotifyForDisruptions;
 
-    private LineStatusAlert(int id, String title, Set<Line> lines, Set<Day> days, Time time, boolean onlyNotifyForDisruptions) {
+    private LineStatusAlert(int id, String title, Set<Line> lines, Set<Day> days, Time time,
+            boolean onlyNotifyForDisruptions) {
         mId = id;
         mTitle = title;
         mLines = ImmutableSet.copyOf(lines);
@@ -53,14 +54,14 @@ public class LineStatusAlert {
     public int getId() {
         return mId;
     }
-    
+
     public boolean onlyNotifyForDisruptions() {
         return mOnlyNotifyForDisruptions;
     }
-    
+
     @Override
     public String toString() {
-        return "#"+getId()+" "+mTitle;
+        return "#" + getId() + " " + mTitle;
     }
 
     public static Builder builder(int id) {
@@ -143,7 +144,7 @@ public class LineStatusAlert {
             mTime = time;
             return this;
         }
-        
+
         public Builder setOnlyNotifyForDisruptions(boolean onlyNotifyForDisruptions) {
             mOnlyNotifyForDisruptions = onlyNotifyForDisruptions;
             return this;
@@ -172,41 +173,53 @@ public class LineStatusAlert {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(fromTime);
 
-        while(calendar.get(Calendar.SECOND) != 0) {
+        while (calendar.get(Calendar.SECOND) != 0) {
             calendar.add(Calendar.SECOND, 1);
         }
 
-        while(calendar.get(Calendar.MINUTE) != mTime.getMinute()) {
+        while (calendar.get(Calendar.MINUTE) != mTime.getMinute()) {
             calendar.add(Calendar.MINUTE, 1);
         }
 
-        while(calendar.get(Calendar.HOUR_OF_DAY) != mTime.getHour()) {
+        while (calendar.get(Calendar.HOUR_OF_DAY) != mTime.getHour()) {
             calendar.add(Calendar.HOUR_OF_DAY, 1);
         }
 
         Set<Integer> calendarDays = Sets.newHashSet();
-        for(Day day : mDays) {
+        for (Day day : mDays) {
             calendarDays.add(day.getCalendarDay());
         }
-        if(calendarDays.size() > 0) {
-            //if we don't do this check we would go into an infinite loop
-            while(!calendarDays.contains(calendar.get(Calendar.DAY_OF_WEEK))) {
+        if (calendarDays.size() > 0) {
+            // if we don't do this check we would go into an infinite loop
+            while (!isNextAlarmDate(calendar, calendarDays, fromTime)) {
                 calendar.add(Calendar.DATE, 1);
             }
         } else {
-            Log.e("LineStatusAlert", "getNextAlertTime: there are no days in alert "+toString());
+            Log.e("LineStatusAlert", "getNextAlertTime: there are no days in alert " + toString());
         }
-
+        calendar.add(Calendar.MINUTE, -LOOK_AHEAD_FOR_ALERT_TIME);
         return calendar.getTimeInMillis();
     }
-    
+
+    /**
+     * Given that we trigger alarms LOOK_AHEAD_FOR_ALERT_TIME before their
+     * specified time, when we are looking for the next alarm date we need to
+     * make sure this time/date is at least 1 hour into future because otherwise
+     * it would have triggered already 
+     */
+    private boolean isNextAlarmDate(Calendar calendar, Set<Integer> calendarDays, long fromTime) {
+        boolean dayEnabled = calendarDays.contains(calendar.get(Calendar.DAY_OF_WEEK));
+        boolean inTheFuture = calendar.getTimeInMillis() - fromTime > LOOK_AHEAD_FOR_ALERT_TIME * 60 * 1000;
+        return dayEnabled && inTheFuture;
+    }
+
     public boolean isActive(DayTime now) {
         return alertActiveForTime(this, now);
     }
-    
+
     public static boolean alertActiveForTime(LineStatusAlert alert, DayTime queryTime) {
         Time time = alert.getTime();
-        if(time == null) {
+        if (time == null) {
             Log.w(LOG_TAG, "alertActiveForTime: alert time is null; returning false");
             return false;
         }
