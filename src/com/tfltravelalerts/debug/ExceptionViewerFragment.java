@@ -7,6 +7,7 @@ import org.holoeverywhere.widget.TextView;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -36,7 +37,13 @@ public class ExceptionViewerFragment extends Fragment {
     
     private void showExceptions() {
         String exceptions = ExceptionViewerUtils.getExceptions();
-        mTextView.setText(exceptions);
+        if(exceptions != null && exceptions.length() > 0) {
+            mTextView.setText(exceptions);
+        } else {
+            mTextView.setText("No Crashes. Hurray!");
+            mTextView.setGravity(Gravity.CENTER);
+            mTextView.setHorizontallyScrolling(false);
+        }
     }
     
     @Override
