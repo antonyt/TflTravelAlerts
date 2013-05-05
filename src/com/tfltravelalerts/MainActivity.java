@@ -81,7 +81,7 @@ public class MainActivity extends TflBaseActivity {
     }
 
     private void setupActionBar() {
-        getSupportActionBar().setHomeButtonEnabled(TflApplication.DEBUG);
+        getSupportActionBar().setHomeButtonEnabled(BuildConfig.DEBUG);
     }
 
     @Override

@@ -18,8 +18,6 @@ public class TflApplication extends Application implements UncaughtExceptionHand
 
     private final String LOG_TAG = "TflApplication";
 
-    public static final boolean DEBUG = true;
-
     private UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
 
     @Override
@@ -29,7 +27,7 @@ public class TflApplication extends Application implements UncaughtExceptionHand
 
         initializeManagers();
 
-        if (DEBUG) {
+        if (BuildConfig.DEBUG) {
             mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
             Thread.setDefaultUncaughtExceptionHandler(this);
         }
