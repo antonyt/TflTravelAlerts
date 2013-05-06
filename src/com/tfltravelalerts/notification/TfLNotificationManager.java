@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
@@ -15,6 +14,7 @@ import com.tfltravelalerts.model.DayTime;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.LineStatusAlertSet;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
+import com.tfltravelalerts.model.SetOfLineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
 import de.greenrobot.event.EventBus;
@@ -26,20 +26,23 @@ public class TfLNotificationManager {
 
     private static final String LOG_TAG = "TfLNotificationManager";
     private static final String NOTIFICATION_TAG = "TfLNotificationManager";
+    private final TfLNotificationManagerStore mNotificationManagerStore = new TfLNotificationManagerStore(); 
 
     private Context mContext;
 
     private LineStatusAlertSet mAlerts;
     private LineStatusUpdateSet mLineStatus;
-    private SparseArray<LineStatusUpdateSet> mNotifiedUpdates;
+    private SetOfLineStatusUpdateSet mNotifiedUpdates;
 
     public TfLNotificationManager() {
         EventBus.getDefault().registerSticky(this);
         mContext = TflApplication.getLastInstance();
-        SparseArray<LineStatusUpdateSet> notifiedUptates = TfLNotificationManagerStore.load();
-        if(notifiedUptates == null) {
-            mNotifiedUpdates = new SparseArray<LineStatusUpdateSet>();
+        SetOfLineStatusUpdateSet notifiedUptates = mNotificationManagerStore.load();
+        if (notifiedUptates == null) {
+            Log.d(LOG_TAG, "contructor: found no notified updates");
+            mNotifiedUpdates = new SetOfLineStatusUpdateSet();
         } else {
+            Log.d(LOG_TAG, "contructor: loading notified updates with a size of " + notifiedUptates.size());
             mNotifiedUpdates = notifiedUptates;
         }
     }
@@ -60,16 +63,10 @@ public class TfLNotificationManager {
         int alertId = update.getData().getId();
         Log.d(LOG_TAG, "on AddOrUpdateAlertRequest - removing information about alert " + alertId);
         mNotifiedUpdates.remove(alertId);
-        TfLNotificationManagerStore.save(mNotifiedUpdates);
+        mNotificationManagerStore.save(mNotifiedUpdates);
     }
 
     private void checkNotifications() {
-
-        // things to do:
-        // 14: when an alert comes to an end, we need to clear it from the
-        // notified alerts as well otherwise it may hide a notification
-        // from one day to another
-
         DayTime now = DayTime.now();
         if(mAlerts != null) {
             for (LineStatusAlert alert : mAlerts.getActiveAlerts(now)) {
@@ -92,7 +89,7 @@ public class TfLNotificationManager {
             Notification notification = buildNotification(alert, mLineStatus);
             nm.notify(NOTIFICATION_TAG, alert.getId(), notification);
             mNotifiedUpdates.put(alert.getId(), mLineStatus);
-            TfLNotificationManagerStore.save(mNotifiedUpdates);
+            mNotificationManagerStore.save(mNotifiedUpdates);
         } else {
             Log.i(LOG_TAG, "showOrUpdateNotification: not showing notification due to no new data");
         }
