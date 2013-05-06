@@ -6,6 +6,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
@@ -14,7 +15,6 @@ import com.tfltravelalerts.model.DayTime;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.LineStatusAlertSet;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
-import com.tfltravelalerts.model.SetOfLineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
 import de.greenrobot.event.EventBus;
@@ -32,15 +32,15 @@ public class TfLNotificationManager {
 
     private LineStatusAlertSet mAlerts;
     private LineStatusUpdateSet mLineStatus;
-    private SetOfLineStatusUpdateSet mNotifiedUpdates;
+    private SparseArray<LineStatusUpdateSet> mNotifiedUpdates;
 
     public TfLNotificationManager() {
         EventBus.getDefault().registerSticky(this);
         mContext = TflApplication.getLastInstance();
-        SetOfLineStatusUpdateSet notifiedUptates = mNotificationManagerStore.load();
+        SparseArray<LineStatusUpdateSet> notifiedUptates = mNotificationManagerStore.load();
         if (notifiedUptates == null) {
             Log.d(LOG_TAG, "contructor: found no notified updates");
-            mNotifiedUpdates = new SetOfLineStatusUpdateSet();
+            mNotifiedUpdates = new SparseArray<LineStatusUpdateSet>();
         } else {
             Log.d(LOG_TAG, "contructor: loading notified updates with a size of " + notifiedUptates.size());
             mNotifiedUpdates = notifiedUptates;

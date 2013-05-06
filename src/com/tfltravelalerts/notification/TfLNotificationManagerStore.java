@@ -1,11 +1,19 @@
+
 package com.tfltravelalerts.notification;
 
-import com.tfltravelalerts.common.persistence.SharedPreferencesStore;
-import com.tfltravelalerts.model.SetOfLineStatusUpdateSet;
+import android.util.SparseArray;
 
-public class TfLNotificationManagerStore extends SharedPreferencesStore< SetOfLineStatusUpdateSet > {
+import com.google.common.reflect.TypeToken;
+import com.tfltravelalerts.common.persistence.SharedPreferencesStore;
+import com.tfltravelalerts.model.LineStatusUpdateSet;
+
+public class TfLNotificationManagerStore extends
+        SharedPreferencesStore<SparseArray<LineStatusUpdateSet>> {
+
     private static final String NOTIFIED_UPDATES_KEY = "NotifiedUpdates";
+
     public TfLNotificationManagerStore() {
-            super(SetOfLineStatusUpdateSet.class, NOTIFIED_UPDATES_KEY);
+        super(new TypeToken<SparseArray<LineStatusUpdateSet>>() {
+        }.getType(), NOTIFIED_UPDATES_KEY);
     }
 }

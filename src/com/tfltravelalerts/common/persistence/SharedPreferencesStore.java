@@ -1,9 +1,12 @@
 
 package com.tfltravelalerts.common.persistence;
 
+import java.lang.reflect.Type;
+
 import org.holoeverywhere.preference.PreferenceManager;
 
 import android.content.SharedPreferences;
+import android.util.SparseArray;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -13,11 +16,11 @@ import com.tfltravelalerts.TflApplication;
 
 public class SharedPreferencesStore<T> implements Store<T> {
 
-    private final Class<?> mDataType;
+    private final Type mDataType;
     private final String mSharedPreferenceKey;
     private Gson mGson;
 
-    public SharedPreferencesStore(Class<T> dataType, String sharedPreferenceKey) {
+    public SharedPreferencesStore(Type dataType, String sharedPreferenceKey) {
         mDataType = dataType;
         mSharedPreferenceKey = sharedPreferenceKey;
     }
@@ -46,6 +49,8 @@ public class SharedPreferencesStore<T> implements Store<T> {
             mGson = new GsonBuilder()
                     .registerTypeAdapter(ImmutableList.class, new ImmutableListDeserializer())
                     .registerTypeAdapter(ImmutableSet.class, new ImmutableSetDeserializer())
+                    .registerTypeAdapter(SparseArray.class, new SparseArrayDeserializer())
+                    .registerTypeAdapter(SparseArray.class, new SparseArraySerializer())
                     .create();
         }
 
