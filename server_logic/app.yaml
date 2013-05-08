@@ -1,0 +1,16 @@
+application: helloworld
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /(update-line-status|clear-old-registrations|update-weekend-status)
+  script: cron_receiver.app
+  login: admin
+  auth_fail_action: unauthorized
+- url: /(get-line-status|register-for-alerts|get-weekend-status)
+  script: clients_controller.app
+
+- url: /.*
+  script: helloworld.app

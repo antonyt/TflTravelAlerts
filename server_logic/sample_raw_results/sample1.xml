@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfLineStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://webservices.lul.co.uk/">
+  <LineStatus ID="0" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="1" Name="Bakerloo" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="1" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="2" Name="Central" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="10" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="7" Name="Circle" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="2" StatusDetails="No service between Tower Hill and West Ham due to planned engineering work. GOOD SERVICE on the rest of the line.">
+    <BranchDisruptions>
+      <BranchDisruption>
+        <StationTo ID="259" Name="West Ham" />
+        <StationFrom ID="236" Name="Tower Hill" />
+      </BranchDisruption>
+    </BranchDisruptions>
+    <Line ID="9" Name="District" />
+    <Status ID="PC" CssClass="DisruptedService" Description="Part Closure" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="8" StatusDetails="No service between Moorgate and Barking due to planned engineering work. GOOD SERVICE on the rest of the line.">
+    <BranchDisruptions>
+      <BranchDisruption>
+        <StationTo ID="14" Name="Barking" />
+        <StationFrom ID="150" Name="Moorgate" />
+      </BranchDisruption>
+    </BranchDisruptions>
+    <Line ID="8" Name="Hammersmith and City" />
+    <Status ID="PC" CssClass="DisruptedService" Description="Part Closure" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="4" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="4" Name="Jubilee" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="9" StatusDetails="No service between Wembley Park and Northwood / Uxbridge due to planned engineering work. GOOD SERVICE on the rest of the line. ">
+    <BranchDisruptions>
+      <BranchDisruption>
+        <StationTo ID="165" Name="Northwood" />
+        <StationFrom ID="255" Name="Wembley Park" />
+      </BranchDisruption>
+      <BranchDisruption>
+        <StationTo ID="244" Name="Uxbridge" />
+        <StationFrom ID="255" Name="Wembley Park" />
+      </BranchDisruption>
+    </BranchDisruptions>
+    <Line ID="11" Name="Metropolitan" />
+    <Status ID="PC" CssClass="DisruptedService" Description="Part Closure" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="5" StatusDetails="No service between Camden Town and Kennington southbound via Charing Cross due to a person under a train No service between Hampstead &amp; Edgware due to planned work.&#xA;Tickets will be accepted on local bus services. Minor delays between Kennington and Camden Town northbound via Charing Cross ">
+    <BranchDisruptions>
+      <BranchDisruption>
+        <StationTo ID="120" Name="Kennington" />
+        <StationFrom ID="35" Name="Camden Town" />
+        <StationVia ID="44" Name="Charing Cross" />
+        <Bound Id="2" Abbrieviation="SB" Name="Southbound" />
+      </BranchDisruption>
+      <BranchDisruption>
+        <StationTo ID="69" Name="Edgware" />
+        <StationFrom ID="97" Name="Hampstead" />
+      </BranchDisruption>
+      <BranchDisruption>
+        <StationTo ID="35" Name="Camden Town" />
+        <StationFrom ID="120" Name="Kennington" />
+        <StationVia ID="44" Name="Charing Cross" />
+        <Bound Id="1" Abbrieviation="NB" Name="Northbound" />
+      </BranchDisruption>
+    </BranchDisruptions>
+    <Line ID="5" Name="Northern" />
+    <Status ID="PS" CssClass="DisruptedService" Description="Part Suspended" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="6" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="6" Name="Piccadilly" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="7" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="3" Name="Victoria" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="11" StatusDetails="Train service resumes at 0615 on Tuesday morning.">
+    <BranchDisruptions />
+    <Line ID="12" Name="Waterloo and City" />
+    <Status ID="CS" CssClass="DisruptedService" Description="Planned Closure" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="82" StatusDetails="No service between Highbury &amp; Islington &amp; Shadwell and between Surrey Quays and New Cross  and between Highbury &amp; Islington and Stratford due to planned engineering work. GOOD SERVICE on all other routes.">
+    <BranchDisruptions>
+      <BranchDisruption>
+        <StationTo ID="200" Name="Shadwell" />
+        <StationFrom ID="108" Name="Highbury &amp; Islington" />
+      </BranchDisruption>
+      <BranchDisruption>
+        <StationTo ID="154" Name="New Cross" />
+        <StationFrom ID="227" Name="Surrey Quays" />
+      </BranchDisruption>
+      <BranchDisruption>
+        <StationTo ID="224" Name="Stratford" />
+        <StationFrom ID="108" Name="Highbury &amp; Islington" />
+      </BranchDisruption>
+    </BranchDisruptions>
+    <Line ID="82" Name="Overground" />
+    <Status ID="PC" CssClass="DisruptedService" Description="Part Closure" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+  <LineStatus ID="81" StatusDetails="">
+    <BranchDisruptions />
+    <Line ID="81" Name="DLR" />
+    <Status ID="GS" CssClass="GoodService" Description="Good Service" IsActive="true">
+      <StatusType ID="1" Description="Line" />
+    </Status>
+  </LineStatus>
+</ArrayOfLineStatus>

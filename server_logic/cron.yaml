@@ -1,0 +1,12 @@
+cron:
+- description: update status from server
+  url: /update-line-status
+  schedule: every 1 minutes
+  
+- description: update weekend status from server
+  url: /update-weekend-status
+  schedule: every 3 hours
+  
+- description: clear old clients registered for push notifications
+  url: /clear-old-registrations
+  schedule: every 15 minutes

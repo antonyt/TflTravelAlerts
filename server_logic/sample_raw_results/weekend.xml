@@ -1,0 +1,429 @@
+<SyndicatedFeed xsi:noNamespaceSchemaLocation="http://www.tfl.gov.uk/tfl/syndication/feeds/xsd/SyndicatedFeedTrack.xsd" version="200102231620" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Header>
+    <Identifier>Tfl | Service update - weekend - tube</Identifier>
+    <DisplayTitle>Tfl | Service update - weekend - tube</DisplayTitle>
+    <Version>200102231620</Version>
+    <PublishDateTime utc="2013-05-06T14:26:06Z">Mon, 06 May 2013 15:26:00 +01:00</PublishDateTime>
+    <Author>webteam@tfl.gov.uk</Author>
+    <Owner>Transport for London</Owner>
+    <RefreshRate>1</RefreshRate>
+    <Max_Latency>2</Max_Latency>
+    <TimeToError>2</TimeToError>
+    <OverrideMessage />
+    <ErrorMessage />
+    <FeedInfo>Developer information regarding the current state of the feed. Not to be displayed.</FeedInfo>
+    <Attribution>
+      <Url>http://www.tfl.gov.uk</Url>
+      <Text><![CDATA[copyright TfL]]></Text>
+      <Logo>http://www.tfl.gov.uk/tfl-global/images/roundel.gif</Logo>
+    </Attribution>
+    <Language>en</Language>
+  </Header>
+  <Lines>
+    <Line>
+      <Name>Bakerloo</Name>
+      <Colour>FFF</Colour>
+      <BgColour>AE6118</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Part closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Sunday 12 May, no service between Stonebridge Park and Harrow & Wealdstone. No London Overground service between Euston and Watford Junction. Replacement buses operate. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Central</Name>
+      <Colour>FFF</Colour>
+      <BgColour>E41F1F</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Part closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Saturday 11 and Sunday 12 May, no service between Liverpool Street and Hainault via Newbury Park. Replacement buses operate. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Circle</Name>
+      <Colour>113B92</Colour>
+      <BgColour>F8D42D</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Part closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Sunday 12 May, no service between Hammersmith and Moorgate. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+    <Line>
+      <Name>District</Name>
+      <Colour>FFF</Colour>
+      <BgColour>00A575</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Good service]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Hammersmith &amp; City</Name>
+      <Colour>113B92</Colour>
+      <BgColour>E899A8</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Part closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Sunday 12 May, no service between King's Cross St Pancras and Barking. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Jubilee</Name>
+      <Colour>FFF</Colour>
+      <BgColour>8F989E</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Good service]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Metropolitan</Name>
+      <Colour>FFF</Colour>
+      <BgColour>893267</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Part closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Sunday 12 May, no service between Baker Street and Aldgate. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Northern</Name>
+      <Colour>FFF</Colour>
+      <BgColour>000000</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Part closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Saturday 11 and Sunday 12 May, no service between Camden Town, High Barnet and Mill Hill East. Saturday 11 and Sunday 12 May, no service between Camden Town, High Barnet and Mill Hill East. On Saturday 11 and Sunday 12 May, no service between High Barnet / Mill Hill East and Camden Town. Rail replacement buses operate. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Piccadilly</Name>
+      <Colour>FFF</Colour>
+      <BgColour>0450A1</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Good service]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Victoria</Name>
+      <Colour>FFF</Colour>
+      <BgColour>009FE0</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Good service]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+      </Status>
+    </Line>
+    <Line>
+      <Name>Waterloo &amp; City</Name>
+      <Colour>113B92</Colour>
+      <BgColour>70C3CE</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Planned closure]]></Text>
+        <Colour>FFF</Colour>
+        <BgColour>113B92</BgColour>
+        <Message>
+          <Text><![CDATA[Closed on Sundays. ]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Line>
+  </Lines>
+  <Stations>
+    <Station>
+      <Name>Bank</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[From Thursday 18 April until late 2013, as part of the Tube improvement plan both escalators leading to the Northern line ticket hall are being replaced. Passengers using the Northern line ticket hall must use the four large-capacity lifts to/from platform level.
+Extra staff will be available to minimise delays, however, there may be queues at busy times. Passengers exiting from the Northern or DLR platforms can avoid the queues if they follow signs to the District and Circle lines and leave via Monument station.
+
+To find out more about the plans for Bank station visit tfl.gov.uk/tube 
+]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Bank</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced escalator service until the end of November 2013.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Camden Town</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Saturday, between 1000 and 1730, and Sunday, between 1000 and 1300, no down escalator. Access to platforms is via the spiral staircase. Sunday, exit and interchange, only, between 1300 and 1730.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Canary Wharf</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced escalator service until late august 2013.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Hampstead Station</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced lift service until spring 2014 due to refurbishment work.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Highbury &amp; Islington</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[No down escalator service until mid October while refurbishment work takes place. Access to the Victoria line and National Rail platforms is via the stairs from the ticket hall. From 0800 to 0945 and 1700 to 1830 you should allow up to an extra 10 minutes to reach the platforms. To avoid the queues or If you find using the stairs difficult, or are travelling with luggage or pushchairs you may find it easier to start your journey at Holloway Road, Caledonian Road or Angel stations.
+]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Holloway Road</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Closed]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Exit only from approximately 90 minutes before kick-off on Arsenal home match days. WESTBOUND trains, toward central London, serve the station and customers are able to exit the station, unless overcrowding occurs. Approximately one hour before kick-off no EASTBOUND trains serve the station. At approximately kick-off the station fully reopens. Half an hour before the final whistle, until crowds have sufficiently dispersed, the station is exit only, but all trains serve the station.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Lambeth North</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[From 2 January 2013 - July 2013 The Imperial  War Museum will be closing for 6 months due to major redevelopment work.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Leicester Square</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced escalator service until the end of May 2013.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Russell Square</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Each of the lifts at Russell Square station are being refurbished one at a time. This means that queues to enter and exit the station are likely, especially at busy times. To avoid the queues please enter or exit at Holborn which is a short walk to Russell Square area. Maps are available at Holborn station showing the simple walking route.
+
+]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Vauxhall</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced escalator service until early November 2013.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Victoria Bus Station</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[As part of the Victoria Station Upgrade, work is underway to enlarge the Victoria line ticket hall. At busy times a one-way system to enter and exit the Victoria line ticket hall will be in place. If you are travelling to London on National Rail services you can avoid queuing in the ticket hall and save time by purchasing your Underground travel at your station of origin. Alternatively, use the Transport for London Travel Information Centre located in the National Rail concourse opposite platform seven. This work is part of the Tube Improvement plan and is scheduled to be complete in 2018.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Waterloo</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced escalator service until early June 2013.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Westminster</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Reduced escalator service until the end of August 2013.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+    <Station>
+      <Name>Woodside Park</Name>
+      <Colour>000</Colour>
+      <BgColour>FFF</BgColour>
+      <Url>http://www.tfl.gov.uk/tfl/livetravelnews/realtime/tube/default.html</Url>
+      <Status>
+        <Text><![CDATA[Station maintenance]]></Text>
+        <Colour>000</Colour>
+        <BgColour>FFF</BgColour>
+        <Message>
+          <Text><![CDATA[Northbound step-free entrance for ticket holders only.]]></Text>
+          <Colour>000</Colour>
+          <BgColour>FFF</BgColour>
+        </Message>
+      </Status>
+    </Station>
+  </Stations>
+</SyndicatedFeed>
