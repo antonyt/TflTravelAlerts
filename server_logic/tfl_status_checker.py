@@ -8,8 +8,8 @@ import json
 url = "http://cloud.tfl.gov.uk/TrackerNet/LineStatus"
 
 def fetch_line_status_as_json():
-  state = urllib2.urlopen(url)
-  #state = open('sample_raw_results/dummy-line-result.xml', 'r')
+  #state = urllib2.urlopen(url)
+  state = open('sample_raw_results/dummy-line-result.xml', 'r')
   return produce_json(state)
 
 def print_state():
@@ -28,8 +28,8 @@ def str_to_enum(s):
 def produce_json(response):
   json = []
   for (line, description, details) in parse_raw_state(response):
-    json.append({'line': str_to_enum(line), 
-                 'state':str_to_enum(description), 
+    json.append({'line': str_to_enum(line),
+                 'state':str_to_enum(description),
                  'details': details})
   return json
 def parse_raw_state(response):
