@@ -16,8 +16,14 @@ handlers:
 - url: /(get-line-status|register-for-alerts|get-weekend-status)
   script: clients_controller.app
 
-- url: /(find-affected-users)
+- url: /(find-affected-users|gae_python_gcm/send_request)
   script: tasks_controller.app
 
 - url: /.*
   script: clients_controller.app
+
+
+libraries:
+- name: django
+  version: "1.2"
+  # required for GCM module

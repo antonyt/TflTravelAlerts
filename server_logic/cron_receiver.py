@@ -49,11 +49,8 @@ class UpdateLineStatus(webapp2.RequestHandler):
     old_json_data = line_status.json_data
     line_status.set_json_data(json_data)
     line_status.put()
+    check_for_modifications(data, json_data, old_json_data)
 
-    if old_json_data is not None and old_json_data != json_data or FORCE_HANDLING:
-      check_for_modifications(data, json_data, old_json_data)
-    else:
-      logging.debug('oops?')
 
 
 class UpdateWeekendStatus(webapp2.RequestHandler):
@@ -64,7 +61,7 @@ class UpdateWeekendStatus(webapp2.RequestHandler):
     line_status.put()
 
     #import testing
-    #testing.inject_many_users(10000)
+    #testing.inject_many_users(4070)
 
 
 class ClearOldRegistrations(webapp2.RequestHandler):

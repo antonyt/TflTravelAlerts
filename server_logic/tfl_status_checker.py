@@ -32,6 +32,7 @@ def produce_json(response):
                  'state':str_to_enum(description),
                  'details': details})
   return json
+
 def parse_raw_state(response):
   xmlObj = minidom.parse(response)
   elements = xmlObj.getElementsByTagName("LineStatus")
