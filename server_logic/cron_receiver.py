@@ -7,7 +7,7 @@ import json
 import logging
 from google.appengine.api import taskqueue
 
-FORCE_HANDLING = True
+FORCE_HANDLING = False
 
 def check_for_modifications(data, json_data, old_json_data):
   """
@@ -19,26 +19,25 @@ def check_for_modifications(data, json_data, old_json_data):
     json_data     - the newest data as a json string (to avoid calculating it again)
     old_json_data - the previous state as a string with a json format
   """
-  if old_json_data is not None and old_json_data != json_data:
-    old_data = json.loads(old_json_data)
-    modified_lines = []
-    if len(old_data) != len(data):
-      #just in case... this should never happen
-      logging.warn('expected sizes to match but they don\'t!')
-      modified_lines = [i['line'] for i in data]
-    else:
-      for i in xrange(len(data)):
-        if data[i] != old_data[i]:
-          modified_lines.append(data[i]['line'])
-    if FORCE_HANDLING and not modified_lines:
-      logging.debug('faking modified lines')
-      modified_lines = [u'CIRCLE', u'METROPOLITAN']
-    if modified_lines:
-      lines_str = ','.join(modified_lines)
-      logging.debug('scheduling a task because these lines have changed: %s'%lines_str)
-      taskqueue.add(url='/find-affected-users', params={'lines':lines_str} )
-    else:
-      logging.debug('no changes in lines')
+  old_data = json.loads(old_json_data)
+  modified_lines = []
+  if len(old_data) != len(data):
+    #just in case... this should never happen
+    logging.warn('expected sizes to match but they don\'t!')
+    modified_lines = [i['line'] for i in data]
+  else:
+    for i in xrange(len(data)):
+      if data[i] != old_data[i]:
+        modified_lines.append(data[i]['line'])
+  if FORCE_HANDLING and not modified_lines:
+    logging.debug('faking modified lines')
+    modified_lines = [u'CIRCLE', u'METROPOLITAN']
+  if modified_lines:
+    lines_str = ','.join(modified_lines)
+    logging.debug('scheduling a task because these lines have changed: %s'%lines_str)
+    taskqueue.add(url='/find-affected-users', params={'lines':lines_str} )
+  else:
+    logging.debug('no changes in lines')
 
 
 class UpdateLineStatus(webapp2.RequestHandler):
@@ -48,8 +47,11 @@ class UpdateLineStatus(webapp2.RequestHandler):
     line_status = LineStatus.current_status()
     old_json_data = line_status.json_data
     line_status.set_json_data(json_data)
-    line_status.put()
-    check_for_modifications(data, json_data, old_json_data)
+    if old_json_data is None:
+      line_status.put()
+    elif old_json_data != json_data:
+      line_status.put()
+      check_for_modifications(data, json_data, old_json_data)
 
 
 
