@@ -24,16 +24,16 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
  */
 public class LineStatusUpdater {
     public static String LOG_TAG = "LineStatusUpdater";
-    
+
     public static LineStatusApiResult update() {
-        if(!NetworkState.isConnected()) {
+        if (!NetworkState.isConnected()) {
             Log.i(LOG_TAG, "update: device is offline");
             NetworkState.broadcastWhenConnected(new LineStatusUpdateRequest());
             return new LineStatusApiResult(HttpStatus.SC_PRECONDITION_FAILED, null);
         }
-        
+
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("android");
-        HttpGet request = new HttpGet("http://cloud.tfl.gov.uk/TrackerNet/LineStatus");
+        HttpGet request = new HttpGet("http://192.168.1.104:8080/get-line-status");
         int statusCode = -1;
         try {
             HttpResponse response = httpClient.execute(request);

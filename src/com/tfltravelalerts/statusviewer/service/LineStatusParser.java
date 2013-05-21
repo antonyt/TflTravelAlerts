@@ -3,6 +3,7 @@ package com.tfltravelalerts.statusviewer.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,8 +11,12 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.CharStreams;
+import com.google.gson.GsonBuilder;
 import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatus;
+import com.tfltravelalerts.model.LineStatusServerResponse;
 import com.tfltravelalerts.model.LineStatusUpdate;
 
 /**
@@ -19,7 +24,22 @@ import com.tfltravelalerts.model.LineStatusUpdate;
  */
 public class LineStatusParser {
 
-    public static List<LineStatusUpdate> parse(InputStream inputStream) {
+    public static LineStatusServerResponse parse(InputStream inputStream) {
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
+            String response = CharStreams.toString(inputStreamReader);
+            inputStreamReader.close();
+            LineStatusServerResponse lineStatusUpdates = new GsonBuilder().create().fromJson(response, LineStatusServerResponse.class);
+
+            return lineStatusUpdates;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+    
+    public static List<LineStatusUpdate> parseTflResponse(InputStream inputStream) {
         try {
             XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
             parser.setInput(inputStream, null);

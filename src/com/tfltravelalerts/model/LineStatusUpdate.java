@@ -3,6 +3,7 @@ package com.tfltravelalerts.model;
 
 import android.content.Context;
 
+import com.google.gson.annotations.SerializedName;
 import com.tfltravelalerts.TflApplication;
 
 /**
@@ -11,9 +12,13 @@ import com.tfltravelalerts.TflApplication;
  */
 public class LineStatusUpdate {
 
+    @SerializedName("details")
     private final String mDescription;
 
+    @SerializedName("line")
     private final Line mLine;
+    
+    @SerializedName("state")
     private final LineStatus mLineStatus;
 
     public LineStatusUpdate(Line line, LineStatus lineStatus, String description) {

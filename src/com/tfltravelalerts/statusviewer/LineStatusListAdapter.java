@@ -69,10 +69,10 @@ public class LineStatusListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView row;
         if (convertView == null) {
-            row  = (TextView) mInflater.inflate(R.layout.line_status_list_row, parent, false);
+            row = (TextView) mInflater.inflate(R.layout.line_status_list_row, parent, false);
         } else {
             row = (TextView) convertView;
-            //clear previous state
+            // clear previous state
             row.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
 
@@ -85,12 +85,15 @@ public class LineStatusListAdapter extends BaseAdapter {
         if (lineStatusUpdate != null) {
             int resId = R.drawable.line_status_unknown;
             LineStatus lineStatus = lineStatusUpdate.getLineStatus();
-            if(lineStatus != null) {
+            if (lineStatus != null) {
                 resId = lineStatus.getStatusIcon();
             }
             row.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
         } else {
-           //if no update yet, show nothing (loading updates?)
+            // if no update yet, show nothing (loading updates?)
+            // this may happen when we fail to parse data from the server
+            int resId = R.drawable.line_status_unknown;
+            row.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
         }
 
         return row;
