@@ -17,11 +17,9 @@ import com.tfltravelalerts.common.networkstate.NetworkState;
 import com.tfltravelalerts.model.LineStatusUpdate;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
+import com.tfltravelalerts.statusviewer.service.LineStatusParser;
 import com.tfltravelalerts.weekend.events.WeekendStatusUpdateRequest;
 
-/**
- * Fetches the latest line statuses via TfL Line Status API.
- */
 public class WeekendStatusUpdater {
 
     private static final String LOG_TAG = "WeekendStatusUpdater";
@@ -34,8 +32,7 @@ public class WeekendStatusUpdater {
         }
         
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance("android");
-        HttpGet request = new HttpGet(
-                "http://www.tfl.gov.uk/tfl/businessandpartners/syndication/feed.aspx?email=tfltravelalerts@gmail.com&feedId=7");
+        HttpGet request = new HttpGet("http://192.168.1.104:8080/get-weekend-status");
         int statusCode = -1;
         try {
             HttpResponse response = httpClient.execute(request);
@@ -43,7 +40,7 @@ public class WeekendStatusUpdater {
 
             if (statusCode == HttpStatus.SC_OK) {
                 InputStream input = response.getEntity().getContent();
-                List<LineStatusUpdate> lineStatusUpdates = WeekendStatusParser.parse(input);
+                List<LineStatusUpdate> lineStatusUpdates = LineStatusParser.parse(input);
                 LineStatusUpdateSet lineStatusUpdateSet = new LineStatusUpdateSet(new Date(),
                         lineStatusUpdates);
 

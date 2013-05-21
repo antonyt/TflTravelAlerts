@@ -19,9 +19,6 @@ import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusApiResult;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
 
-/**
- * Fetches the latest line statuses via TfL Line Status API.
- */
 public class LineStatusUpdater {
     public static String LOG_TAG = "LineStatusUpdater";
 
