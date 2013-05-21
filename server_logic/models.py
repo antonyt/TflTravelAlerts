@@ -11,11 +11,17 @@ class LineStatus(db.Model):
 
   @classmethod
   def weekend_status(cls):
-    return LineStatus.get_or_insert('weekend-status')
+    obj = LineStatus.get_or_insert('weekend-status')
+    if obj.json_data is None:
+      obj.json_data="[]"
+    return obj
 
   @classmethod
   def current_status(cls):
-    return LineStatus.get_or_insert('current-status')
+    obj = LineStatus.get_or_insert('current-status')
+    if obj.json_data is None:
+      obj.json_data="[]"
+    return obj
 
 
 
