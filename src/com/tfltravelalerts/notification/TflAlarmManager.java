@@ -52,8 +52,6 @@ public class TflAlarmManager {
         PendingIntent pendingIntent = makePendingIntentForAlert(alert);
         alarmManager.cancel(pendingIntent);
         Log.i(LOG_TAG, "removing alarm for alert " + alert.toString());
-        // Toast.makeText(mContext, "removing alarm",
-        // Toast.LENGTH_SHORT).show();
     }
 
     private void setAlarms() {
@@ -70,8 +68,6 @@ public class TflAlarmManager {
             alarmManager.set(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
 
             Date date = new Date(triggerTime);
-            // Toast.makeText(mContext, "setting alarm for " + date,
-            // Toast.LENGTH_SHORT).show();
             Log.i(LOG_TAG, "setting alert for " + alert.toString() + " at " + date);
         }
     }

@@ -61,7 +61,6 @@ public class NetworkState {
                 bus.unregister(this);
             }
         });
-        // pendingEvent.triggerOnEvent(ConnectivityRestored.class);
     }
 
     private static void startBroadcastReceiver() {
