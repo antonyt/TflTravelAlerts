@@ -50,5 +50,4 @@ app = webapp2.WSGIApplication([('/get-line-status', GetLineStatus),
                                ('/get-weekend-status', GetWeekendStatus),
                                ('/register-for-alerts', RegisterForAlerts),
                                ('/', HomeHandler),
-                              ],
-                              debug=True)
+                              ])

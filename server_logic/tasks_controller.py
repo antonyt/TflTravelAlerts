@@ -42,7 +42,7 @@ def get_gcm_handle(element):
 def create_message(handles):
   payload = {'refresh_current_status': True}
   NINETY_MINUTES = 5400 # in seconds
-  is_dry_run = settings.LOCALHOST
+  is_dry_run = settings.DRY_RUN
   return gcm.GCMMessage(handles,
                      payload,
                      dry_run=is_dry_run,
@@ -66,5 +66,4 @@ class SendGcmMessage(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([('/find-affected-users', FindAffectedUsersHandler),
                                (gcm.GCM_QUEUE_CALLBACK_URL, SendGcmMessage),
-                              ],
-                              debug=True)
+                              ])

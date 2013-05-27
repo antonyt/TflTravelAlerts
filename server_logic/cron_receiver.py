@@ -76,5 +76,4 @@ class ClearOldRegistrations(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/update-line-status', UpdateLineStatus),
                                ('/clear-old-registrations', ClearOldRegistrations),
                                ('/update-weekend-status', UpdateWeekendStatus),
-                              ],
-                              debug=True)
+                              ])

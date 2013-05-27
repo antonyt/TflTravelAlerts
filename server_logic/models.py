@@ -50,6 +50,5 @@ class PushNotificationRegistration(db.Model):
     d = PushNotificationRegistration.all(keys_only=True).filter('date_added < ', expiry_date)
     ids = d.run()
     db.delete(ids)
-    #PushNotificationRegistration.get(ids)
 
 
