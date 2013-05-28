@@ -18,6 +18,8 @@ handlers:
 
 - url: /(find-affected-users|gae_python_gcm/send_request)
   script: tasks_controller.app
+  login: admin
+  auth_fail_action: unauthorized
 
 #- url: /.*
 #  script: clients_controller.app
