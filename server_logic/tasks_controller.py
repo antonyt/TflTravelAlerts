@@ -16,16 +16,17 @@ class FindAffectedUsersHandler(webapp2.RequestHandler):
     for line in lines:
       q = db.Query(PushNotificationRegistration)
       res = q.filter('lines_interested =', line).run(read_policy=db.EVENTUAL_CONSISTENCY, batch_size = 2000)
-      new = set(res)
+      new = set(map(get_gcm_handle, res))
       logging.debug('%d results in line %s'%(len(new),line))
       users.update(new)
     logging.debug('Total rows = %d'%len(users))
+    for i,u in enumerate(users):
+      logging.debug('user %d %s'%(i,u))
     schedule_gcm_messages(list(users))
 
 def schedule_gcm_messages(users):
   gcm_connection = gcm.GCMConnection()
-  for batch in get_in_batches(users):
-    handles = map(get_gcm_handle, batch)
+  for handles in get_in_batches(users):
     message = create_message(handles)
     logging.info('submitting a batch of %d notifications'%len(handles))
     gcm_connection.notify_device(message, deferred=True)
