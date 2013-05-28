@@ -47,5 +47,5 @@ class RegisterForAlerts(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([('/get-line-status', GetLineStatus),
                                ('/get-weekend-status', GetWeekendStatus),
                                ('/register-for-alerts', RegisterForAlerts),
-                               ('/', HomeHandler),
+                               #('/', HomeHandler),
                               ])

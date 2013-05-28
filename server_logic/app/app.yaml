@@ -1,4 +1,4 @@
-application: helloworld
+application: tfl-travel-alerts
 version: 1
 runtime: python27
 api_version: 1
@@ -19,8 +19,8 @@ handlers:
 - url: /(find-affected-users|gae_python_gcm/send_request)
   script: tasks_controller.app
 
-- url: /.*
-  script: clients_controller.app
+#- url: /.*
+#  script: clients_controller.app
 
 
 libraries:
