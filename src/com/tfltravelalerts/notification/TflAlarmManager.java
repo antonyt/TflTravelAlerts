@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.google.common.base.Joiner;
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.alerts.events.AlertDeletedEvent;
 import com.tfltravelalerts.alerts.events.AlertTriggerEvent;
@@ -24,8 +25,9 @@ import de.greenrobot.event.EventBus;
  * Class to setup alarms to refresh data according to alert times.
  */
 public class TflAlarmManager {
+    final static public String ALERT_ID_FIELD = "alert_id";
 
-    final private String LOG_TAG = "TflAlarmManager";
+    final static private String LOG_TAG = "TflAlarmManager";
     private Application mContext;
     private LineStatusAlertSet mLineStatusAlertSet;
 
@@ -74,6 +76,7 @@ public class TflAlarmManager {
 
     private PendingIntent makePendingIntentForAlert(LineStatusAlert alert) {
         Intent intent = new Intent(TflAlarmBroadcastReceiver.ALARM_ACTION);
+        intent.putExtra(ALERT_ID_FIELD, alert.getId());
         return PendingIntent.getBroadcast(mContext, alert.getId(), intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
