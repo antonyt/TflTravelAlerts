@@ -22,14 +22,11 @@ public class AlertsManager {
     private LineStatusAlertSet mAlerts = new LineStatusAlertSet(new ArrayList<LineStatusAlert>());
 
     public AlertsManager() {
-        getEventBus().registerSticky(this);
-        getEventBus().post(new LoadAlertsRequest());
+        EventBus bus = EventBus.getDefault();
+        bus.registerSticky(this);
+        bus.post(new LoadAlertsRequest());
     }
 
-    private EventBus getEventBus() {
-        return EventBus.getDefault();
-    }
-    
     public void onEventAsync(LoadAlertsRequest request) {
         LineStatusAlertSet alerts = mAlertsStore.load();
         if(alerts == null) {
@@ -38,7 +35,7 @@ public class AlertsManager {
         synchronized (this) {
             mAlerts = alerts;
             AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(event);
+            EventBus.getDefault().postSticky(event);
         }
     }
 
@@ -50,9 +47,9 @@ public class AlertsManager {
             mAlertsStore.save(mAlerts);
             
             AlertDeletedEvent deleteEvent = new AlertDeletedEvent(alert);
-            getEventBus().postSticky(deleteEvent);
+            EventBus.getDefault().postSticky(deleteEvent);
             AlertsUpdatedEvent updateEvent = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(updateEvent);
+            EventBus.getDefault().postSticky(updateEvent);
         }
     }
 
@@ -63,7 +60,7 @@ public class AlertsManager {
             mAlerts = mAlerts.addOrUpdateAlert(alert);
             mAlertsStore.save(mAlerts);
             AlertsUpdatedEvent event = new AlertsUpdatedEvent(mAlerts);
-            getEventBus().postSticky(event);
+            EventBus.getDefault().postSticky(event);
         }
     }
     
@@ -72,7 +69,7 @@ public class AlertsManager {
         
         AlertValidationResult validationResult = AlertValidator.validateAlert(alert);
         ValidateAlertResult event = new ValidateAlertResult(alert, validationResult);
-        getEventBus().post(event);
+        EventBus.getDefault().post(event);
     }
 
 }

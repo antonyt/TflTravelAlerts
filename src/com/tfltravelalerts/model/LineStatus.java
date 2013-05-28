@@ -13,7 +13,6 @@ public enum LineStatus {
     PART_CLOSURE("Part closure", "PC", R.string.line_status_part_closure, R.drawable.line_status_interruptions),
     PLANNED_CLOSURE("Planned closure", "CS", R.string.line_status_planned_closure, R.drawable.line_status_interruptions),
     SUSPENDED("Suspended", "SU", R.string.line_status_suspended, R.drawable.line_status_interruptions),
-    //TODO check ids with the following statuses
     PART_SUSPENDED("Part suspended", "PS", R.string.line_status_part_suspended, R.drawable.line_status_interruptions),
     REDUCED_SERVICE("Reduced service", "RS", R.string.line_status_reduced_service, R.drawable.line_status_interruptions),
     BUS_SERVICE("Bus service", "BS", R.string.line_status_bus_service, R.drawable.line_status_interruptions);
