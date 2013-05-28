@@ -15,6 +15,11 @@ def read_settings():
   
   f = open('environment.yaml', 'r')
   settings = yaml.load(f)
+  
+  f2 = open('private_environment.yaml', 'r')
+  private = yaml.load(f2)
+  settings.update(private)
+  
   GCM_KEY = settings['gcm_api_key']
   DRY_RUN = settings['dry_run']
   
