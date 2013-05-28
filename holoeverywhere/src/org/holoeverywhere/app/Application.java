@@ -1,15 +1,23 @@
 
 package org.holoeverywhere.app;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.holoeverywhere.HoloEverywhere;
 import org.holoeverywhere.HoloEverywhere.PreferenceImpl;
-import org.holoeverywhere.IHolo;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.LayoutInflater.LayoutInflaterCreator;
 import org.holoeverywhere.SystemServiceManager;
 import org.holoeverywhere.SystemServiceManager.SuperSystemService;
 import org.holoeverywhere.ThemeManager;
 import org.holoeverywhere.ThemeManager.SuperStartActivity;
+import org.holoeverywhere.addon.AddonSherlock;
+import org.holoeverywhere.addon.IAddon;
+import org.holoeverywhere.addon.IAddonApplication;
+import org.holoeverywhere.addon.IAddonAttacher;
+import org.holoeverywhere.addon.IAddonBasicAttacher;
 import org.holoeverywhere.preference.PreferenceManagerHelper;
 import org.holoeverywhere.preference.SharedPreferences;
 
@@ -19,40 +27,62 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 
 public class Application extends android.app.Application implements
-        IHolo, SuperStartActivity, SuperSystemService {
-    private static Application lastInstance;
-
+        SuperStartActivity, SuperSystemService, IAddonAttacher<IAddonApplication> {
+    private static List<Class<? extends IAddon>> sInitialAddons;
+    private static Application sLastInstance;
     static {
         SystemServiceManager.register(LayoutInflaterCreator.class);
+        addInitialAddon(AddonSherlock.class);
+    }
+
+    public static void addInitialAddon(Class<? extends IAddon> clazz) {
+        if (sInitialAddons == null) {
+            sInitialAddons = new ArrayList<Class<? extends IAddon>>();
+        }
+        sInitialAddons.add(clazz);
     }
 
     public static Application getLastInstance() {
-        return Application.lastInstance;
+        return Application.sLastInstance;
     }
 
     public static void init() {
     }
 
+    private final IAddonBasicAttacher<IAddonApplication, Application> mAttacher =
+            new IAddonBasicAttacher<IAddonApplication, Application>(this);
+
     public Application() {
-        Application.lastInstance = this;
+        Application.sLastInstance = this;
     }
 
     @Override
+    public <T extends IAddonApplication> T addon(Class<? extends IAddon> clazz) {
+        return mAttacher.addon(clazz);
+    }
+
+    @Override
+    public void addon(Collection<Class<? extends IAddon>> classes) {
+        mAttacher.addon(classes);
+    }
+
+    @Override
+    public <T extends IAddonApplication> T addon(String classname) {
+        return mAttacher.addon(classname);
+    }
+
     public SharedPreferences getDefaultSharedPreferences() {
         return PreferenceManagerHelper.getDefaultSharedPreferences(this);
     }
 
-    @Override
     public SharedPreferences getDefaultSharedPreferences(PreferenceImpl impl) {
         return PreferenceManagerHelper.getDefaultSharedPreferences(this, impl);
     }
 
-    @Override
     public LayoutInflater getLayoutInflater() {
         return LayoutInflater.from(this);
     }
 
-    @Override
     public SharedPreferences getSharedPreferences(PreferenceImpl impl, String name, int mode) {
         return PreferenceManagerHelper.wrap(this, impl, name, mode);
     }
@@ -62,7 +92,6 @@ public class Application extends android.app.Application implements
         return PreferenceManagerHelper.wrap(this, name, mode);
     }
 
-    @Override
     public Application getSupportApplication() {
         return this;
     }
@@ -73,9 +102,42 @@ public class Application extends android.app.Application implements
     }
 
     @Override
-    public void onTerminate() {
-        LayoutInflater.clearInstances();
-        super.onTerminate();
+    public boolean isAddonAttached(Class<? extends IAddon> clazz) {
+        return mAttacher.isAddonAttached(clazz);
+    }
+
+    @Override
+    public void lockAttaching() {
+        mAttacher.lockAttaching();
+    }
+
+    @Override
+    public Collection<Class<? extends IAddon>> obtainAddonsList() {
+        return mAttacher.obtainAddonsList();
+    }
+
+    @Override
+    public void onCreate() {
+        addon(sInitialAddons);
+        performAddonAction(new AddonCallback<IAddonApplication>() {
+            @Override
+            public void justAction(IAddonApplication addon) {
+                addon.onPreCreate();
+            }
+        });
+        lockAttaching();
+        super.onCreate();
+        performAddonAction(new AddonCallback<IAddonApplication>() {
+            @Override
+            public void justAction(IAddonApplication addon) {
+                addon.onCreate();
+            }
+        });
+    }
+
+    @Override
+    public boolean performAddonAction(AddonCallback<IAddonApplication> callback) {
+        return mAttacher.performAddonAction(callback);
     }
 
     @Override

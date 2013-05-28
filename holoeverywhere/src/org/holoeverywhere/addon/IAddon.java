@@ -1,13 +1,25 @@
 
 package org.holoeverywhere.addon;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.holoeverywhere.HoloEverywhere;
+import org.holoeverywhere.util.WeaklyMap;
 
 public abstract class IAddon {
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface Addon {
+        public boolean inhert() default false;
+
+        public int weight() default -1;
+    }
+
     private static final Map<Class<? extends IAddon>, IAddon> sAddonsMap = new HashMap<Class<? extends IAddon>, IAddon>();
 
     @SuppressWarnings("unchecked")
@@ -50,7 +62,7 @@ public abstract class IAddon {
         return addon(classname).obtain(object);
     }
 
-    private final Map<Object, Object> mStatesMap = new WeakHashMap<Object, Object>();
+    private final Map<Object, Object> mStatesMap = new WeaklyMap<Object, Object>();
     private final Map<Class<?>, Class<? extends IAddonBase<?>>> mTypesMap = new HashMap<Class<?>, Class<? extends IAddonBase<?>>>();
 
     @SuppressWarnings("unchecked")
@@ -69,7 +81,7 @@ public abstract class IAddon {
                 clazz = clazz.getSuperclass();
             }
             addon = ((Class<V>) mTypesMap.get(clazz)).newInstance();
-            addon.attach(object);
+            addon.attach(object, this);
             mStatesMap.put(object, addon);
             return addon;
         } catch (Exception e) {

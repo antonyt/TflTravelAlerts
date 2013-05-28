@@ -17,14 +17,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 
-import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.internal.view.menu.MenuItemWrapper;
 import com.actionbarsherlock.internal.widget.ActionBarView;
 import com.actionbarsherlock.view.MenuItem;
@@ -33,8 +31,8 @@ import com.actionbarsherlock.view.Window.Callback;
 public final class PreferenceScreen extends PreferenceGroup implements
         AdapterView.OnItemClickListener, DialogInterface.OnDismissListener {
     private final class PreferenceDialog extends Dialog implements Callback {
-        public PreferenceDialog(int theme) {
-            super(PreferenceScreen.this.getContext(), theme);
+        public PreferenceDialog(Context context, int theme) {
+            super(context, theme);
         }
 
         @Override
@@ -64,30 +62,12 @@ public final class PreferenceScreen extends PreferenceGroup implements
             return false;
         }
 
-        protected void onPrepareActionBar(ActionBarView actionBarView) {
-            if (actionBarView == null) {
-                return;
-            }
-            actionBarView.setWindowCallback(mDialog);
-            actionBarView.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP
-                    | actionBarView.getDisplayOptions()
-                    & ~ActionBar.DISPLAY_HOME_AS_UP);
-        }
-
-        @SuppressLint("NewApi")
-        protected void onPrepareActionBar(android.app.ActionBar actionBar) {
-            if (actionBar == null) {
-                return;
-            }
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-
-        @SuppressLint("NewApi")
         private void prepareActionBar() {
-            if (VERSION.SDK_INT >= 11) {
-                onPrepareActionBar(getActionBar());
-            } else {
-                onPrepareActionBar((ActionBarView) findViewById(R.id.abs__action_bar));
+            if (VERSION.SDK_INT < 11) {
+                ActionBarView actionBarView = (ActionBarView) findViewById(R.id.abs__action_bar);
+                if (actionBarView != null) {
+                    actionBarView.setWindowCallback(mDialog);
+                }
             }
         }
 
@@ -121,13 +101,25 @@ public final class PreferenceScreen extends PreferenceGroup implements
         }
     }
 
-    private static class SavedState extends BaseSavedState {
+    public static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
         Bundle dialogBundle;
-        boolean isDialogShowing;
+        boolean isShowing;
 
         public SavedState(Parcel source) {
             super(source);
-            isDialogShowing = source.readInt() == 1;
+            isShowing = source.readInt() == 1;
             dialogBundle = source.readBundle();
         }
 
@@ -138,7 +130,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
-            dest.writeInt(isDialogShowing ? 1 : 0);
+            dest.writeInt(isShowing ? 1 : 0);
             dest.writeBundle(dialogBundle);
         }
     }
@@ -146,8 +138,6 @@ public final class PreferenceScreen extends PreferenceGroup implements
     private PreferenceDialog mDialog;
     private ListView mListView;
     private ListAdapter mRootAdapter;
-
-    private final String TAG = getClass().getSimpleName();
 
     public PreferenceScreen(Context context, AttributeSet attrs) {
         super(context, attrs, R.attr.preferenceScreenStyle);
@@ -183,7 +173,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
             method.setAccessible(true);
             return (Integer) method.invoke(context);
         } catch (Exception e) {
-            Log.e(TAG, "Failed getting context theme", e);
+            e.printStackTrace();
             return R.style.Holo_Theme_NoActionBar;
         }
     }
@@ -199,7 +189,6 @@ public final class PreferenceScreen extends PreferenceGroup implements
                 || getPreferenceCount() == 0) {
             return;
         }
-
         showDialog(null);
     }
 
@@ -230,51 +219,40 @@ public final class PreferenceScreen extends PreferenceGroup implements
 
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
-        if (state == null || !state.getClass().equals(SavedState.class)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
         SavedState myState = (SavedState) state;
         super.onRestoreInstanceState(myState.getSuperState());
-        if (myState.isDialogShowing) {
+        if (myState.isShowing) {
             showDialog(myState.dialogBundle);
         }
     }
 
     @Override
     protected Parcelable onSaveInstanceState() {
-        final Parcelable superState = super.onSaveInstanceState();
-        final Dialog dialog = mDialog;
-        if (dialog == null || !dialog.isShowing()) {
-            return superState;
+        final SavedState myState = new SavedState(super.onSaveInstanceState());
+        if (mDialog != null) {
+            myState.isShowing = true;
+            myState.dialogBundle = mDialog.onSaveInstanceState();
+        } else {
+            myState.isShowing = false;
         }
-
-        final SavedState myState = new SavedState(superState);
-        myState.isDialogShowing = true;
-        myState.dialogBundle = dialog.onSaveInstanceState();
         return myState;
     }
 
     @SuppressLint("NewApi")
     private void showDialog(Bundle state) {
-        Context context = getContext();
-        while (context instanceof PreferenceContextWrapper) {
-            context = ((PreferenceContextWrapper) context).getBaseContext();
-        }
+        Context preferenceContext = getContext();
+        Context context = PreferenceInit.unwrap(getContext());
         final int contextTheme = getThemeResId(context);
-        PreferenceContextWrapper preferenceContext = Preference.context(context);
         if (mListView != null) {
             mListView.setAdapter(null);
         }
-
         View childPrefScreen = LayoutInflater.inflate(preferenceContext,
                 R.layout.preference_list_fragment);
         mListView = (ListView) childPrefScreen.findViewById(android.R.id.list);
         bind(mListView);
         final CharSequence title = getTitle();
         final boolean titleEmpty = TextUtils.isEmpty(title);
-        Dialog dialog = mDialog = new PreferenceDialog(contextTheme);
+        Dialog dialog = mDialog = new PreferenceDialog(context, contextTheme);
         if (titleEmpty) {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         } else {

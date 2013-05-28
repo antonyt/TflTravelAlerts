@@ -229,6 +229,6 @@ public class EditAlertFragment extends EventBusFragment {
     private void showTimePickerDialog() {
         Time initialTime = mTimeInputField.getTime();
         TimePickerFragment timePickerFragment = TimePickerFragment.newInstance(initialTime);
-        timePickerFragment.show(getSupportFragmentManager());
+        timePickerFragment.show(getFragmentManager());
     }
 }

@@ -17,6 +17,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 public abstract class DialogPreference extends Preference implements
@@ -50,7 +51,9 @@ public abstract class DialogPreference extends Preference implements
     private int mDialogLayoutResId;
     private CharSequence mDialogMessage;
     private CharSequence mDialogTitle;
+    private InputMethodManager mInputMethodManager;
     private CharSequence mNegativeButtonText;
+
     private CharSequence mPositiveButtonText;
 
     private int mWhichButtonClicked;
@@ -163,7 +166,7 @@ public abstract class DialogPreference extends Preference implements
         mBuilder.setIcon(mDialogIcon);
         mBuilder.setPositiveButton(mPositiveButtonText, this);
         mBuilder.setNegativeButton(mNegativeButtonText, this);
-        View contentView = onCreateDialogView();
+        View contentView = onCreateDialogView(context);
         if (contentView != null) {
             onBindDialogView(contentView);
             mBuilder.setView(contentView);
@@ -174,11 +177,23 @@ public abstract class DialogPreference extends Preference implements
         return mBuilder.create();
     }
 
+    /**
+     * Use {@link #onCreateDialogView(Context)} instead
+     */
+    @Deprecated
     protected View onCreateDialogView() {
+        return null;
+    }
+
+    protected View onCreateDialogView(Context context) {
+        final View view = onCreateDialogView();
+        if (view != null) {
+            return view;
+        }
         if (mDialogLayoutResId == 0) {
             return null;
         }
-        return LayoutInflater.inflate(getContext(), mDialogLayoutResId);
+        return LayoutInflater.inflate(context, mDialogLayoutResId);
     }
 
     protected void onDialogClosed(boolean positiveResult) {
@@ -186,9 +201,15 @@ public abstract class DialogPreference extends Preference implements
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-
+        if (mInputMethodManager == null) {
+            mInputMethodManager = (InputMethodManager) getContext().getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+        }
+        if (mDialog != null && mInputMethodManager.isActive()) {
+            mInputMethodManager.hideSoftInputFromWindow(mDialog.getWindow().getDecorView()
+                    .getApplicationWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
         getPreferenceManager().unregisterOnActivityDestroyListener(this);
-
         mDialog = null;
         onDialogClosed(mWhichButtonClicked == DialogInterface.BUTTON_POSITIVE);
     }
@@ -271,9 +292,8 @@ public abstract class DialogPreference extends Preference implements
     }
 
     protected void showDialog(Bundle state) {
-        Context context = getContext();
         mWhichButtonClicked = DialogInterface.BUTTON_NEGATIVE;
-        mDialog = onCreateDialog(context);
+        mDialog = onCreateDialog(getContext());
         getPreferenceManager().registerOnActivityDestroyListener(this);
         if (state != null) {
             mDialog.onRestoreInstanceState(state);

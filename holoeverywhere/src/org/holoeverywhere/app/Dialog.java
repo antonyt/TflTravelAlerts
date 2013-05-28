@@ -1,26 +1,30 @@
 
 package org.holoeverywhere.app;
 
+import java.util.Map;
+
+import org.holoeverywhere.HoloEverywhere;
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.R;
+import org.holoeverywhere.internal.WindowDecorView;
+import org.holoeverywhere.util.WeaklyMap;
 
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 
-import com.actionbarsherlock.internal.view.menu.ContextMenuBuilder;
-import com.actionbarsherlock.internal.view.menu.ContextMenuDecorView;
+import com.actionbarsherlock.internal.view.menu.ContextMenuDecorView.ContextMenuListenersProvider;
 import com.actionbarsherlock.internal.view.menu.ContextMenuItemWrapper;
 import com.actionbarsherlock.internal.view.menu.ContextMenuListener;
 import com.actionbarsherlock.internal.view.menu.ContextMenuWrapper;
 import com.actionbarsherlock.view.ContextMenu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class Dialog extends android.app.Dialog implements ContextMenuListener {
+public class Dialog extends android.app.Dialog implements ContextMenuListener,
+        ContextMenuListenersProvider {
     private static final int checkTheme(Context context, int theme) {
         if (theme >= 0x01000000) {
             return theme;
@@ -32,6 +36,9 @@ public class Dialog extends android.app.Dialog implements ContextMenuListener {
         }
         return R.style.Holo_Theme_Dialog;
     }
+
+    private Map<View, ContextMenuListener> mContextMenuListeners;
+    private WindowDecorView mDecorView;
 
     public Dialog(Context context) {
         this(context, 0);
@@ -45,19 +52,27 @@ public class Dialog extends android.app.Dialog implements ContextMenuListener {
     }
 
     public Dialog(Context context, int theme) {
-        super(context, checkTheme(context, theme));
+        this(context, checkTheme(context, theme), -1);
         setCancelable(true);
+    }
+
+    private Dialog(Context context, int theme, int fallback) {
+        super(new ContextThemeWrapperPlus(context, theme), theme);
     }
 
     @Override
     public void addContentView(View view, LayoutParams params) {
-        getWindow().addContentView(prepareDecorView(view, params), params);
+        if (requestDecorView(view, params, -1)) {
+            mDecorView.addView(view, params);
+        }
     }
 
     @Override
-    public void createContextMenu(ContextMenuBuilder contextMenuBuilder,
-            View view, ContextMenuInfo menuInfo, ContextMenuListener listener) {
-        listener.onCreateContextMenu(contextMenuBuilder, view, menuInfo);
+    public ContextMenuListener getContextMenuListener(View view) {
+        if (mContextMenuListeners == null) {
+            return null;
+        }
+        return mContextMenuListeners.get(view);
     }
 
     @Override
@@ -111,12 +126,37 @@ public class Dialog extends android.app.Dialog implements ContextMenuListener {
         }
     }
 
-    public View prepareDecorView(View v) {
-        return prepareDecorView(v, null);
+    @Override
+    public void registerForContextMenu(View view) {
+        if (HoloEverywhere.WRAP_TO_NATIVE_CONTEXT_MENU) {
+            super.registerForContextMenu(view);
+        } else {
+            registerForContextMenu(view, this);
+        }
     }
 
-    public View prepareDecorView(View v, ViewGroup.LayoutParams params) {
-        return ContextMenuDecorView.prepareDecorView(getContext(), v, this, params, 0);
+    public void registerForContextMenu(View view, ContextMenuListener listener) {
+        if (mContextMenuListeners == null) {
+            mContextMenuListeners = new WeaklyMap<View, ContextMenuListener>();
+        }
+        mContextMenuListeners.put(view, listener);
+    }
+
+    private boolean requestDecorView(View view, LayoutParams params, int layoutRes) {
+        if (mDecorView != null) {
+            return true;
+        }
+        mDecorView = new WindowDecorView(getContext());
+        mDecorView.setId(android.R.id.content);
+        mDecorView.setProvider(this);
+        if (view != null) {
+            mDecorView.addView(view, params);
+        } else if (layoutRes > 0) {
+            getLayoutInflater().inflate(layoutRes, mDecorView, true);
+        }
+        getWindow().setContentView(mDecorView, new LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        return false;
     }
 
     @Override
@@ -127,17 +167,33 @@ public class Dialog extends android.app.Dialog implements ContextMenuListener {
 
     @Override
     public void setContentView(int layoutResID) {
-        setContentView(getLayoutInflater().makeDecorView(layoutResID, this));
+        if (requestDecorView(null, null, layoutResID)) {
+            mDecorView.removeAllViewsInLayout();
+            getLayoutInflater().inflate(layoutResID, mDecorView, true);
+        }
     }
 
     @Override
     public void setContentView(View view) {
-        setContentView(view,
-                new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
     @Override
     public void setContentView(View view, LayoutParams params) {
-        getWindow().setContentView(prepareDecorView(view, params), params);
+        if (requestDecorView(view, params, -1)) {
+            mDecorView.removeAllViewsInLayout();
+            mDecorView.addView(view, params);
+        }
+    }
+
+    @Override
+    public void unregisterForContextMenu(View view) {
+        if (HoloEverywhere.WRAP_TO_NATIVE_CONTEXT_MENU) {
+            super.unregisterForContextMenu(view);
+        } else {
+            if (mContextMenuListeners != null) {
+                mContextMenuListeners.remove(view);
+            }
+        }
     }
 }

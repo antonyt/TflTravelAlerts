@@ -1,8 +1,10 @@
 
 package org.holoeverywhere.app;
 
+import java.util.Collection;
+
+import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.addon.IAddon;
-import org.holoeverywhere.addon.IAddonAttacher;
 import org.holoeverywhere.addon.IAddonBasicAttacher;
 import org.holoeverywhere.addon.IAddonFragment;
 
@@ -10,6 +12,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app._HoloFragment;
 import android.view.View;
+
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.ActionMode.Callback;
 
 public class Fragment extends _HoloFragment {
     public static <T extends Fragment> T instantiate(Class<T> clazz) {
@@ -49,12 +54,19 @@ public class Fragment extends _HoloFragment {
         }
     }
 
-    private final IAddonAttacher<IAddonFragment> mAttacher =
+    private final IAddonBasicAttacher<IAddonFragment, Fragment> mAttacher =
             new IAddonBasicAttacher<IAddonFragment, Fragment>(this);
+
+    private LayoutInflater mLayoutInflater;
 
     @Override
     public <T extends IAddonFragment> T addon(Class<? extends IAddon> clazz) {
         return mAttacher.addon(clazz);
+    }
+
+    @Override
+    public void addon(Collection<Class<? extends IAddon>> classes) {
+        mAttacher.addon(classes);
     }
 
     @Override
@@ -63,13 +75,45 @@ public class Fragment extends _HoloFragment {
     }
 
     @Override
+    public LayoutInflater getLayoutInflater() {
+        if (mLayoutInflater == null) {
+            mLayoutInflater = getSupportActivity().getLayoutInflater().
+                    obtainFragmentChildInflater(this);
+        }
+        return mLayoutInflater;
+    }
+
+    @Override
     public boolean isAddonAttached(Class<? extends IAddon> clazz) {
         return mAttacher.isAddonAttached(clazz);
     }
 
     @Override
+    public void lockAttaching() {
+        mAttacher.lockAttaching();
+    }
+
+    @Override
+    public Collection<Class<? extends IAddon>> obtainAddonsList() {
+        return mAttacher.obtainAddonsList();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mAttacher.reset();
+        mAttacher.inhert(activity);
+    }
+
+    @Override
     public void onCreate(final Bundle savedInstanceState) {
-        forceInit(savedInstanceState);
+        lockAttaching();
+        performAddonAction(new AddonCallback<IAddonFragment>() {
+            @Override
+            public void justAction(IAddonFragment addon) {
+                addon.onPreCreate(savedInstanceState);
+            }
+        });
         super.onCreate(savedInstanceState);
         performAddonAction(new AddonCallback<IAddonFragment>() {
             @Override
@@ -80,12 +124,12 @@ public class Fragment extends _HoloFragment {
     }
 
     @Override
-    public void onViewCreated(final View view) {
-        super.onViewCreated(view);
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         performAddonAction(new AddonCallback<IAddonFragment>() {
             @Override
             public void justAction(IAddonFragment addon) {
-                addon.onViewCreated(view);
+                addon.onViewCreated(view, savedInstanceState);
             }
         });
     }
@@ -93,5 +137,10 @@ public class Fragment extends _HoloFragment {
     @Override
     public boolean performAddonAction(AddonCallback<IAddonFragment> callback) {
         return mAttacher.performAddonAction(callback);
+    }
+
+    @Override
+    public ActionMode startActionMode(Callback callback) {
+        return getSupportActivity().startActionMode(callback);
     }
 }
