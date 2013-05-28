@@ -58,7 +58,12 @@ public class LineStatusUpdate {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(mLine);
         stringBuilder.append(": ");
-        stringBuilder.append(context.getString(mLineStatus.getStatusResId()));
+        if(mLineStatus == null) {
+            //just in case a new status comes up
+            stringBuilder.append("unknown");
+        } else {
+            stringBuilder.append(context.getString(mLineStatus.getStatusResId()));
+        }
         if (mDescription.length() > 0) {
             stringBuilder.append(" - ");
             stringBuilder.append(mDescription);
