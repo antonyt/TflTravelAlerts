@@ -26,7 +26,7 @@ import com.tfltravelalerts.TflApplication;
 
 public class BackendConnection {
     private final static String LOG_TAG = "BackendConnection";
-    public final static String prefix = "http://192.168.1.104:8080";
+    public final static String prefix = "http://tfl-travel-alerts.appspot.com";
     public final static String userAgent; // sample: android 4 1.5 / client
                                           // 1.0.0
 
@@ -50,7 +50,7 @@ public class BackendConnection {
     }
 
     private static BackendConnectionResult doRequest(HttpUriRequest request) {
-        AndroidHttpClient httpClient = AndroidHttpClient.newInstance("android");
+        AndroidHttpClient httpClient = AndroidHttpClient.newInstance(userAgent);
         BackendConnectionResult result;
         try {
             HttpResponse response;
