@@ -9,6 +9,8 @@ import android.util.Log;
 
 import com.tfltravelalerts.alerts.service.AlertsManager;
 import com.tfltravelalerts.debug.ExceptionViewerUtils;
+import com.tfltravelalerts.gcm.GCMHandleNotifier;
+import com.tfltravelalerts.gcm.GCMRegistrationManager;
 import com.tfltravelalerts.notification.TfLNotificationManager;
 import com.tfltravelalerts.notification.TflAlarmManager;
 import com.tfltravelalerts.statusviewer.service.LineStatusManager;
@@ -39,6 +41,8 @@ public class TflApplication extends Application implements UncaughtExceptionHand
         new AlertsManager();
         new LineStatusManager();
         new WeekendStatusManager();
+        new GCMHandleNotifier();
+        new GCMRegistrationManager();
     }
 
     @Override
