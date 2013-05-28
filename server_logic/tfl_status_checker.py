@@ -8,8 +8,8 @@ import json
 url = "http://cloud.tfl.gov.uk/TrackerNet/LineStatus"
 
 def fetch_line_status_as_json():
-  #state = urllib2.urlopen(url)
-  state = open('sample_raw_results/dummy-line-result.xml', 'r')
+  state = urllib2.urlopen(url)
+  #state = open('sample_raw_results/dummy-line-result.xml', 'r')
   return produce_json(state)
 
 def print_state():
