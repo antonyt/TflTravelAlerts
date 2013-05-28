@@ -28,8 +28,7 @@ def inject_many_users(size = 1000, batch_size = 1000):
     lines = random.sample(LINES, n)
     registration = PushNotificationRegistration(
                       gcm_handle = r,
-                      lines_interested = lines,
-                      client_alert_id = r)
+                      lines_interested = lines)
     batch.append(registration)
     if len(batch) == batch_size:
       db.put(batch)

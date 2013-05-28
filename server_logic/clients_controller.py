@@ -31,12 +31,10 @@ class RegisterForAlerts(webapp2.RequestHandler):
   def post(self):
     gcm = cgi.escape(self.request.get('gcm_handle'))
     lines = self.parse_lines()
-    alert_id = cgi.escape(self.request.get('alert_id'))
     try:
       registration = PushNotificationRegistration(
                       gcm_handle = gcm,
-                      lines_interested = lines,
-                      client_alert_id = alert_id)
+                      lines_interested = lines)
       registration.put()
     except Exception as e:
       logging.warning('Failed to create PushNotificationRegistration: %s', e)

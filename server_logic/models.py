@@ -38,14 +38,13 @@ class PushNotificationRegistration(db.Model):
 
   gcm_handle = db.StringProperty(required=True)
   lines_interested = db.StringListProperty(required=True, validator=validate_lines)
-  client_alert_id = db.StringProperty(required=True)
   date_added = db.DateTimeProperty(auto_now_add=True)
 
 
   @classmethod
   def delete_outdated_registrations(cls):
     now = datetime.datetime.now()
-    delta = datetime.timedelta(seconds = 90)
+    delta = datetime.timedelta(minutes = 90)
     expiry_date = now - delta
     d = PushNotificationRegistration.all(keys_only=True).filter('date_added < ', expiry_date)
     ids = d.run()
