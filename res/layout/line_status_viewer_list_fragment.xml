@@ -18,6 +18,7 @@
         android:id="@+id/line_status_viewer_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:drawSelectorOnTop="true"
         android:divider="@null" />
 
 </LinearLayout>
