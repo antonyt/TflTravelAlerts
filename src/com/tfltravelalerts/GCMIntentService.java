@@ -16,6 +16,7 @@ import de.greenrobot.event.EventBus;
  */
 public class GCMIntentService extends GCMBaseIntentService {
 
+    private static final String TRUE = "true";
     private static final String TAG = "GCMIntentService";
     
     public GCMIntentService() {
@@ -26,7 +27,7 @@ public class GCMIntentService extends GCMBaseIntentService {
     protected void onMessage(Context context, Intent intent) {
         Log.d(TAG, "onMessage");
         if(intent.hasExtra("refresh_current_status")) {
-            if(intent.getBooleanExtra("refresh_current_status", false)) {
+            if(TRUE.equals(intent.getStringExtra("refresh_current_status"))) {
                 Log.i(TAG, "onMessage: received refresh_current_status push notification");
                 EventBus.getDefault().post(new LineStatusUpdateRequest());
             }

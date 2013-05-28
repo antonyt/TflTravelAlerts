@@ -32,7 +32,7 @@ public class GCMHandleNotifier {
             listenForRegistration(obj);
             registerWithGCM();
         }
-    } 
+    }
 
     static private void registerWithGCM() {
         Context context = TflApplication.getLastInstance();
