@@ -18,6 +18,8 @@
         android:id="@+id/weekend_status_viewer_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:drawSelectorOnTop="true"
+        android:fadingEdge="none"
         android:divider="@null" />
 
 </LinearLayout>
