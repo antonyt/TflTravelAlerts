@@ -68,4 +68,22 @@ public class NetworkState {
         context.registerReceiver(sSystemReceiver,
                 new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
+
+    static public String getNetworkType() {
+        return getNetworkType(TflApplication.getLastInstance());
+    }
+
+    static public String getNetworkType(Context context) {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo == null) {
+            return "networkInfo is null";
+        }
+
+        return networkInfo.getTypeName();
+    }
+
 }
