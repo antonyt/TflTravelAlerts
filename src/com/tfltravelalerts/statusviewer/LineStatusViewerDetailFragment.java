@@ -86,7 +86,7 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
         if (mLineStatusUpdate != null) {
             mDescription.setText(mLineStatusUpdate.getDescription());
         } else {
-            mDescription.setText("");
+            mDescription.setText(R.string.line_status_detail_no_description);
         }
     }
 
