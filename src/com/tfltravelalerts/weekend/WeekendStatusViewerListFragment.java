@@ -81,12 +81,12 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
     }
     
     private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.weekend_status_viewer_list_fragment, container, false);
+        mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
     }
 
     private void findViews() {
-        mLastUpdateTime = (TextView)mRoot.findViewById(R.id.weekend_update_time);
-        mListView = (ListView)mRoot.findViewById(R.id.weekend_status_viewer_list);
+        mLastUpdateTime = (TextView)mRoot.findViewById(R.id.update_time);
+        mListView = (ListView)mRoot.findViewById(R.id.status_viewer_list);
     }
 
     private void setupListView() {

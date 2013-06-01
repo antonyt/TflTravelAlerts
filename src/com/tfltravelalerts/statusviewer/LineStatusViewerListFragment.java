@@ -64,8 +64,8 @@ public class LineStatusViewerListFragment extends EventBusFragment {
     }
 
     private void findViews() {
-        mListView = (ListView) mRoot.findViewById(R.id.line_status_viewer_list);
-        mLastUpdateTime = (TextView) mRoot.findViewById(R.id.last_update_time);
+        mListView = (ListView) mRoot.findViewById(R.id.status_viewer_list);
+        mLastUpdateTime = (TextView) mRoot.findViewById(R.id.update_time);
     }
 
     private void setupListView() {

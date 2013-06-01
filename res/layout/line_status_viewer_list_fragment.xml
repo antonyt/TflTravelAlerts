@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/last_update_time"
+        android:id="@+id/update_time"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -15,7 +15,7 @@
         android:padding="@dimen/quarter_spacing_unit" />
 
     <ListView
-        android:id="@+id/line_status_viewer_list"
+        android:id="@+id/status_viewer_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:drawSelectorOnTop="true"
