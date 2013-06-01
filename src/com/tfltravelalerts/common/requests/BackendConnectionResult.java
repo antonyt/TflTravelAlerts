@@ -1,36 +1,31 @@
 package com.tfltravelalerts.common.requests;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 
-import com.google.common.base.Joiner;
-
-import android.net.http.AndroidHttpClient;
 import android.util.Log;
+
+import com.google.common.base.Joiner;
 
 public class BackendConnectionResult {
     public final int statusCode;
     public final String statusMessage;
     public final IOException exception;
-    public final InputStream inputStream; 
-    private final AndroidHttpClient httpClient;
+    public final String content; 
     
-    public BackendConnectionResult(AndroidHttpClient httpClient, IOException exception) {
+    public BackendConnectionResult(IOException exception) {
         this.exception = exception;
-        this.httpClient = httpClient;
         statusMessage = "IOException thrown: "+exception.getMessage();
         statusCode = -1;
-        inputStream = null;
+        content = null;
     }
     
-    public BackendConnectionResult(AndroidHttpClient httpClient, StatusLine statusLine, InputStream inputStream) {
-        this.inputStream = inputStream;
+    public BackendConnectionResult(StatusLine statusLine, String content) {
         this.statusCode = statusLine.getStatusCode();
         this.statusMessage = statusLine.getReasonPhrase();
-        this.httpClient = httpClient;
+        this.content = content;
         exception = null;
     }
     
@@ -49,9 +44,5 @@ public class BackendConnectionResult {
             String composed = Joiner.on(' ').join(message, '-', statusCode, statusMessage);
             Log.e(tag, composed);
         }
-    }
-    
-    public void close() {
-        httpClient.close();
     }
 }

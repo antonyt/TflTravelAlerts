@@ -3,6 +3,7 @@ package com.tfltravelalerts.common.requests;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
@@ -21,7 +22,9 @@ import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.common.base.Charsets;
 import com.google.common.base.Joiner;
+import com.google.common.io.CharStreams;
 import com.tfltravelalerts.TflApplication;
 
 public class BackendConnection {
@@ -53,13 +56,18 @@ public class BackendConnection {
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance(userAgent);
         BackendConnectionResult result;
         try {
-            HttpResponse response;
-            response = httpClient.execute(request);
-            InputStream content = response.getEntity().getContent();
+            HttpResponse response = httpClient.execute(request);
+            InputStream inputStream = response.getEntity().getContent();
             StatusLine statusLine = response.getStatusLine();
-            result = new BackendConnectionResult(httpClient, statusLine, content);
+            
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charsets.UTF_8);
+            String contentString = CharStreams.toString(inputStreamReader);
+            inputStreamReader.close();
+            
+            httpClient.close();
+            result = new BackendConnectionResult(statusLine, contentString);
         } catch (IOException e) {
-            result = new BackendConnectionResult(httpClient, e);
+            result = new BackendConnectionResult(e);
         }
         return result;
     }

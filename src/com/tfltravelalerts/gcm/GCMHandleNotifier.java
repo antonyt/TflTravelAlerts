@@ -55,7 +55,6 @@ public class GCMHandleNotifier {
             BackendConnectionResult result = BackendConnection.post("register-for-alerts",
                     new BasicNameValuePair("gcm_handle", gcmRegistrationHandle),
                     new BasicNameValuePair("lines", request.getLinesString()));
-            result.close();
             if(!result.isHttpStatusOk()) {
                 result.logError(LOG_TAG, "failed to register for alerts");
                 //TODO retry; analytics? 

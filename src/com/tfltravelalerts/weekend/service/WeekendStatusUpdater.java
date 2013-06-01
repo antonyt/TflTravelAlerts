@@ -32,10 +32,9 @@ public class WeekendStatusUpdater {
 
         if (backendResult.isHttpStatusOk()) {
             List<LineStatusUpdate> lineStatusUpdates = LineStatusParser
-                    .parse(backendResult.inputStream);
+                    .parse(backendResult.content);
             LineStatusUpdateSet lineStatusUpdateSet = new LineStatusUpdateSet(new Date(),
                     lineStatusUpdates);
-            backendResult.close();
             return new LineStatusApiResult(200, lineStatusUpdateSet);
         } else {
             backendResult.logError(LOG_TAG, "get weekend status");
