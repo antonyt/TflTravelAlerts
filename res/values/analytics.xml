@@ -8,5 +8,14 @@
 
     <!-- Enable automatic exception tracking -->
     <bool name="ga_reportUncaughtExceptions">true</bool>
+    
+    <!-- The dispatch period in seconds. Defaults to 30 minutes. 
+    	86400 = 24hours -->
+    <integer name="ga_dispatchPeriod">86400</integer>
+    
+	<!-- The amount of time (in seconds) your application can stay
+	 in the background before the session is ended. Default is 30 seconds. 
+	 Negative value disables EasyTracker session management. -->
+    <integer name="ga_sessionTimeout">120</integer>
 
 </resources>

@@ -6,7 +6,6 @@ import org.holoeverywhere.app.Fragment;
 import android.os.Bundle;
 
 import com.actionbarsherlock.view.MenuItem;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.common.SinglePaneFragmentActivity;
 
 public class EditAlertActivity extends SinglePaneFragmentActivity {
@@ -37,17 +36,5 @@ public class EditAlertActivity extends SinglePaneFragmentActivity {
         Bundle args = getIntent().getExtras();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
-    
-    @Override
-    protected void onStop() {
-        EasyTracker.getInstance().activityStop(this);
-        super.onStop();
     }
 }

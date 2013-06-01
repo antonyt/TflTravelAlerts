@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.actionbarsherlock.view.MenuItem;
-import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.debug.ExceptionViewerActivity;
@@ -93,17 +92,5 @@ public class MainActivity extends TflBaseActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
-
-    @Override
-    protected void onStop() {
-        EasyTracker.getInstance().activityStop(this);
-        super.onStop();
     }
 }
