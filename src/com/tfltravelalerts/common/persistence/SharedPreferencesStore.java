@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.analytics.LoadSharedPreferencesAnalytics;
+import com.tfltravelalerts.analytics.SaveSharedPreferencesAnalytics;
 
 public abstract class SharedPreferencesStore<T> implements Store<T> {
 
@@ -28,9 +29,12 @@ public abstract class SharedPreferencesStore<T> implements Store<T> {
 
     @Override
     public void save(T object) {
+        SaveSharedPreferencesAnalytics analytics = new SaveSharedPreferencesAnalytics(mSharedPreferenceKey);
         SharedPreferences preferences = getSharedPreferences();
         String json = getGson().toJson(object);
+        analytics.serializedObject();
         preferences.edit().putString(mSharedPreferenceKey, json).commit();
+        analytics.done(getCount(object));
     }
 
     @Override
