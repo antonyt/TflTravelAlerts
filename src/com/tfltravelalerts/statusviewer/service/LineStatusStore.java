@@ -15,4 +15,9 @@ public class LineStatusStore extends SharedPreferencesStore<LineStatusUpdateSet>
         super(LineStatusUpdateSet.class, LINE_STATUS_UPDATE_SET_KEY);
     }
 
+    @Override
+    protected int getCount(LineStatusUpdateSet object) {
+        return 1; // we really don't care about how many lines we updated
+    }
+
 }

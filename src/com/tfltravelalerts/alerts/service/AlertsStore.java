@@ -12,4 +12,12 @@ public class AlertsStore extends SharedPreferencesStore<LineStatusAlertSet> {
         super(LineStatusAlertSet.class, ALERTS_KEY);
     }
 
+    @Override
+    protected int getCount(LineStatusAlertSet object) {
+        if (object == null || object.getAlerts() == null) {
+            return -1;
+        }
+        return object.getAlerts().size();
+    }
+
 }

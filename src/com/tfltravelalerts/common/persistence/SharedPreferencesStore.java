@@ -13,8 +13,9 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.tfltravelalerts.TflApplication;
+import com.tfltravelalerts.analytics.LoadSharedPreferencesAnalytics;
 
-public class SharedPreferencesStore<T> implements Store<T> {
+public abstract class SharedPreferencesStore<T> implements Store<T> {
 
     private final Type mDataType;
     private final String mSharedPreferenceKey;
@@ -35,10 +36,14 @@ public class SharedPreferencesStore<T> implements Store<T> {
     @Override
     @SuppressWarnings("unchecked")
     public T load() {
+        LoadSharedPreferencesAnalytics analytics = new LoadSharedPreferencesAnalytics(mSharedPreferenceKey);
         SharedPreferences preferences = getSharedPreferences();
         String json = preferences.getString(mSharedPreferenceKey, null);
+        analytics.loadedFromPreferences();
         if (json != null) {
-            return (T) getGson().fromJson(json, mDataType);
+            T object = (T) getGson().fromJson(json, mDataType);
+            analytics.done(getCount(object));
+            return object;
         }
 
         return null;
@@ -60,5 +65,6 @@ public class SharedPreferencesStore<T> implements Store<T> {
     private SharedPreferences getSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(TflApplication.getLastInstance());
     }
-
+    
+    protected abstract int getCount(T object);
 }

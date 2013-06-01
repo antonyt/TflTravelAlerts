@@ -7,6 +7,7 @@ import org.holoeverywhere.app.Application;
 
 import android.util.Log;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.alerts.service.AlertsManager;
 import com.tfltravelalerts.debug.ExceptionViewerUtils;
 import com.tfltravelalerts.gcm.GCMHandleNotifier;
@@ -27,6 +28,8 @@ public class TflApplication extends Application implements UncaughtExceptionHand
         super.onCreate();
         Log.d(LOG_TAG, "TflApplication.onCreate - starting new application object");
 
+        //we need to set the tracker here because some of the managers will trigger analytics already
+        EasyTracker.getInstance().setContext(this);
         initializeManagers();
 
         if (BuildConfig.DEBUG) {

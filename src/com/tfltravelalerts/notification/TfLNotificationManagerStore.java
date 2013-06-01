@@ -16,4 +16,12 @@ public class TfLNotificationManagerStore extends
         super(new TypeToken<SparseArray<LineStatusUpdateSet>>() {
         }.getType(), NOTIFIED_UPDATES_KEY);
     }
+
+    @Override
+    protected int getCount(SparseArray<LineStatusUpdateSet> object) {
+        if (object == null) {
+            return -1;
+        }
+        return object.size();
+    }
 }
