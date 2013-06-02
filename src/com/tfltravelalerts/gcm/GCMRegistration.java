@@ -10,6 +10,7 @@ import android.util.Log;
 import com.google.android.gcm.GCMConstants;
 import com.google.android.gcm.GCMRegistrar;
 import com.tfltravelalerts.TflApplication;
+import com.tfltravelalerts.analytics.EventAnalytics;
 
 import de.greenrobot.event.EventBus;
 
@@ -27,7 +28,8 @@ final class GCMRegistration extends BroadcastReceiver {
                 String error = intent.getStringExtra(GCMConstants.EXTRA_ERROR);
                 Log.w(GCMHandleNotifier.LOG_TAG,
                         "onReceive: there was a problem registering with GCM: " + error);
-                // TODO show a notification?; register with analytics?
+                EventAnalytics.reportErrorCondition("received error registering with GCM", error);
+                // TODO show a notification?
             } else {
                 String registrationId = GCMRegistrar.getRegistrationId(context);
                 Log.i(GCMHandleNotifier.LOG_TAG, "onReceive: got a GCM handle: " + registrationId);

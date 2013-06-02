@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.android.gcm.GCMRegistrar;
 import com.tfltravelalerts.TflApplication;
+import com.tfltravelalerts.analytics.EventAnalytics;
 import com.tfltravelalerts.common.networkstate.NetworkState;
 import com.tfltravelalerts.common.requests.BackendConnection;
 import com.tfltravelalerts.common.requests.BackendConnectionResult;
@@ -40,8 +41,9 @@ public class GCMHandleNotifier {
             Log.d(LOG_TAG, "registering with GCM");
             GCMRegistrar.register(context, GCMRegistrationManager.SENDER_ID);
         } catch (IllegalStateException e) {
-            Log.e(LOG_TAG, "Failed to register with gcm", e);
-            // TODO show message? analytics?
+            Log.e(LOG_TAG, "Failed attempting to register with gcm", e);
+            EventAnalytics.reportErrorCondition("failed attempting to register with GCM", e);
+            // TODO show message
         }
     }
 
@@ -57,7 +59,8 @@ public class GCMHandleNotifier {
                     new BasicNameValuePair("lines", request.getLinesString()));
             if(!result.isHttpStatusOk()) {
                 result.logError(LOG_TAG, "failed to register for alerts");
-                //TODO retry; analytics? 
+                EventAnalytics.reportErrorCondition("failed to register for alerts", result.statusMessage);
+                //TODO retry
             }
         } else {
             Log.i(LOG_TAG, "we are offline; delaying registration for alerts");
