@@ -2,7 +2,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- App theme -->
-    <style name="TflTheme" parent="@style/Holo.Theme"></style>
+    <style name="TflTheme" parent="@style/Holo.Theme">
+        <item name="android:windowBackground">@drawable/app_background</item>
+    </style>
 
     <!-- Multi selector (base) -->
     <style name="MultiSelector">
