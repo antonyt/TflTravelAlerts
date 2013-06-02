@@ -5,6 +5,7 @@ import java.lang.Thread.UncaughtExceptionHandler;
 
 import org.holoeverywhere.app.Application;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -28,6 +29,7 @@ public class TflApplication extends Application implements UncaughtExceptionHand
         super.onCreate();
         Log.d(LOG_TAG, "TflApplication.onCreate - starting new application object");
 
+        fixAsyncTaskBug();
         //we need to set the tracker here because some of the managers will trigger analytics already
         EasyTracker.getInstance().setContext(this);
         initializeManagers();
@@ -36,6 +38,16 @@ public class TflApplication extends Application implements UncaughtExceptionHand
             mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
             Thread.setDefaultUncaughtExceptionHandler(this);
         }
+    }
+
+    private void fixAsyncTaskBug() {
+        // https://code.google.com/p/android/issues/detail?id=20915
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+              return null;
+            }
+          }.execute();        
     }
 
     private void initializeManagers() {

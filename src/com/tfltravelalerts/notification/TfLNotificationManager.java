@@ -65,7 +65,7 @@ public class TfLNotificationManager {
         mNotifiedUpdates.remove(alertId);
         mNotificationManagerStore.save(mNotifiedUpdates);
     }
-
+    
     private void checkNotifications() {
         DayTime now = DayTime.now();
         if(mAlerts != null) {
@@ -77,7 +77,7 @@ public class TfLNotificationManager {
 
     private void showOrUpdateNotification(LineStatusAlert alert) {
         if (mLineStatus == null) {
-            Log.w(LOG_TAG, "showOrUpdateNotification: mLineStatus is null. Not processing alert "
+            Log.d(LOG_TAG, "showOrUpdateNotification: mLineStatus is null. Not processing alert "
                     + alert.getId());
             return;
         }
@@ -98,6 +98,8 @@ public class TfLNotificationManager {
     private boolean shouldShowNotification(LineStatusAlert alert) {
         LineStatusUpdateSet currentUpdateSet = mLineStatus.getUpdatesForAlert(alert);
         if(alert.onlyNotifyForDisruptions() && !currentUpdateSet.isDisrupted()) {
+            // TODO there might be a problem here: if there were problems but they
+            // now got solved, we won't tell the user these problems are gone!
             Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                     + "; service is good - surpress notification");
             return false;
