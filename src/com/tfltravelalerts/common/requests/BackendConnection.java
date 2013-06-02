@@ -27,7 +27,6 @@ import com.google.common.base.Joiner;
 import com.google.common.io.CharStreams;
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.analytics.RequestAnalytics;
-import com.tfltravelalerts.analytics.TflAnalytics;
 
 public class BackendConnection {
     private final static String LOG_TAG = "BackendConnection";
@@ -55,7 +54,7 @@ public class BackendConnection {
     }
 
     private static BackendConnectionResult doRequest(HttpUriRequest request) {
-        RequestAnalytics analytics = TflAnalytics.forRequests(request);
+        RequestAnalytics analytics = new RequestAnalytics(request);
         AndroidHttpClient httpClient = AndroidHttpClient.newInstance(userAgent);
         BackendConnectionResult result;
         try {

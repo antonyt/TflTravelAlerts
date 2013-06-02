@@ -8,7 +8,6 @@ import com.tfltravelalerts.BuildConfig;
 
 public class LoadSharedPreferencesAnalytics {
     private static final String CATEGORY_SHARED_PREFS = "loading from shared preferences";
-    private static final String CATEGORY_PARSING = "parsing";
     private static final String CATEGORY_BOTH = "loading-and-parsing-shared-preferences";
     private String name;
     private long startTime;
@@ -38,7 +37,7 @@ public class LoadSharedPreferencesAnalytics {
         
         long finalTime = SystemClock.elapsedRealtime();
         tracker.sendTiming(CATEGORY_SHARED_PREFS, firstStepTime-startTime , name, Integer.toString(numberOfParsedObjects));
-        tracker.sendTiming(CATEGORY_PARSING, finalTime - firstStepTime, name, Integer.toString(numberOfParsedObjects));
+        tracker.sendTiming(ParsingAnalytics.CATEGORY, finalTime - firstStepTime, name, Integer.toString(numberOfParsedObjects));
         tracker.sendTiming(CATEGORY_BOTH, finalTime-startTime , name, Integer.toString(numberOfParsedObjects));
     }
 }

@@ -1,5 +1,7 @@
 package com.tfltravelalerts.analytics;
 
+import org.apache.http.client.methods.HttpUriRequest;
+
 import android.os.SystemClock;
 
 import com.google.analytics.tracking.android.EasyTracker;
@@ -9,14 +11,13 @@ import com.tfltravelalerts.common.networkstate.NetworkState;
 import com.tfltravelalerts.common.requests.BackendConnectionResult;
 
 public class RequestAnalytics {
+    private static final String CATEGORY = "requests";
     private String name;
     private long startTime;
-    private String category;
     private boolean finished = false;
     
-    public RequestAnalytics(String category, String name) {
-        this.name = name;
-        this.category = category;
+    public RequestAnalytics(HttpUriRequest request) {
+        this.name = request.getURI().getPath();
         startTime = SystemClock.elapsedRealtime();
     }
     
@@ -33,7 +34,7 @@ public class RequestAnalytics {
         Tracker tracker = EasyTracker.getTracker();
         long timeInMs = SystemClock.elapsedRealtime() - startTime;
         String label = getLabelString(result);
-        tracker.sendTiming(category, timeInMs , name, label);
+        tracker.sendTiming(CATEGORY, timeInMs , name, label);
     }
     
     private String getLabelString(BackendConnectionResult result) {
