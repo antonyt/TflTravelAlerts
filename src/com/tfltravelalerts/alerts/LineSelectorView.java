@@ -69,7 +69,7 @@ public class LineSelectorView extends LinearLayout {
                 if (view instanceof CheckBox && view.getTag() instanceof Line) {
                     Line line = (Line) view.getTag();
                     Drawable backgroundDrawable = makeBackgroundDrawable(line);
-                    view.setBackgroundDrawable(backgroundDrawable);
+                    view.setBackground(backgroundDrawable);
                 }
             }
         });

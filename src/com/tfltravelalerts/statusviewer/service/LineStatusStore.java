@@ -5,7 +5,7 @@ import com.tfltravelalerts.common.persistence.SharedPreferencesStore;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 
 /**
- * Persists a {@link LineStatusUpdateSet}. TODO: use a db?
+ * Persists a {@link LineStatusUpdateSet}.
  */
 public class LineStatusStore extends SharedPreferencesStore<LineStatusUpdateSet> {
 
