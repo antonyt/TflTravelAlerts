@@ -15,8 +15,8 @@ public class BootReceiver extends BroadcastReceiver {
 
         if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
             Log.i(LOG_TAG, "received boot completed");
-            // not because before we get to this point, our app
-            // has been started already, this means that the
+            // no op - when we get to this point, our app
+            // has been started already. This means that the
             // Alarm and Notification managers were started 
             // which will set alarms and trigger notifications
             // if needed
