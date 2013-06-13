@@ -1,3 +1,4 @@
+
 package com.tfltravelalerts.weekend;
 
 import java.text.SimpleDateFormat;
@@ -18,6 +19,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import butterknife.InjectView;
+import butterknife.Views;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -33,12 +36,12 @@ import com.tfltravelalerts.weekend.events.WeekendStatusUpdateRequest;
 import com.tfltravelalerts.weekend.events.WeekendStatusUpdateSuccess;
 
 public class WeekendStatusViewerListFragment extends EventBusFragment {
-    
+
     private static final String LOG_TAG = WeekendStatusViewerListFragment.class.getName();
-    
-    private View mRoot;
-    private ListView mListView;
-    private TextView mLastUpdateTime;
+
+    @InjectView(R.id.status_viewer_list) ListView mListView;
+    @InjectView(R.id.update_time) TextView mLastUpdateTime;
+
     private LineStatusListAdapter mAdapter;
     private View mRefreshIcon;
 
@@ -47,15 +50,26 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflateRootView(inflater, container);
-        findViews();
-        setupListView();
+        View mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
+        Views.inject(this, mRoot);
         return mRoot;
     }
-    
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Views.reset(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setupListView();
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -79,20 +93,11 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
         });
         CheatSheet.setup(actionView, R.string.action_refresh);
     }
-    
-    private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
-    }
-
-    private void findViews() {
-        mLastUpdateTime = (TextView)mRoot.findViewById(R.id.update_time);
-        mListView = (ListView)mRoot.findViewById(R.id.status_viewer_list);
-    }
 
     private void setupListView() {
         mAdapter = new LineStatusListAdapter(getActivity());
         mListView.setAdapter(mAdapter);
-        
+
         mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
@@ -104,7 +109,7 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
             }
         });
     }
-    
+
     private void updateTimestamp(Date date) {
         java.text.DateFormat dateFormatter = SimpleDateFormat.getInstance();
         String dateFormat = dateFormatter.format(date);
@@ -119,10 +124,10 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
         }
         getEventBus().post(new WeekendStatusUpdateRequest());
     }
-    
+
     public void onEventMainThread(WeekendStatusUpdateSuccess event) {
         Log.i(LOG_TAG, "onEvent WeekendStatusUpdateSuccess");
-        
+
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
         }
@@ -135,10 +140,10 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
             updateWeekendStatus();
         }
     }
-    
+
     public void onEventMainThread(WeekendStatusUpdateFailure event) {
         Log.i(LOG_TAG, "onEvent WeekendStatusUpdateFailure");
-        
+
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
         }

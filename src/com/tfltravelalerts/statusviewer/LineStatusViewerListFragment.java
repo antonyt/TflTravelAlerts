@@ -18,6 +18,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import butterknife.InjectView;
+import butterknife.Views;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -35,9 +37,8 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
  */
 public class LineStatusViewerListFragment extends EventBusFragment {
 
-    private View mRoot;
-    private TextView mLastUpdateTime;
-    private ListView mListView;
+    @InjectView(R.id.update_time) TextView mLastUpdateTime;
+    @InjectView(R.id.status_viewer_list) ListView mListView;
 
     private LineStatusListAdapter mAdapter;
 
@@ -51,21 +52,21 @@ public class LineStatusViewerListFragment extends EventBusFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflateRootView(inflater, container);
-        findViews();
+        View root = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
+        Views.inject(this, root);
+        return root;
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Views.reset(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setupListView();
-        
-        return mRoot;
-    }
-
-    private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
-    }
-
-    private void findViews() {
-        mListView = (ListView) mRoot.findViewById(R.id.status_viewer_list);
-        mLastUpdateTime = (TextView) mRoot.findViewById(R.id.update_time);
     }
 
     private void setupListView() {
@@ -116,7 +117,7 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         Toast.makeText(getActivity(), "updating all lines", Toast.LENGTH_SHORT).show();
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
-    
+
     private void updateTimestamp(Date date) {
         java.text.DateFormat dateFormatter = SimpleDateFormat.getInstance();
         String dateFormat = dateFormatter.format(date);
