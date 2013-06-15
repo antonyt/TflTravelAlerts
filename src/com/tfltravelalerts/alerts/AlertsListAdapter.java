@@ -22,6 +22,10 @@ public class AlertsListAdapter extends SimpleListAdapter<LineStatusAlert> {
     }
 
     @Override
+    public long getItemId(int position) {
+        return getItem(position).getId();
+    }
+    @Override
     protected void initializeView(int position, View convertView) {
         ViewHolder viewHolder = new ViewHolder();
         Views.inject(viewHolder, convertView);
