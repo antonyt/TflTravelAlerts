@@ -1,3 +1,4 @@
+
 package com.tfltravelalerts.common;
 
 import org.holoeverywhere.LayoutInflater;
@@ -12,20 +13,21 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import butterknife.InjectView;
+import butterknife.Views;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.statusviewer.LineStatusListAdapter;
 
-
 public abstract class AbstractLineStatusFragment extends EventBusFragment {
 
-    protected TextView mLastUpdateTime;
-    protected TextView mTitle;
-    protected ListView mListView;
+    @InjectView(R.id.update_time) protected TextView mLastUpdateTime;
+    @InjectView(R.id.page_title) protected TextView mTitle;
+    @InjectView(R.id.status_viewer_list) protected ListView mListView;
+
     protected LineStatusListAdapter mAdapter;
-    protected View mRoot;
     protected View mRefreshIcon;
 
     @Override
@@ -36,30 +38,30 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflateRootView(inflater, container);
-        findViews();
+        return inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
+    }
+    
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Views.reset(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Views.inject(this, getView());
         setupListView();
         setupViewPagerIndicator();
-        return mRoot;
     }
 
     abstract protected void setupListView();
 
     protected void setupViewPagerIndicator() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             Typeface lightTypeface = Typeface.create("sans-serif-condensed", Typeface.NORMAL);
             mTitle.setTypeface(lightTypeface);
         }
-    }
-
-    private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
-    }
-
-    private void findViews() {
-        mListView = (ListView) mRoot.findViewById(R.id.status_viewer_list);
-        mTitle = (TextView)mRoot.findViewById(R.id.page_title);
-        mLastUpdateTime = (TextView) mRoot.findViewById(R.id.update_time);
     }
 
     public void setupRefreshIcon(MenuItem refresh) {
@@ -77,5 +79,5 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
         CheatSheet.setup(actionView, R.string.action_refresh);
     }
 
-    abstract protected void updateLineStatus();    
+    abstract protected void updateLineStatus();
 }

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import butterknife.InjectView;
+import butterknife.Views;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -23,9 +25,8 @@ import com.tfltravelalerts.model.LineStatusAlert;
 
 public class ViewAlertsFragment extends EventBusFragment {
 
-    private View mRoot;
-    private ListView mListView;
-    private View mEmptyView;
+    @InjectView(R.id.alerts_list) ListView mListView;
+    @InjectView(R.id.empty_view) View mEmptyView;
 
     private AlertsListAdapter mAdapter;
 
@@ -53,21 +54,21 @@ public class ViewAlertsFragment extends EventBusFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflateRootView(inflater, container);
-        findViews();
+        View root = inflater.inflate(R.layout.alert_viewer_fragment, container, false);
+        Views.inject(this, root);
+        return root;
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Views.reset(this);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
         setupListView();
-
-        return mRoot;
-    }
-
-    private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.alert_viewer_fragment, container, false);
-    }
-
-    private void findViews() {
-        mListView = (ListView) mRoot.findViewById(R.id.alerts_list);
-        mEmptyView = mRoot.findViewById(R.id.empty_view);
     }
 
     private void setupListView() {
@@ -87,7 +88,7 @@ public class ViewAlertsFragment extends EventBusFragment {
 
     public void onEventMainThread(AlertsUpdatedEvent event) {
         List<LineStatusAlert> alerts = event.getData().getAlerts();
-        mAdapter.updateAlerts(alerts);
+        mAdapter.setData(alerts);
     }
 
 }

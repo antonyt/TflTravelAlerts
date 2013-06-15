@@ -27,6 +27,7 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
  */
 public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
 
+    @Override
     public void setupListView() {
         mAdapter = new LineStatusListAdapter(getActivity());
         mListView.setAdapter(mAdapter);
@@ -51,8 +52,6 @@ public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
         setupRefreshIcon(refresh);
     }
 
-    
-
     @Override
     protected void updateLineStatus() {
         if (mRefreshIcon != null) {
@@ -63,7 +62,7 @@ public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
         Toast.makeText(getActivity(), "updating all lines", Toast.LENGTH_SHORT).show();
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
-    
+
     private void updateTimestamp(Date date) {
         java.text.DateFormat dateFormatter = SimpleDateFormat.getInstance();
         String dateFormat = dateFormatter.format(date);
@@ -76,7 +75,7 @@ public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
         super.setupViewPagerIndicator();
         mTitle.setText(R.string.current_status_title);
     }
-    
+
     public void onEventMainThread(LineStatusUpdateSuccess event) {
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();

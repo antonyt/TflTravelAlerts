@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import butterknife.InjectView;
+import butterknife.Views;
 
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
@@ -25,8 +27,8 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
     public static String IS_WEEKEND_ARGS_KEY = "isWeekend";
 
     private View mRoot;
-    private TextView mTitle;
-    private TextView mDescription;
+    @InjectView(R.id.line_status_viewer_detail_title) TextView mTitle;
+    @InjectView(R.id.line_status_viewer_detail_description) TextView mDescription;
 
     private boolean mIsWeekend;
     private Line mLine;
@@ -58,7 +60,7 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         inflateRootView(inflater, container);
-        findViews();
+        Views.inject(this, mRoot);
         updateBackground();
         setupTitle();
 
@@ -67,11 +69,6 @@ public class LineStatusViewerDetailFragment extends EventBusFragment {
 
     private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
         mRoot = inflater.inflate(R.layout.line_status_viewer_detail_fragment, container, false);
-    }
-
-    private void findViews() {
-        mTitle = (TextView) mRoot.findViewById(R.id.line_status_viewer_detail_title);
-        mDescription = (TextView) mRoot.findViewById(R.id.line_status_viewer_detail_description);
     }
 
     private void updateBackground() {
