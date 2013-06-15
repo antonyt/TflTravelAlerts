@@ -7,32 +7,42 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import butterknife.InjectView;
+import butterknife.Views;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.debug.ExceptionViewerActivity;
+import com.tfltravelalerts.navigationdrawer.AppScreen;
+import com.tfltravelalerts.navigationdrawer.AppScreen.Screen;
+import com.tfltravelalerts.navigationdrawer.AppScreenUtil;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.tfltravelalerts.weekend.WeekendStatusViewerListFragment;
 
 public class MainActivity extends TflBaseActivity {
 
-    private ViewPager mViewPager;
-    
+    @InjectView(R.id.view_pager)
+    ViewPager mViewPager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        Views.inject(this);
 
-        setupViewPager(); 
+        setupViewPager();
         setupActionBar();
-        
-        // TODO: remember current fragment
-        if (savedInstanceState == null) {
-            mViewPager.setCurrentItem(1);
-        } else {
+        initViewPager(savedInstanceState);
+    }
 
+    private void initViewPager(Bundle savedInstanceState) {
+        Intent intent = getIntent();
+        if (AppScreenUtil.hasScreenInfo(intent)) {
+            Screen screenInfo = AppScreenUtil.getScreenInfo(intent);
+            switchToFragment(screenInfo);
+        } else if (savedInstanceState == null) {
+            mViewPager.setCurrentItem(1);
         }
     }
 
@@ -58,24 +68,10 @@ public class MainActivity extends TflBaseActivity {
                         return null;
                 }
             }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return "Weekend";
-                    case 1:
-                        return "Line Status";
-                    case 2:
-                        return "Alerts";
-                    default:
-                        return super.getPageTitle(position);
-                }
-            }
         });
+
         int margin = getResources().getDimensionPixelSize(R.dimen.view_pager_page_margin);
         mViewPager.setPageMargin(margin);
-
     }
 
     private void setupActionBar() {
@@ -91,5 +87,33 @@ public class MainActivity extends TflBaseActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onNavigationDrawerItemSelected(AppScreen item) {
+        boolean consumed = switchToFragment(item.screen);
+        // only call super if we haven't handled it ourselves
+        if (!consumed) {
+            super.onNavigationDrawerItemSelected(item);
+        }
+    }
+
+    private boolean switchToFragment(Screen screen) {
+        boolean consumed = true;
+        switch (screen) {
+            case WEEKEND_STATUS:
+                mViewPager.setCurrentItem(0);
+                break;
+            case CURRENT_STATUS:
+                mViewPager.setCurrentItem(1);
+                break;
+            case LIST_OF_ALERTS:
+                mViewPager.setCurrentItem(2);
+                break;
+            default:
+                consumed = false;
+        }
+
+        return consumed;
     }
 }

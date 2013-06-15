@@ -8,6 +8,11 @@
     <string name="current_status_title">Current status</string>
     <string name="weekend_status_title">Weekend</string>
     <string name="alerts_list_title">Alerts</string>
+    <string name="create_alert_title">Create alert</string>
+    
+    <!-- Navigation Drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
     <!-- Line names -->
     <string name="line_name_bakerloo">Bakerloo</string>
