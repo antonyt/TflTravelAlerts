@@ -1,5 +1,5 @@
 
-package com.tfltravelalerts.common;
+package com.tfltravelalerts.statusviewer;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
@@ -18,8 +18,8 @@ import butterknife.Views;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
+import com.tfltravelalerts.common.CheatSheet;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
-import com.tfltravelalerts.statusviewer.LineStatusListAdapter;
 
 public abstract class AbstractLineStatusFragment extends EventBusFragment {
 
