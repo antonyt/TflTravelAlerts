@@ -3,17 +3,12 @@ package com.tfltravelalerts.weekend;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -23,8 +18,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
+import com.tfltravelalerts.common.AbstractLineStatusFragment;
 import com.tfltravelalerts.common.CheatSheet;
-import com.tfltravelalerts.common.eventbus.EventBusFragment;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.LineStatusListAdapter;
 import com.tfltravelalerts.statusviewer.LineStatusViewerDetailActivity;
@@ -32,29 +27,9 @@ import com.tfltravelalerts.weekend.events.WeekendStatusUpdateFailure;
 import com.tfltravelalerts.weekend.events.WeekendStatusUpdateRequest;
 import com.tfltravelalerts.weekend.events.WeekendStatusUpdateSuccess;
 
-public class WeekendStatusViewerListFragment extends EventBusFragment {
+public class WeekendStatusViewerListFragment extends AbstractLineStatusFragment {
     
-    private static final String LOG_TAG = WeekendStatusViewerListFragment.class.getName();
-    
-    private View mRoot;
-    private ListView mListView;
-    private TextView mLastUpdateTime;
-    private LineStatusListAdapter mAdapter;
-    private View mRefreshIcon;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-    
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflateRootView(inflater, container);
-        findViews();
-        setupListView();
-        return mRoot;
-    }
+    private static final String LOG_TAG = WeekendStatusViewerListFragment.class.getSimpleName();
     
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -65,6 +40,12 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
         setupRefreshIcon(refresh);
     }
 
+    @Override
+    protected void setupViewPagerIndicator() {
+        super.setupViewPagerIndicator();
+        mTitle.setText(R.string.weekend_status_title);
+    }
+    
     public void setupRefreshIcon(MenuItem refresh) {
         refresh.setActionView(R.layout.refresh_icon);
         View actionView = refresh.getActionView();
@@ -74,22 +55,14 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
         actionView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateWeekendStatus();
+                updateLineStatus();
             }
         });
         CheatSheet.setup(actionView, R.string.action_refresh);
     }
     
-    private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
-    }
-
-    private void findViews() {
-        mLastUpdateTime = (TextView)mRoot.findViewById(R.id.update_time);
-        mListView = (ListView)mRoot.findViewById(R.id.status_viewer_list);
-    }
-
-    private void setupListView() {
+    @Override
+    protected void setupListView() {
         mAdapter = new LineStatusListAdapter(getActivity());
         mListView.setAdapter(mAdapter);
         
@@ -111,8 +84,9 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
         String updateTime = getString(R.string.last_update_time, dateFormat);
         mLastUpdateTime.setText(updateTime);
     }
-
-    private void updateWeekendStatus() {
+    
+    @Override
+    protected void updateLineStatus() {
         if (mRefreshIcon != null) {
             Animation anim = (Animation) mRefreshIcon.getTag();
             mRefreshIcon.startAnimation(anim);
@@ -132,7 +106,7 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
 
         if (lineStatusUpdateSet.isOldResult()) {
             Toast.makeText(getActivity(), "Old result - updating...", Toast.LENGTH_SHORT).show();
-            updateWeekendStatus();
+            updateLineStatus();
         }
     }
     
@@ -145,5 +119,4 @@ public class WeekendStatusViewerListFragment extends EventBusFragment {
 
         Toast.makeText(getActivity(), "Update failure!", Toast.LENGTH_SHORT).show();
     }
-
 }

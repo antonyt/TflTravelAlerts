@@ -4,6 +4,10 @@
     <!-- App info -->
     <string name="app_name">TfL Travel Alerts</string>
     <string name="app_name_launcher">TfL Alerts</string>
+    
+    <string name="current_status_title">Current status</string>
+    <string name="weekend_status_title">Weekend</string>
+    <string name="alerts_list_title">Alerts</string>
 
     <!-- Line names -->
     <string name="line_name_bakerloo">Bakerloo</string>
@@ -86,4 +90,8 @@
     <string name="notifications_title">Travel alerts for %s</string>
     <string name="notifications_good_service">Good service on all selected lines</string>
     <string name="notifications_problem_list_short_message">Disruptions on lines %s</string>
+    
+    <!-- time-related stuff -->
+    <string name="time_just_now">just now</string> 
+    <string name="time_moments_ago">moments ago</string> 
 </resources>

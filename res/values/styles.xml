@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- App theme -->
-    <style name="TflTheme" parent="@style/Holo.Theme">
-        <item name="android:windowBackground">@drawable/app_background</item>
+     <style name="TflThemeBase" parent="@style/Holo.Theme">
+        <item name="android:windowBackground">@color/app_background</item>
+         </style>
+    <style name="TflTheme" parent="@style/TflThemeBase">
+        <item name="actionBarStyle">@style/TflActionBar</item>
+    </style>
+    
+    <style name="TflActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
+        <item name="android:textColorPrimaryInverse">@color/primary_text_holo_dark</item>
+        <item name="android:textColorPrimary">@color/primary_text_holo_light</item>
     </style>
 
     <!-- Multi selector (base) -->
@@ -22,17 +29,29 @@
     </style>
 
     <!-- Day selector -->
-    <style name="DaySelector" parent="@style/MultiSelector">
-    </style>
+    <style name="DaySelector" parent="@style/MultiSelector"></style>
 
     <!-- Line selector -->
     <style name="LineSelector" parent="@style/MultiSelector">
         <item name="android:textColor">@drawable/line_status_selector_text_color</item>
-        
         <item name="android:shadowColor">@color/shadow_color</item>
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">3</item>
     </style>
-    
+
+    <style name="ViewPagerTitle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">@dimen/half_spacing_unit</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ViewPageInformativeText">
+        <item name="android:gravity">center_vertical|right</item>
+        <item name="android:padding">@dimen/half_spacing_unit</item>
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+    </style>
+
 </resources>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="app_background">#333</color>
+    
     <!-- Line colors -->
     <color name="line_color_bakerloo">#894E24</color>
     <color name="line_color_central">#DC241F</color>

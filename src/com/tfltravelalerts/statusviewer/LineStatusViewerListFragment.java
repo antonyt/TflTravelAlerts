@@ -4,18 +4,11 @@ package com.tfltravelalerts.statusviewer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.TextView;
 import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -23,8 +16,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
-import com.tfltravelalerts.common.CheatSheet;
-import com.tfltravelalerts.common.eventbus.EventBusFragment;
+import com.tfltravelalerts.common.AbstractLineStatusFragment;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
@@ -33,42 +25,9 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 /**
  * Fragment to view summary status of every line.
  */
-public class LineStatusViewerListFragment extends EventBusFragment {
+public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
 
-    private View mRoot;
-    private TextView mLastUpdateTime;
-    private ListView mListView;
-
-    private LineStatusListAdapter mAdapter;
-
-    private View mRefreshIcon;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        inflateRootView(inflater, container);
-        findViews();
-
-        setupListView();
-        
-        return mRoot;
-    }
-
-    private void inflateRootView(LayoutInflater inflater, ViewGroup container) {
-        mRoot = inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
-    }
-
-    private void findViews() {
-        mListView = (ListView) mRoot.findViewById(R.id.status_viewer_list);
-        mLastUpdateTime = (TextView) mRoot.findViewById(R.id.update_time);
-    }
-
-    private void setupListView() {
+    public void setupListView() {
         mAdapter = new LineStatusListAdapter(getActivity());
         mListView.setAdapter(mAdapter);
 
@@ -92,22 +51,10 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         setupRefreshIcon(refresh);
     }
 
-    public void setupRefreshIcon(MenuItem refresh) {
-        refresh.setActionView(R.layout.refresh_icon);
-        View actionView = refresh.getActionView();
-        mRefreshIcon = actionView.findViewById(R.id.refresh_icon);
-        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate);
-        mRefreshIcon.setTag(anim);
-        actionView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateLineStatus();
-            }
-        });
-        CheatSheet.setup(actionView, R.string.action_refresh);
-    }
+    
 
-    private void updateLineStatus() {
+    @Override
+    protected void updateLineStatus() {
         if (mRefreshIcon != null) {
             Animation anim = (Animation) mRefreshIcon.getTag();
             mRefreshIcon.startAnimation(anim);
@@ -124,6 +71,12 @@ public class LineStatusViewerListFragment extends EventBusFragment {
         mLastUpdateTime.setText(updateTime);
     }
 
+    @Override
+    protected void setupViewPagerIndicator() {
+        super.setupViewPagerIndicator();
+        mTitle.setText(R.string.current_status_title);
+    }
+    
     public void onEventMainThread(LineStatusUpdateSuccess event) {
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();

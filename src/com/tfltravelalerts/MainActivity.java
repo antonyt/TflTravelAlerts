@@ -14,19 +14,18 @@ import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.debug.ExceptionViewerActivity;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.tfltravelalerts.weekend.WeekendStatusViewerListFragment;
-import com.viewpagerindicator.PageIndicator;
 
 public class MainActivity extends TflBaseActivity {
 
     private ViewPager mViewPager;
-
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        setupViewPager();
+        setupViewPager(); 
         setupActionBar();
         
         // TODO: remember current fragment
@@ -74,9 +73,9 @@ public class MainActivity extends TflBaseActivity {
                 }
             }
         });
+        int margin = getResources().getDimensionPixelSize(R.dimen.view_pager_page_margin);
+        mViewPager.setPageMargin(margin);
 
-        PageIndicator indicator = (PageIndicator) findViewById(R.id.view_pager_indicator);
-        indicator.setViewPager(mViewPager);
     }
 
     private void setupActionBar() {
