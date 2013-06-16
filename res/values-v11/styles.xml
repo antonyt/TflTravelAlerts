@@ -6,4 +6,9 @@
         <item name="android:actionBarStyle">@style/TflActionBar</item>
     </style>
 
+    <style name="NavDrawerRow" parent="@style/NavDrawerRowBase">
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+        <item name="android:minHeight">?attr/listPreferredItemHeightSmall</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
+    </style>
 </resources>

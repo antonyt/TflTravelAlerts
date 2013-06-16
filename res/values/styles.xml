@@ -13,6 +13,14 @@
         <item name="android:textColorPrimary">@color/primary_text_holo_light</item>
     </style>
 
+    <style name="NavDrawerRowBase">
+        <item name="android:background">?attr/activatedBackgroundIndicator</item>
+        <item name="android:minHeight">?attr/listPreferredItemHeightSmall</item>
+        <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
+    </style>
+    <style name="NavDrawerRow" parent="@style/NavDrawerRowBase">
+    </style>
+    
     <!-- Multi selector (base) -->
     <style name="MultiSelector">
         <item name="android:background">@drawable/multi_selector_background</item>
@@ -53,5 +61,5 @@
         <item name="android:textColor">@color/light_gray</item>
         <item name="android:textSize">@dimen/normal_text_size</item>
     </style>
-
+    
 </resources>

@@ -4,12 +4,13 @@
     <!-- App info -->
     <string name="app_name">TfL Travel Alerts</string>
     <string name="app_name_launcher">TfL Alerts</string>
-    
     <string name="current_status_title">Current status</string>
     <string name="weekend_status_title">Weekend</string>
     <string name="alerts_list_title">Alerts</string>
-    <string name="create_alert_title">Create alert</string>
-    
+    <!-- note: the next string is used both for when setting a new
+	 alert and when editing an existing one. Try to be generic -->
+    <string name="create_alert_title">Set alert</string>
+
     <!-- Navigation Drawer -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -39,7 +40,7 @@
     <string name="line_status_part_suspended">Part Suspended</string>
     <string name="line_status_reduced_service">Reduced Service</string>
     <string name="line_status_bus_service">Bus Service</string>
-    
+
     <!-- Days -->
     <string name="day_full_monday">Monday</string>
     <string name="day_full_tuesday">Tuesday</string>
@@ -48,7 +49,6 @@
     <string name="day_full_friday">Friday</string>
     <string name="day_full_saturday">Saturday</string>
     <string name="day_full_sunday">Sunday</string>
-    
     <string name="day_short_monday">Mon</string>
     <string name="day_short_tuesday">Tue</string>
     <string name="day_short_wednesday">Wed</string>
@@ -56,7 +56,6 @@
     <string name="day_short_friday">Fri</string>
     <string name="day_short_saturday">Sat</string>
     <string name="day_short_sunday">Sun</string>
-
     <string name="day_super_short_monday">Mon</string>
     <string name="day_super_short_tuesday">Tue</string>
     <string name="day_super_short_wednesday">Wed</string>
@@ -64,39 +63,39 @@
     <string name="day_super_short_friday">Fri</string>
     <string name="day_super_short_saturday">Sat</string>
     <string name="day_super_short_sunday">Sun</string>
-    
+
     <!-- Line status list messages -->
     <string name="last_update_time">Last update time: %s</string>
-    
+
     <!-- Edit alert messages -->
     <string name="edit_alert_alert_title_hint">Alert Title</string>
     <string name="edit_alert_time_field_hint">Time of departure</string>
     <string name="edit_alert_only_notify_for_disruptions">Only notify for disruptions</string>
 
-    
     <!-- Validation messages -->
     <string name="edit_alert_validation_no_title">Please enter a title!</string>
     <string name="edit_alert_validation_no_time">Please enter a time!</string>
     <string name="edit_alert_validation_no_days">Please select at least one day!</string>
     <string name="edit_alert_validation_no_lines">Please select at least one line!</string>
-    
+
     <!-- Action titles -->
     <string name="action_save">Save</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
     <string name="action_refresh">Refresh</string>
     <string name="action_new">New</string>
-    
+
     <!-- List messages -->
     <string name="alerts_list_empty_message">There are no alerts currently set. To add an alert, click on the action icon in the top-right corner.</string>
     <string name="line_status_detail_no_description">There was a problem retrieving the details of this line</string>
     <!-- Notifications -->
-    
+
     <string name="notifications_title">Travel alerts for %s</string>
     <string name="notifications_good_service">Good service on all selected lines</string>
     <string name="notifications_problem_list_short_message">Disruptions on lines %s</string>
-    
+
     <!-- time-related stuff -->
-    <string name="time_just_now">just now</string> 
-    <string name="time_moments_ago">moments ago</string> 
+    <string name="time_just_now">just now</string>
+    <string name="time_moments_ago">moments ago</string>
+
 </resources>

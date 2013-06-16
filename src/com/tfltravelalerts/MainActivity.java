@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import butterknife.InjectView;
 import butterknife.Views;
 
@@ -70,6 +71,20 @@ public class MainActivity extends TflBaseActivity {
             }
         });
 
+        mViewPager.setOnPageChangeListener( new OnPageChangeListener() {
+            
+            @Override
+            public void onPageSelected(int arg0) {
+                invalidateCurrentScreen();
+            }
+            
+            @Override
+            public void onPageScrolled(int arg0, float arg1, int arg2) {}
+            
+            @Override
+            public void onPageScrollStateChanged(int arg0) {}
+        });
+        
         int margin = getResources().getDimensionPixelSize(R.dimen.view_pager_page_margin);
         mViewPager.setPageMargin(margin);
     }
@@ -96,6 +111,19 @@ public class MainActivity extends TflBaseActivity {
         if (!consumed) {
             super.onNavigationDrawerItemSelected(item);
         }
+    }
+
+    @Override
+    protected Screen getCurrentScreen() {
+        switch (mViewPager.getCurrentItem()) {
+            case 0:
+                return Screen.WEEKEND_STATUS;
+            case 1:
+                return Screen.CURRENT_STATUS;
+            case 2:
+                return Screen.LIST_OF_ALERTS;
+        }
+        return null;
     }
 
     private boolean switchToFragment(Screen screen) {

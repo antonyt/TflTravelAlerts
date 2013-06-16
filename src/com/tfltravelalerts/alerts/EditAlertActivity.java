@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.common.SinglePaneFragmentActivity;
+import com.tfltravelalerts.navigationdrawer.AppScreen.Screen;
 
 public class EditAlertActivity extends SinglePaneFragmentActivity {
 
@@ -36,5 +37,9 @@ public class EditAlertActivity extends SinglePaneFragmentActivity {
         Bundle args = getIntent().getExtras();
         fragment.setArguments(args);
         return fragment;
+    }
+    @Override
+    protected Screen getCurrentScreen() {
+        return Screen.CREATE_ALERT;
     }
 }
