@@ -1,9 +1,11 @@
 
 package com.tfltravelalerts.common;
 
+
 import org.holoeverywhere.app.Activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,6 +17,7 @@ import android.widget.ListView;
 import butterknife.InjectView;
 import butterknife.Views;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.BuildConfig;
 import com.tfltravelalerts.R;
@@ -24,15 +27,15 @@ import com.tfltravelalerts.navigationdrawer.AppScreen.Screen;
 import com.tfltravelalerts.navigationdrawer.AppScreenUtil;
 import com.tfltravelalerts.navigationdrawer.NavigationDrawerAdapter;
 
-public class TflBaseActivity extends Activity {
+public abstract class TflBaseActivity extends Activity {
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mActivityTitle;
+    private NavigationDrawerAdapter mDrawerAdapter;
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.drawer_content)
     ListView mDrawerList;
-    private NavigationDrawerAdapter mDrawerAdapter;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -70,7 +73,25 @@ public class TflBaseActivity extends Activity {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
     }
-
+    
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
+                mDrawerLayout.closeDrawer(mDrawerList);
+            } else {
+                mDrawerLayout.openDrawer(mDrawerList);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    
     @SuppressWarnings("unused")
     private void setupDrawer() {
         Views.inject(this);
@@ -91,15 +112,17 @@ public class TflBaseActivity extends Activity {
                 R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mActivityTitle);
+                getSupportActionBar().setTitle(mActivityTitle);
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu();
             }
         };
+        mDrawerToggle.syncState();
+        mDrawerToggle.setDrawerIndicatorEnabled(useDrawerIndicator());
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerList.setAdapter(mDrawerAdapter);
@@ -119,8 +142,17 @@ public class TflBaseActivity extends Activity {
                 mDrawerLayout.closeDrawer(mDrawerList);
             }
         });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
+    /**
+     * Returns whether this activity wants to use the drawer indicator or not.
+     * 
+     * @return
+     */
+    abstract protected boolean useDrawerIndicator();
+    
     /**
      * this method is first called in TflBaseActivity.onResume
      * You should return the currently visible Screen or null if such

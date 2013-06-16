@@ -5,6 +5,7 @@ import org.holoeverywhere.app.Fragment;
 
 import android.os.Bundle;
 
+import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
 
 /**
@@ -25,5 +26,18 @@ public abstract class SinglePaneFragmentActivity extends TflBaseActivity {
 
     protected abstract Fragment buildFragment();
 
+    @Override
+    protected boolean useDrawerIndicator() {
+        return false;
+    }
     
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

@@ -105,6 +105,11 @@ public class MainActivity extends TflBaseActivity {
     }
 
     @Override
+    protected boolean useDrawerIndicator() {
+        return true;
+    }
+    
+    @Override
     protected void onNavigationDrawerItemSelected(AppScreen item) {
         boolean consumed = switchToFragment(item.screen);
         // only call super if we haven't handled it ourselves
