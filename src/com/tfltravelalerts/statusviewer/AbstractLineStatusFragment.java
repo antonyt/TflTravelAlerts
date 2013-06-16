@@ -5,6 +5,8 @@ import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
 
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher.OnRefreshListener;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,6 +55,14 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
         Views.inject(this, getView());
         setupListView();
         setupViewPagerIndicator();
+        
+        PullToRefreshAttacher attacher = new PullToRefreshAttacher(getActivity(), mListView);
+        attacher.setRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefreshStarted(View view) {
+                updateLineStatus();
+            }
+        });
     }
 
     abstract protected void setupListView();
