@@ -33,7 +33,6 @@ public class MainActivity extends TflBaseActivity {
         Views.inject(this);
 
         setupViewPager();
-        setupActionBar();
         initViewPager(savedInstanceState);
     }
 
@@ -71,31 +70,29 @@ public class MainActivity extends TflBaseActivity {
             }
         });
 
-        mViewPager.setOnPageChangeListener( new OnPageChangeListener() {
-            
+        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
             @Override
             public void onPageSelected(int arg0) {
                 invalidateCurrentScreen();
             }
-            
+
             @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {}
-            
+            public void onPageScrolled(int arg0, float arg1, int arg2) {
+            }
+
             @Override
-            public void onPageScrollStateChanged(int arg0) {}
+            public void onPageScrollStateChanged(int arg0) {
+            }
         });
-        
+
         int margin = getResources().getDimensionPixelSize(R.dimen.view_pager_page_margin);
         mViewPager.setPageMargin(margin);
     }
 
-    private void setupActionBar() {
-        getSupportActionBar().setHomeButtonEnabled(BuildConfig.DEBUG);
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home && BuildConfig.DEBUG) {
             Intent intent = new Intent(this, ExceptionViewerActivity.class);
             startActivity(intent);
             return true;
@@ -108,7 +105,7 @@ public class MainActivity extends TflBaseActivity {
     protected boolean useDrawerIndicator() {
         return true;
     }
-    
+
     @Override
     protected void onNavigationDrawerItemSelected(AppScreen item) {
         boolean consumed = switchToFragment(item.screen);
