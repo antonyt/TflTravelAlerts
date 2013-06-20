@@ -75,6 +75,7 @@ public class MainActivity extends TflBaseActivity {
             @Override
             public void onPageSelected(int arg0) {
                 invalidateCurrentScreen();
+                invalidateOptionsMenu();
             }
 
             @Override
