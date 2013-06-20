@@ -65,7 +65,7 @@
     <string name="day_super_short_sunday">Sun</string>
 
     <!-- Line status list messages -->
-    <string name="last_update_time">Last update time: %s</string>
+    <string name="last_update_time">Updated %s</string>
 
     <!-- Edit alert messages -->
     <string name="edit_alert_alert_title_hint">Alert Title</string>

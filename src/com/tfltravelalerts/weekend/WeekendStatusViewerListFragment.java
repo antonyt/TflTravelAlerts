@@ -1,8 +1,5 @@
 package com.tfltravelalerts.weekend;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
@@ -76,13 +73,6 @@ public class WeekendStatusViewerListFragment extends AbstractLineStatusFragment 
                 startActivity(intent);
             }
         });
-    }
-    
-    private void updateTimestamp(Date date) {
-        java.text.DateFormat dateFormatter = SimpleDateFormat.getInstance();
-        String dateFormat = dateFormatter.format(date);
-        String updateTime = getString(R.string.last_update_time, dateFormat);
-        mLastUpdateTime.setText(updateTime);
     }
     
     @Override

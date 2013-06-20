@@ -1,6 +1,8 @@
 
 package com.tfltravelalerts.statusviewer;
 
+import java.util.Date;
+
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
@@ -19,6 +21,7 @@ import butterknife.Views;
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.CheatSheet;
+import com.tfltravelalerts.common.DateStrings;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 
 public abstract class AbstractLineStatusFragment extends EventBusFragment {
@@ -54,6 +57,16 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
         setupListView();
         setupViewPagerIndicator();
     }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        Object tag = mLastUpdateTime.getTag();
+        if(tag != null) {
+            Date date = (Date) tag;
+            updateTimestamp(date);
+        }
+    }
 
     abstract protected void setupListView();
 
@@ -80,4 +93,11 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
     }
 
     abstract protected void updateLineStatus();
+    
+    protected void updateTimestamp(Date date) {
+        String dateFormat = DateStrings.getElapsedTimeForStatus(getSupportApplication(), date.getTime());
+        String updateTime = getString(R.string.last_update_time, dateFormat);
+        mLastUpdateTime.setText(updateTime);
+        mLastUpdateTime.setTag(date);
+    }
 }

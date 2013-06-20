@@ -1,9 +1,6 @@
 
 package com.tfltravelalerts.statusviewer;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.holoeverywhere.widget.Toast;
 
 import android.content.Intent;
@@ -60,13 +57,6 @@ public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
 
         Toast.makeText(getActivity(), "updating all lines", Toast.LENGTH_SHORT).show();
         getEventBus().postSticky(new LineStatusUpdateRequest());
-    }
-
-    private void updateTimestamp(Date date) {
-        java.text.DateFormat dateFormatter = SimpleDateFormat.getInstance();
-        String dateFormat = dateFormatter.format(date);
-        String updateTime = getString(R.string.last_update_time, dateFormat);
-        mLastUpdateTime.setText(updateTime);
     }
 
     @Override
