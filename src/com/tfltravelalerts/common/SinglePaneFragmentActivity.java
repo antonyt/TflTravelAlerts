@@ -22,6 +22,9 @@ public abstract class SinglePaneFragmentActivity extends TflBaseActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.single_pane_fragment_container, fragment).commit();
         }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     protected abstract Fragment buildFragment();

@@ -59,12 +59,6 @@ public class LineStatusViewerListFragment extends AbstractLineStatusFragment {
         getEventBus().postSticky(new LineStatusUpdateRequest());
     }
 
-    @Override
-    protected void setupViewPagerIndicator() {
-        super.setupViewPagerIndicator();
-        mTitle.setText(R.string.current_status_title);
-    }
-
     public void onEventMainThread(LineStatusUpdateSuccess event) {
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();

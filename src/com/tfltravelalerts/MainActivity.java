@@ -20,6 +20,7 @@ import com.tfltravelalerts.navigationdrawer.AppScreen.Screen;
 import com.tfltravelalerts.navigationdrawer.AppScreenUtil;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.tfltravelalerts.weekend.WeekendStatusViewerListFragment;
+import com.viewpagerindicator.PageIndicator;
 
 public class MainActivity extends TflBaseActivity {
 
@@ -34,6 +35,10 @@ public class MainActivity extends TflBaseActivity {
 
         setupViewPager();
         initViewPager(savedInstanceState);
+        PageIndicator indicator = (PageIndicator) findViewById(R.id.view_pager_indicator);
+        indicator.setViewPager(mViewPager);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void initViewPager(Bundle savedInstanceState) {
@@ -45,7 +50,7 @@ public class MainActivity extends TflBaseActivity {
             mViewPager.setCurrentItem(1);
         }
     }
-
+    
     private void setupViewPager() {
         // TODO: fixup
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -68,13 +73,26 @@ public class MainActivity extends TflBaseActivity {
                         return null;
                 }
             }
+            
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return "Weekend";
+                    case 1:
+                        return "Line Status";
+                    case 2:
+                        return "Alerts";
+                    default:
+                        return super.getPageTitle(position);
+                }
+            }
         });
 
         mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {
-                invalidateCurrentScreen();
                 invalidateOptionsMenu();
             }
 
@@ -104,7 +122,7 @@ public class MainActivity extends TflBaseActivity {
 
     @Override
     protected boolean useDrawerIndicator() {
-        return true;
+        return false;
     }
 
     @Override

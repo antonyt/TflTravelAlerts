@@ -37,12 +37,6 @@ public class WeekendStatusViewerListFragment extends AbstractLineStatusFragment 
         setupRefreshIcon(refresh);
     }
 
-    @Override
-    protected void setupViewPagerIndicator() {
-        super.setupViewPagerIndicator();
-        mTitle.setText(R.string.weekend_status_title);
-    }
-    
     public void setupRefreshIcon(MenuItem refresh) {
         refresh.setActionView(R.layout.refresh_icon);
         View actionView = refresh.getActionView();

@@ -5,37 +5,14 @@ package com.tfltravelalerts.common;
 import org.holoeverywhere.app.Activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import butterknife.InjectView;
-import butterknife.Views;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
-import com.tfltravelalerts.BuildConfig;
-import com.tfltravelalerts.R;
-import com.tfltravelalerts.analytics.EventAnalytics;
 import com.tfltravelalerts.navigationdrawer.AppScreen;
 import com.tfltravelalerts.navigationdrawer.AppScreen.Screen;
 import com.tfltravelalerts.navigationdrawer.AppScreenUtil;
-import com.tfltravelalerts.navigationdrawer.NavigationDrawerAdapter;
 
 public abstract class TflBaseActivity extends Activity {
-    private ActionBarDrawerToggle mDrawerToggle;
-    private CharSequence mDrawerTitle;
-    private CharSequence mActivityTitle;
-    private NavigationDrawerAdapter mDrawerAdapter;
-    @InjectView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-    @InjectView(R.id.drawer_content)
-    ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {
@@ -44,16 +21,9 @@ public abstract class TflBaseActivity extends Activity {
     }
 
     @Override
-    protected void onPostCreate(Bundle sSavedInstanceState) {
-        super.onPostCreate(sSavedInstanceState);
-        setupDrawer();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         ViewServer.get(this).setFocusedWindow(this);
-        invalidateCurrentScreen();
     }
 
     @Override
@@ -73,78 +43,6 @@ public abstract class TflBaseActivity extends Activity {
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
     }
-    
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
-    }
-    
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
-                mDrawerLayout.closeDrawer(mDrawerList);
-            } else {
-                mDrawerLayout.openDrawer(mDrawerList);
-            }
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    
-    @SuppressWarnings("unused")
-    private void setupDrawer() {
-        Views.inject(this);
-        if (mDrawerLayout == null || mDrawerList == null) {
-            if (BuildConfig.DEBUG) {
-                throw new RuntimeException("Not ready to use navigation drawer!");
-            }
-            EventAnalytics.thisShouldNotHappen("Activity not ready for NavigationDrawer",
-                    getClass().getName());
-            return;
-        }
-
-        mActivityTitle = getTitle();
-        mDrawerTitle = getString(R.string.app_name);
-        mDrawerAdapter = new NavigationDrawerAdapter(this);
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
-
-            public void onDrawerClosed(View view) {
-                getSupportActionBar().setTitle(mActivityTitle);
-                invalidateOptionsMenu();
-            }
-
-            public void onDrawerOpened(View drawerView) {
-                getSupportActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerToggle.syncState();
-        mDrawerToggle.setDrawerIndicatorEnabled(useDrawerIndicator());
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerList.setAdapter(mDrawerAdapter);
-        // setting choice mode in xml was giving problems due to holoweverywhere
-        // lib
-        mDrawerList.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-        mDrawerList.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(getCurrentScreen() == mDrawerAdapter.getItem(position).screen) {
-                   // we don't want to click twice in the same element. ignore this one
-                    mDrawerLayout.closeDrawer(mDrawerList);
-                    return;
-                }
-                mDrawerList.setItemChecked(position, true);
-                onNavigationDrawerItemSelected(mDrawerAdapter.getItem(position));
-                mDrawerLayout.closeDrawer(mDrawerList);
-            }
-        });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
 
     /**
      * Returns whether this activity wants to use the drawer indicator or not.
@@ -163,15 +61,6 @@ public abstract class TflBaseActivity extends Activity {
      */
     protected Screen getCurrentScreen() {
         return null;
-    }
-
-    protected void invalidateCurrentScreen() {
-        // the view pager will call this method before we are ready
-        if (mDrawerAdapter != null) {
-            Screen screen = getCurrentScreen();
-            int listPosition = mDrawerAdapter.getScreenPosition(screen);
-            mDrawerList.setItemChecked(listPosition, true);
-        }
     }
 
     protected void onNavigationDrawerItemSelected(AppScreen item) {

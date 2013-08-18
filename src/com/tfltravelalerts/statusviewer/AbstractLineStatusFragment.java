@@ -7,8 +7,6 @@ import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
 import org.holoeverywhere.widget.TextView;
 
-import android.graphics.Typeface;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +25,6 @@ import com.tfltravelalerts.common.eventbus.EventBusFragment;
 public abstract class AbstractLineStatusFragment extends EventBusFragment {
 
     @InjectView(R.id.update_time) protected TextView mLastUpdateTime;
-    @InjectView(R.id.page_title) protected TextView mTitle;
     @InjectView(R.id.status_viewer_list) protected ListView mListView;
 
     protected LineStatusListAdapter mAdapter;
@@ -69,13 +66,6 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
     }
 
     abstract protected void setupListView();
-
-    protected void setupViewPagerIndicator() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            Typeface lightTypeface = Typeface.create("sans-serif-condensed", Typeface.NORMAL);
-            mTitle.setTypeface(lightTypeface);
-        }
-    }
 
     public void setupRefreshIcon(MenuItem refresh) {
         refresh.setActionView(R.layout.refresh_icon);
