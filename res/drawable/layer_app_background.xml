@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item>
+        <bitmap
+            android:src="@drawable/dark_tire"
+            android:tileMode="repeat" />
+    </item>
+    <item>
+        <shape android:shape="rectangle" >
+            <gradient
+                android:angle="270"
+                android:endColor="#272D337F"
+                android:startColor="#0000007F"
+                android:type="linear" />
+        </shape>
+    </item>
+
+</layer-list>

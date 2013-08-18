@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="NavDrawerRow" parent="@style/NavDrawerRowBase">
-        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+<!--         <item name="background">@drawable/activated_background_holo</item> -->
+<!--         <item name="background">@drawable/activated_background_holo</item> -->
         <item name="android:minHeight">?android:attr/listPreferredItemHeightSmall</item>
         <item name="android:textAppearance">?android:attr/textAppearanceListItemSmall</item>
     </style>
