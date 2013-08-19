@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.google.common.base.Joiner;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatus;
@@ -81,21 +82,45 @@ public class LineStatusListAdapter extends BaseAdapter {
 
         row.setText(line.getNameResId());
         row.setBackgroundResource(line.getColorResId());
+        String nameOfLine = row.getResources().getString(line.getNameResId());
+        String lineStatusDescription = row.getResources().getString(getLineStatusDescriptionId(lineStatusUpdate));
 
+        int resId = getLineStatusDrawableId(lineStatusUpdate);
+        row.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
+        row.setContentDescription(Joiner.on(": ").join(nameOfLine, lineStatusDescription));
+
+        return row;
+    }
+
+    private int getLineStatusDrawableId(LineStatusUpdate lineStatusUpdate) {
+        int resId;
         if (lineStatusUpdate != null) {
-            int resId = R.drawable.line_status_unknown;
+            resId = R.drawable.line_status_unknown;
             LineStatus lineStatus = lineStatusUpdate.getLineStatus();
             if (lineStatus != null) {
                 resId = lineStatus.getStatusIcon();
             }
-            row.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
         } else {
             // if no update yet, show nothing (loading updates?)
             // this may happen when we fail to parse data from the server
-            int resId = R.drawable.line_status_unknown;
-            row.setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
+            resId = R.drawable.line_status_unknown;
         }
+        return resId;
+    }
 
-        return row;
+    private int getLineStatusDescriptionId(LineStatusUpdate lineStatusUpdate) {
+        int resId;
+        if (lineStatusUpdate != null) {
+            resId = R.string.line_status_unknown;
+            LineStatus lineStatus = lineStatusUpdate.getLineStatus();
+            if (lineStatus != null) {
+                resId = lineStatus.getStatusResId();
+            }
+        } else {
+            // if no update yet, show nothing (loading updates?)
+            // this may happen when we fail to parse data from the server
+            resId = R.string.line_status_unknown;
+        }
+        return resId;
     }
 }
