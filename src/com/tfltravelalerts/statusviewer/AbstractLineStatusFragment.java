@@ -52,7 +52,6 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
         super.onActivityCreated(savedInstanceState);
         Views.inject(this, getView());
         setupListView();
-        setupViewPagerIndicator();
     }
     
     @Override
