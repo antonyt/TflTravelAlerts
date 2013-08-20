@@ -84,7 +84,7 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
     <string name="action_refresh">Refresh</string>
-    <string name="action_new">New</string>
+    <string name="action_new">New alert</string>
 
     <!-- List messages -->
     <string name="alerts_list_empty_message">There are no alerts currently set. To add an alert, click on the action icon in the top-right corner.</string>

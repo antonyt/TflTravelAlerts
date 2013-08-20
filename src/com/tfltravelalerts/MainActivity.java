@@ -6,8 +6,13 @@ import org.holoeverywhere.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.AccessibilityDelegateCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import butterknife.InjectView;
 import butterknife.Views;
 
@@ -26,17 +31,17 @@ public class MainActivity extends TflBaseActivity {
 
     @InjectView(R.id.view_pager)
     ViewPager mViewPager;
-
+    @InjectView(R.id.view_pager_indicator)
+    View mViewPagerIndicator;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         Views.inject(this);
-
         setupViewPager();
         initViewPager(savedInstanceState);
-        PageIndicator indicator = (PageIndicator) findViewById(R.id.view_pager_indicator);
-        indicator.setViewPager(mViewPager);
+        ((PageIndicator) mViewPagerIndicator).setViewPager(mViewPager);
 
         getSupportActionBar().setHomeButtonEnabled(true);
     }
@@ -107,6 +112,28 @@ public class MainActivity extends TflBaseActivity {
 
         int margin = getResources().getDimensionPixelSize(R.dimen.view_pager_page_margin);
         mViewPager.setPageMargin(margin);
+        
+        ViewCompat.setAccessibilityDelegate((View)mViewPagerIndicator, new AccessibilityDelegateCompat() {
+            @Override
+            public boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
+                boolean ret = super.dispatchPopulateAccessibilityEvent(host, event);
+                event.getText().add(0, "View Pager:");
+                int currentItem = mViewPager.getCurrentItem();
+                PagerAdapter adapter = mViewPager.getAdapter();
+                event.getText().add(adapter.getPageTitle(currentItem));
+                event.setCurrentItemIndex(currentItem);
+                event.setItemCount(adapter.getCount());
+                
+                if(currentItem > 0) {
+                    event.getText().add("Page to the left: "+adapter.getPageTitle(currentItem-1));
+                }
+                if(currentItem < adapter.getCount()-1) {
+                    event.getText().add("Page to the right: "+adapter.getPageTitle(currentItem+1));
+                }
+                return ret;
+            }
+            
+        });
     }
 
     @Override
