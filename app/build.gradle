@@ -39,4 +39,8 @@ android {
 
         instrumentTest.setRoot('tests')
     }
+
+    defaultConfig {
+        packageName "com.tfltravelalerts.android"
+    }
 }
