@@ -1,0 +1,5 @@
+include ':libraries:actionbarsherlock'
+include ':libraries:preferences'
+include ':libraries:viewpagerindicator'
+include ':libraries:holoeverywhere'
+include ':app'
