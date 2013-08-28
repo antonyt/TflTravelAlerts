@@ -1,7 +1,11 @@
 
 package com.tfltravelalerts.statusviewer;
 
-import java.util.Date;
+import com.actionbarsherlock.view.MenuItem;
+import com.tfltravelalerts.R;
+import com.tfltravelalerts.common.CheatSheet;
+import com.tfltravelalerts.common.DateStrings;
+import com.tfltravelalerts.common.eventbus.EventBusFragment;
 
 import org.holoeverywhere.LayoutInflater;
 import org.holoeverywhere.widget.ListView;
@@ -13,19 +17,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import butterknife.InjectView;
-import butterknife.Views;
 
-import com.actionbarsherlock.view.MenuItem;
-import com.tfltravelalerts.R;
-import com.tfltravelalerts.common.CheatSheet;
-import com.tfltravelalerts.common.DateStrings;
-import com.tfltravelalerts.common.eventbus.EventBusFragment;
+import java.util.Date;
 
 public abstract class AbstractLineStatusFragment extends EventBusFragment {
 
-    @InjectView(R.id.update_time) protected TextView mLastUpdateTime;
-    @InjectView(R.id.status_viewer_list) protected ListView mListView;
+    private TextView mLastUpdateTime;
+    protected ListView mListView;
 
     protected LineStatusListAdapter mAdapter;
     protected View mRefreshIcon;
@@ -40,25 +38,24 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.line_status_viewer_list_fragment, container, false);
     }
-    
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Views.reset(this);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Views.inject(this, getView());
+        findViews();
         setupListView();
     }
-    
+
+    private void findViews() {
+        mLastUpdateTime = (TextView) getView().findViewById(R.id.update_time);
+        mListView = (ListView) getView().findViewById(R.id.status_viewer_list);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
         Object tag = mLastUpdateTime.getTag();
-        if(tag != null) {
+        if (tag != null) {
             Date date = (Date) tag;
             updateTimestamp(date);
         }
@@ -82,7 +79,7 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
     }
 
     abstract protected void updateLineStatus();
-    
+
     protected void updateTimestamp(Date date) {
         String dateFormat = DateStrings.getElapsedTimeForStatus(getSupportApplication(), date.getTime());
         String updateTime = getString(R.string.last_update_time, dateFormat);

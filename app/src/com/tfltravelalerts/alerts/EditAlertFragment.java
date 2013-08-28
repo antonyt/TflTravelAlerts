@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import butterknife.InjectView;
-import butterknife.Views;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -37,13 +35,13 @@ public class EditAlertFragment extends EventBusFragment {
     private int mAlertId;
     private LineStatusAlert mAlert;
 
-    @InjectView(R.id.alert_title) EditText mAlertTitle;
-    @InjectView(R.id.day_selector_view) DaySelectorView mDaySelectorView;
-    @InjectView(R.id.line_selector_view) LineSelectorView mLineSelectorView;
-    @InjectView(R.id.time_input) TimeInputField mTimeInputField;
-    @InjectView(R.id.cancel_button) Button mCancelButton;
-    @InjectView(R.id.save_button) Button mSaveButton;
-    @InjectView(R.id.only_notify_for_disruptions_view) CheckBox mOnlyNotifyForDisruptionsView;
+    private EditText mAlertTitle;
+    private DaySelectorView mDaySelectorView;
+    private LineSelectorView mLineSelectorView;
+    private TimeInputField mTimeInputField;
+    private Button mCancelButton;
+    private Button mSaveButton;
+    private CheckBox mOnlyNotifyForDisruptionsView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,19 +78,13 @@ public class EditAlertFragment extends EventBusFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View mRoot = inflater.inflate(R.layout.edit_alert_fragment, container, false);
-        Views.inject(this, mRoot);
         return mRoot;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        Views.reset(this);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        findViews();
         setupViews();
 
         AlertsUpdatedEvent event = (AlertsUpdatedEvent) getEventBus().getStickyEvent(
@@ -100,6 +92,16 @@ public class EditAlertFragment extends EventBusFragment {
         if (event != null) {
             onEventMainThread(event);
         }
+    }
+
+    private void findViews() {
+        mAlertTitle = (EditText) getView().findViewById(R.id.alert_title);
+        mDaySelectorView = (DaySelectorView) getView().findViewById(R.id.day_selector_view);
+        mLineSelectorView = (LineSelectorView) getView().findViewById(R.id.line_selector_view);
+        mTimeInputField = (TimeInputField) getView().findViewById(R.id.time_input);
+        mCancelButton = (Button) getView().findViewById(R.id.cancel_button);
+        mSaveButton = (Button) getView().findViewById(R.id.save_button);
+        mOnlyNotifyForDisruptionsView = (CheckBox) getView().findViewById(R.id.only_notify_for_disruptions_view);
     }
 
     @Override

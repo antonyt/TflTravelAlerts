@@ -13,8 +13,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
-import butterknife.InjectView;
-import butterknife.Views;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
@@ -29,16 +27,15 @@ import com.viewpagerindicator.PageIndicator;
 
 public class MainActivity extends TflBaseActivity {
 
-    @InjectView(R.id.view_pager)
-    ViewPager mViewPager;
-    @InjectView(R.id.view_pager_indicator)
-    View mViewPagerIndicator;
+    private ViewPager mViewPager;
+    private View mViewPagerIndicator;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        Views.inject(this);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPagerIndicator = findViewById(R.id.view_pager_indicator);
         setupViewPager();
         initViewPager(savedInstanceState);
         ((PageIndicator) mViewPagerIndicator).setViewPager(mViewPager);

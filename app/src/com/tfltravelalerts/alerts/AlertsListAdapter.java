@@ -1,19 +1,17 @@
 
 package com.tfltravelalerts.alerts;
 
-import org.holoeverywhere.widget.TextView;
-
-import android.content.Context;
-import android.view.View;
-import butterknife.InjectView;
-import butterknife.Views;
-
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.SimpleListAdapter;
 import com.tfltravelalerts.model.Day;
 import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
+
+import org.holoeverywhere.widget.TextView;
+
+import android.content.Context;
+import android.view.View;
 
 public class AlertsListAdapter extends SimpleListAdapter<LineStatusAlert> {
 
@@ -28,7 +26,10 @@ public class AlertsListAdapter extends SimpleListAdapter<LineStatusAlert> {
     @Override
     protected void initializeView(int position, View convertView) {
         ViewHolder viewHolder = new ViewHolder();
-        Views.inject(viewHolder, convertView);
+        viewHolder.title = (TextView) convertView.findViewById(R.id.alerts_title);
+        viewHolder.lines = (TextView) convertView.findViewById(R.id.alerts_lines);
+        viewHolder.days = (TextView) convertView.findViewById(R.id.alerts_days);
+        viewHolder.times = (TextView) convertView.findViewById(R.id.alerts_times);
         convertView.setTag(viewHolder);
     }
 
@@ -45,10 +46,10 @@ public class AlertsListAdapter extends SimpleListAdapter<LineStatusAlert> {
     }
 
     static class ViewHolder {
-        @InjectView(R.id.alerts_title) TextView title;
-        @InjectView(R.id.alerts_lines) TextView lines;
-        @InjectView(R.id.alerts_days) TextView days;
-        @InjectView(R.id.alerts_times) TextView times;
+        TextView title;
+        TextView lines;
+        TextView days;
+        TextView times;
     }
 
 }
