@@ -1,9 +1,8 @@
 
 package com.tfltravelalerts;
 
-import org.holoeverywhere.app.Fragment;
-
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.AccessibilityDelegateCompat;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
 import com.tfltravelalerts.debug.ExceptionViewerActivity;
@@ -25,6 +25,8 @@ import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.tfltravelalerts.weekend.WeekendStatusViewerListFragment;
 import com.viewpagerindicator.PageIndicator;
 
+import org.holoeverywhere.app.Fragment;
+
 public class MainActivity extends TflBaseActivity {
 
     private ViewPager mViewPager;
@@ -33,6 +35,7 @@ public class MainActivity extends TflBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        analyticsCallback();
         setContentView(R.layout.main_activity);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         mViewPagerIndicator = findViewById(R.id.view_pager_indicator);
@@ -41,6 +44,21 @@ public class MainActivity extends TflBaseActivity {
         ((PageIndicator) mViewPagerIndicator).setViewPager(mViewPager);
 
         getSupportActionBar().setHomeButtonEnabled(true);
+    }
+
+    private void analyticsCallback() {
+        Uri uri = getIntent().getData();
+        // Call setContext() here so that we can access EasyTracker
+        // to update campaign information before activityStart() is called.
+        EasyTracker.getInstance().setContext(this);
+
+        if (uri != null) {
+            if(uri.getQueryParameter("utm_source") != null) {    // Use campaign parameters if available.
+                EasyTracker.getTracker().setCampaign(uri.getPath());
+            } else if (uri.getQueryParameter("referrer") != null) {    // Otherwise, try to find a referrer parameter.
+                EasyTracker.getTracker().setReferrer(uri.getQueryParameter("referrer"));
+            }
+        }
     }
 
     private void initViewPager(Bundle savedInstanceState) {
