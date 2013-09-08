@@ -43,4 +43,10 @@ android {
     defaultConfig {
         packageName "com.tfltravelalerts.android"
     }
+
+    buildTypes {
+        debug {
+            packageNameSuffix ".debug"
+        }
+    }
 }
