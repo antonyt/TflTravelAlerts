@@ -1,16 +1,17 @@
 
 package com.tfltravelalerts.gcm;
 
+import com.google.android.gcm.GCMConstants;
+import com.google.android.gcm.GCMRegistrar;
+
+import com.tfltravelalerts.TflApplication;
+import com.tfltravelalerts.analytics.EventAnalytics;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
-
-import com.google.android.gcm.GCMConstants;
-import com.google.android.gcm.GCMRegistrar;
-import com.tfltravelalerts.TflApplication;
-import com.tfltravelalerts.analytics.EventAnalytics;
 
 import de.greenrobot.event.EventBus;
 
