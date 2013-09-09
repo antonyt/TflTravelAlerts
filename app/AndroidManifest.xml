@@ -14,11 +14,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!-- GCM permissions -->
-    <permission
-        android:name="com.tfltravelalerts.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.tfltravelalerts.permission.C2D_MESSAGE" />
     <!-- App receives GCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <!-- GCM requires a Google account. -->
@@ -38,31 +34,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".statusviewer.LineStatusViewerDetailActivity" />
-        <activity android:name=".alerts.EditAlertActivity" />
-        <activity android:name=".debug.ExceptionViewerActivity" />
+        <activity android:name="com.tfltravelalerts.statusviewer.LineStatusViewerDetailActivity" />
+        <activity android:name="com.tfltravelalerts.alerts.EditAlertActivity" />
+        <activity android:name="com.tfltravelalerts.debug.ExceptionViewerActivity" />
 
-        <service android:name=".GCMIntentService" />
+        <service android:name="com.tfltravelalerts.GCMIntentService" />
 
         <receiver
-            android:name="com.google.android.gcm.GCMBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.tfltravelalerts" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".notification.TflAlarmBroadcastReceiver"
+            android:name="com.tfltravelalerts.notification.TflAlarmBroadcastReceiver"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.tfltravelalerts.alarm" />
             </intent-filter>
         </receiver>
         
-        <receiver android:name=".boot.BootReceiver" >
+        <receiver android:name="com.tfltravelalerts.boot.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

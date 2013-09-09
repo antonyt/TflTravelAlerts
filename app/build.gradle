@@ -37,6 +37,14 @@ android {
             assets.srcDirs = ['assets']
         }
 
+        debug {
+            manifest.srcFile 'debug/AndroidManifest.xml'
+        }
+
+        release {
+            manifest.srcFile 'release/AndroidManifest.xml'
+        }
+
         instrumentTest.setRoot('tests')
     }
 
