@@ -28,7 +28,7 @@ class LineStatus(db.Model):
 class PushNotificationRegistration(db.Model):
   LINES = set(['BAKERLOO', 'CENTRAL','CIRCLE', 'DISTRICT', 'DLR',
                'HAMMERSMITH_AND_CITY', 'JUBILEE', 'METROPOLITAN', 'NORTHERN',
-               'OVERGROUND', 'PICADILLY', 'VICTORIA', 'WATERLOO_AND_CITY'])
+               'OVERGROUND', 'PICCADILLY', 'VICTORIA', 'WATERLOO_AND_CITY'])
 
   def validate_lines(lines_interested):
     for line in lines_interested:
