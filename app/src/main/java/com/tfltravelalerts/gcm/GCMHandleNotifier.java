@@ -1,12 +1,8 @@
 
 package com.tfltravelalerts.gcm;
 
-import org.apache.http.message.BasicNameValuePair;
-
-import android.content.Context;
-import android.util.Log;
-
 import com.google.android.gcm.GCMRegistrar;
+
 import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.analytics.EventAnalytics;
 import com.tfltravelalerts.common.networkstate.NetworkState;
@@ -14,11 +10,15 @@ import com.tfltravelalerts.common.requests.BackendConnection;
 import com.tfltravelalerts.common.requests.BackendConnectionResult;
 import com.tfltravelalerts.notification.RegisterForPushNotificationsRequest;
 
+import org.apache.http.message.BasicNameValuePair;
+
+import android.content.Context;
+import android.util.Log;
+
 import de.greenrobot.event.EventBus;
 
 public class GCMHandleNotifier {
     static final String LOG_TAG = GCMHandleNotifier.class.getSimpleName();
-    boolean registeredWithEventBus = false;
 
     public GCMHandleNotifier() {
         EventBus.getDefault().registerSticky(this);
@@ -30,7 +30,7 @@ public class GCMHandleNotifier {
             notifyServer(GCMRegistrar.getRegistrationId(context), obj);
         } else {
             // we start listening first in case the response is immediate
-            listenForRegistration(obj);
+            GCMRegistration.triggerOnRegistration(obj);
             registerWithGCM();
         }
     }
@@ -68,16 +68,4 @@ public class GCMHandleNotifier {
         }
     }
 
-    private void listenForRegistration(RegisterForPushNotificationsRequest request) {
-        if (!registeredWithEventBus) {
-            synchronized (this) {
-                if (!registeredWithEventBus) {
-                    Log.d(LOG_TAG, "adding self as listener");
-                    registeredWithEventBus = true;
-                    EventBus.getDefault().register(this);
-                }
-            }
-        }
-        GCMRegistration.triggerOnRegistration(request);
-    }
 }
