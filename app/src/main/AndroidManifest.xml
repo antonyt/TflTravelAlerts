@@ -38,7 +38,7 @@
         <activity android:name="com.tfltravelalerts.alerts.EditAlertActivity" />
         <activity android:name="com.tfltravelalerts.debug.ExceptionViewerActivity" />
 
-        <service android:name="com.tfltravelalerts.GCMIntentService" />
+        <service android:name=".gcm.GCMIntentService" />
 
         <receiver
             android:name="com.tfltravelalerts.notification.TflAlarmBroadcastReceiver"

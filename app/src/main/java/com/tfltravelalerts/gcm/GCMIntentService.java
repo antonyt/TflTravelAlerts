@@ -1,9 +1,8 @@
 
-package com.tfltravelalerts;
+package com.tfltravelalerts.gcm;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
-import com.tfltravelalerts.gcm.GCMRegistrationManager;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateRequest;
 
 import android.content.Context;
