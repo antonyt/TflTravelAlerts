@@ -19,9 +19,6 @@ import com.tfltravelalerts.statusviewer.events.LineStatusUpdateSuccess;
 
 import de.greenrobot.event.EventBus;
 
-/**
- * TODO: write doc
- */
 public class TfLNotificationManager {
 
     private static final String LOG_TAG = "TfLNotificationManager";
@@ -96,31 +93,33 @@ public class TfLNotificationManager {
     }
 
     private boolean shouldShowNotification(LineStatusAlert alert) {
+        LineStatusUpdateSet notifiedUpdateSet = mNotifiedUpdates.get(alert.getId());
+        LineStatusUpdateSet oldUpdateSet = notifiedUpdateSet.getUpdatesForAlert(alert);
         LineStatusUpdateSet currentUpdateSet = mLineStatus.getUpdatesForAlert(alert);
+
         if(alert.onlyNotifyForDisruptions() && !currentUpdateSet.isDisrupted()) {
-            // TODO there might be a problem here: if there were problems but they
-            // now got solved, we won't tell the user these problems are gone!
+            if(oldUpdateSet.isDisrupted()) {
+                Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
+                        + "; service just got back to normal. Notify user");
+                return true;
+            }
             Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
-                    + "; service is good - surpress notification");
+                    + "; service is good - suppress notification");
             return false;
         }
-        
-        LineStatusUpdateSet notifiedUpdateSet = mNotifiedUpdates.get(alert.getId());
-        
+
         if (notifiedUpdateSet == null) {
             Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                     + "; no previous notification detected!");
             return true;
         }
-        
+
         if(notifiedUpdateSet.isExpiredResult()) {
             Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                     + "; last result has expired");
             return true;
         }
-        
-        LineStatusUpdateSet oldUpdateSet = notifiedUpdateSet.getUpdatesForAlert(alert);
-        
+
         Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
                 + "; checking for changes since last time...");
         return oldUpdateSet.lineStatusChanged(currentUpdateSet);
