@@ -3,9 +3,9 @@ package com.tfltravelalerts.notification;
 
 import java.util.Date;
 
-import org.holoeverywhere.app.Application;
 
 import android.app.AlarmManager;
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;

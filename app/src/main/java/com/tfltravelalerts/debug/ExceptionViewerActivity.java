@@ -1,7 +1,7 @@
 
 package com.tfltravelalerts.debug;
 
-import org.holoeverywhere.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import com.tfltravelalerts.common.SinglePaneFragmentActivity;
 

@@ -1,6 +1,6 @@
 package com.tfltravelalerts.weekend;
 
-import org.holoeverywhere.widget.Toast;
+import android.widget.Toast;
 
 import android.content.Intent;
 import android.util.Log;
@@ -11,9 +11,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.CheatSheet;
 import com.tfltravelalerts.model.LineStatusUpdateSet;

@@ -1,9 +1,9 @@
 
 package com.tfltravelalerts.debug;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.app.Fragment;
-import org.holoeverywhere.widget.TextView;
+import android.view.LayoutInflater;
+import android.support.v4.app.Fragment;
+import android.widget.TextView;
 
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,9 +11,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 public class ExceptionViewerFragment extends Fragment {
 

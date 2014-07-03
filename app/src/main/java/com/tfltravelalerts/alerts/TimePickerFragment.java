@@ -1,20 +1,19 @@
 
 package com.tfltravelalerts.alerts;
 
-import java.util.Calendar;
-
-import org.holoeverywhere.app.Dialog;
-import org.holoeverywhere.app.DialogFragment;
-import org.holoeverywhere.app.TimePickerDialog;
-import org.holoeverywhere.widget.TimePicker;
-
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.widget.TimePicker;
 
 import com.tfltravelalerts.alerts.events.AlertTimeSelected;
 import com.tfltravelalerts.model.Time;
+
+import java.util.Calendar;
 
 import de.greenrobot.event.EventBus;
 

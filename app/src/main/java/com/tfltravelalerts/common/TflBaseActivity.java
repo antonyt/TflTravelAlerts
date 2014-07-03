@@ -2,17 +2,18 @@
 package com.tfltravelalerts.common;
 
 
-import org.holoeverywhere.app.Activity;
+
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.navigationdrawer.AppScreen;
 import com.tfltravelalerts.navigationdrawer.AppScreen.Screen;
 import com.tfltravelalerts.navigationdrawer.AppScreenUtil;
 
-public abstract class TflBaseActivity extends Activity {
+public abstract class TflBaseActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle sSavedInstanceState) {

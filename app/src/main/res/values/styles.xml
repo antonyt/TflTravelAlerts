@@ -1,27 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-     <style name="TflThemeBase" parent="@style/Holo.Theme">
+     <style name="TflTheme" parent="android:Theme.Holo">
 <!--    <item name="android:windowBackground">@color/app_background</item> -->
 <!-- 	<item name="android:windowBackground">@drawable/app_background</item> -->
         <item name="android:windowBackground">@drawable/layer_app_background</item>
-         </style>
-    <style name="TflTheme" parent="@style/TflThemeBase">
-<!--         <item name="actionBarStyle">@style/TflActionBar</item> -->
-    </style>
-    
-    <style name="TflActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
-        <item name="android:textColorPrimaryInverse">@color/primary_text_holo_dark</item>
-        <item name="android:textColorPrimary">@color/primary_text_holo_light</item>
-    </style>
+     </style>
 
-    <style name="NavDrawerRowBase">
-        <item name="android:background">@drawable/navdrawer_row_background</item>
-        <item name="android:minHeight">?attr/listPreferredItemHeightSmall</item>
-        <item name="android:textAppearance">?attr/textAppearanceListItemSmall</item>
-        <item name="background">@drawable/activated_background_holo</item>
-    </style>
-    <style name="NavDrawerRow" parent="@style/NavDrawerRowBase">
+    <style name="TflActionBar" parent="android:Widget.ActionBar">
     </style>
     
     <!-- Multi selector (base) -->

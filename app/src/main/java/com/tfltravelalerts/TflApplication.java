@@ -3,8 +3,7 @@ package com.tfltravelalerts;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import org.holoeverywhere.app.Application;
-
+import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,16 +17,18 @@ import com.tfltravelalerts.notification.TflAlarmManager;
 import com.tfltravelalerts.statusviewer.service.LineStatusManager;
 import com.tfltravelalerts.weekend.service.WeekendStatusManager;
 
+
 public class TflApplication extends Application implements UncaughtExceptionHandler {
 
     private final String LOG_TAG = "TflApplication";
-
+    private static TflApplication singleInstance = null;
     private UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
 
     @Override
     public void onCreate() {
         super.onCreate();
         Log.d(LOG_TAG, "TflApplication.onCreate - starting new application object");
+        singleInstance = this;
 
         fixAsyncTaskBug();
         //we need to set the tracker here because some of the managers will trigger analytics already
@@ -66,4 +67,7 @@ public class TflApplication extends Application implements UncaughtExceptionHand
         mDefaultUncaughtExceptionHandler.uncaughtException(thread, ex);
     }
 
+    public static TflApplication getLastInstance() {
+        return singleInstance;
+    }
 }

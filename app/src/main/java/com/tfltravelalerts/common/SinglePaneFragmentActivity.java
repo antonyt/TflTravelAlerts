@@ -1,11 +1,13 @@
 
 package com.tfltravelalerts.common;
 
-import org.holoeverywhere.app.Fragment;
+
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.MenuItem;
 
-import com.actionbarsherlock.view.MenuItem;
+
 import com.tfltravelalerts.R;
 
 /**
@@ -19,12 +21,13 @@ public abstract class SinglePaneFragmentActivity extends TflBaseActivity {
         setContentView(R.layout.single_page_fragment_activity);
         if (sSavedInstanceState == null) {
             Fragment fragment = buildFragment();
+
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.single_pane_fragment_container, fragment).commit();
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
     }
 
     protected abstract Fragment buildFragment();

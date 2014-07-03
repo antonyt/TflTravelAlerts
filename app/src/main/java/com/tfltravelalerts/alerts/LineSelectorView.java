@@ -3,9 +3,10 @@ package com.tfltravelalerts.alerts;
 
 import java.util.Set;
 
-import org.holoeverywhere.drawable.StateListDrawable;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.LinearLayout;
+
+import android.graphics.drawable.StateListDrawable;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;

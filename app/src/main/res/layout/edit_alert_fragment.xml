@@ -24,13 +24,13 @@
             android:textCursorDrawable="@null"
             android:textSize="@dimen/large_text_size" />
         <!--
-        cursor drawable to null will change the cursor color to the text color
+        set cursor drawable to null will change the cursor color to the text color
 		otherwise it would use the theme color which wasn't a good match
         -->
 
         <com.tfltravelalerts.alerts.TimeInputField
-            style="@style/Holo.EditText"
             android:id="@+id/time_input"
+            style="?android:editTextStyle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/normal_spacing_unit"

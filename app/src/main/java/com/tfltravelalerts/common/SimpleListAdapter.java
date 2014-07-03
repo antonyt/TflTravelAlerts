@@ -3,7 +3,7 @@ package com.tfltravelalerts.common;
 
 import java.util.List;
 
-import org.holoeverywhere.LayoutInflater;
+import android.view.LayoutInflater;
 
 import android.content.Context;
 import android.view.View;

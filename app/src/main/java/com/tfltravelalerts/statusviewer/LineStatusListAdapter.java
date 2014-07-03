@@ -6,8 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.TextView;
+import android.view.LayoutInflater;
+import android.widget.TextView;
 
 import android.content.Context;
 import android.view.View;

@@ -1,7 +1,7 @@
 
 package com.tfltravelalerts.alerts;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 import android.content.Context;
 import android.util.AttributeSet;

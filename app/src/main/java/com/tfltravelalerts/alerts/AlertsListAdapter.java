@@ -8,7 +8,7 @@ import com.tfltravelalerts.model.Line;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.Time;
 
-import org.holoeverywhere.widget.TextView;
+import android.widget.TextView;
 
 import android.content.Context;
 import android.view.View;

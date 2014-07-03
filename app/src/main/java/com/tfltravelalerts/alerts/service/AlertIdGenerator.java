@@ -1,9 +1,9 @@
 
 package com.tfltravelalerts.alerts.service;
 
-import org.holoeverywhere.preference.SharedPreferences;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.tfltravelalerts.TflApplication;
 

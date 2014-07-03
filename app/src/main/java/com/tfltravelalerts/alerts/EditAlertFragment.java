@@ -1,11 +1,11 @@
 
 package com.tfltravelalerts.alerts;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.Button;
-import org.holoeverywhere.widget.CheckBox;
-import org.holoeverywhere.widget.EditText;
-import org.holoeverywhere.widget.Toast;
+import android.view.LayoutInflater;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +13,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.alerts.events.AddOrUpdateAlertRequest;
 import com.tfltravelalerts.alerts.events.AlertTimeSelected;
@@ -224,6 +224,6 @@ public class EditAlertFragment extends EventBusFragment {
     private void showTimePickerDialog() {
         Time initialTime = mTimeInputField.getTime();
         TimePickerFragment timePickerFragment = TimePickerFragment.newInstance(initialTime);
-        timePickerFragment.show(getFragmentManager());
+        timePickerFragment.show(getFragmentManager(), null);
     }
 }

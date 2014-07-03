@@ -1,15 +1,15 @@
 
 package com.tfltravelalerts.statusviewer;
 
-import com.actionbarsherlock.view.MenuItem;
+import android.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.common.CheatSheet;
 import com.tfltravelalerts.common.DateStrings;
 import com.tfltravelalerts.common.eventbus.EventBusFragment;
 
-import org.holoeverywhere.LayoutInflater;
-import org.holoeverywhere.widget.ListView;
-import org.holoeverywhere.widget.TextView;
+import android.view.LayoutInflater;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -81,7 +81,7 @@ public abstract class AbstractLineStatusFragment extends EventBusFragment {
     abstract protected void updateLineStatus();
 
     protected void updateTimestamp(Date date) {
-        String dateFormat = DateStrings.getElapsedTimeForStatus(getSupportApplication(), date.getTime());
+        String dateFormat = DateStrings.getElapsedTimeForStatus(mLastUpdateTime.getContext(), date.getTime());
         String updateTime = getString(R.string.last_update_time, dateFormat);
         mLastUpdateTime.setText(updateTime);
         mLastUpdateTime.setTag(date);

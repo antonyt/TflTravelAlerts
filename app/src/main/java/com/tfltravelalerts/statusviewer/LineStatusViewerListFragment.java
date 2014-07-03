@@ -1,7 +1,7 @@
 
 package com.tfltravelalerts.statusviewer;
 
-import org.holoeverywhere.widget.Toast;
+import android.widget.Toast;
 
 import android.content.Intent;
 import android.view.View;
@@ -9,9 +9,9 @@ import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import com.tfltravelalerts.R;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
 import com.tfltravelalerts.statusviewer.events.LineStatusUpdateFailure;

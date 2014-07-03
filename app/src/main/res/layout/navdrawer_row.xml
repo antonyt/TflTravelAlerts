@@ -8,4 +8,5 @@
     android:paddingRight="16dp"
     android:textIsSelectable="false"
     android:textColor="#fff"
-    style="@style/NavDrawerRow"/>
+/>
+<!--    style="@style/NavDrawerRow" removed but this file isn't being used ATM -->

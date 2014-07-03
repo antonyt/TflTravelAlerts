@@ -4,16 +4,16 @@ package com.tfltravelalerts;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.AccessibilityDelegateCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 
-import com.actionbarsherlock.view.MenuItem;
+import android.view.MenuItem;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.tfltravelalerts.alerts.ViewAlertsFragment;
 import com.tfltravelalerts.common.TflBaseActivity;
@@ -24,8 +24,6 @@ import com.tfltravelalerts.navigationdrawer.AppScreenUtil;
 import com.tfltravelalerts.statusviewer.LineStatusViewerListFragment;
 import com.tfltravelalerts.weekend.WeekendStatusViewerListFragment;
 import com.viewpagerindicator.PageIndicator;
-
-import org.holoeverywhere.app.Fragment;
 
 public class MainActivity extends TflBaseActivity {
 
@@ -43,7 +41,7 @@ public class MainActivity extends TflBaseActivity {
         initViewPager(savedInstanceState);
         ((PageIndicator) mViewPagerIndicator).setViewPager(mViewPager);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
     }
 
     private void analyticsCallback() {
@@ -109,7 +107,7 @@ public class MainActivity extends TflBaseActivity {
             }
         });
 
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int arg0) {
@@ -128,7 +126,7 @@ public class MainActivity extends TflBaseActivity {
         int margin = getResources().getDimensionPixelSize(R.dimen.view_pager_page_margin);
         mViewPager.setPageMargin(margin);
         
-        ViewCompat.setAccessibilityDelegate((View)mViewPagerIndicator, new AccessibilityDelegateCompat() {
+        ViewCompat.setAccessibilityDelegate((View) mViewPagerIndicator, new AccessibilityDelegateCompat() {
             @Override
             public boolean dispatchPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
                 boolean ret = super.dispatchPopulateAccessibilityEvent(host, event);
@@ -138,16 +136,16 @@ public class MainActivity extends TflBaseActivity {
                 event.getText().add(adapter.getPageTitle(currentItem));
                 event.setCurrentItemIndex(currentItem);
                 event.setItemCount(adapter.getCount());
-                
-                if(currentItem > 0) {
-                    event.getText().add("Page to the left: "+adapter.getPageTitle(currentItem-1));
+
+                if (currentItem > 0) {
+                    event.getText().add("Page to the left: " + adapter.getPageTitle(currentItem - 1));
                 }
-                if(currentItem < adapter.getCount()-1) {
-                    event.getText().add("Page to the right: "+adapter.getPageTitle(currentItem+1));
+                if (currentItem < adapter.getCount() - 1) {
+                    event.getText().add("Page to the right: " + adapter.getPageTitle(currentItem + 1));
                 }
                 return ret;
             }
-            
+
         });
     }
 

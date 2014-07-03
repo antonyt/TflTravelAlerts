@@ -1,11 +1,11 @@
 
 package com.tfltravelalerts.common.eventbus;
 
-import org.holoeverywhere.app.Fragment;
 
 import de.greenrobot.event.EventBus;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 /**
  * Base class for a fragment interested in events posted on the default

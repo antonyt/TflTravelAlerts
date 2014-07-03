@@ -3,9 +3,9 @@ package com.tfltravelalerts.common.persistence;
 
 import java.lang.reflect.Type;
 
-import org.holoeverywhere.preference.PreferenceManager;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.SparseArray;
 
 import com.google.common.collect.ImmutableList;

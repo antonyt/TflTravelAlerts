@@ -1,7 +1,7 @@
 
 package com.tfltravelalerts.alerts;
 
-import org.holoeverywhere.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import android.os.Bundle;
 
