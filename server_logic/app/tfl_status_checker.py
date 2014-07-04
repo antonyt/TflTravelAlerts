@@ -23,6 +23,8 @@ def print_json():
   print json.dumps(j)
 
 def str_to_enum(s):
+  if s == "H'smith & City":
+    s = "HAMMERSMITH_AND_CITY"
   return s.replace("&", "and").upper().replace(" ", "_")
 
 def produce_json(response):
