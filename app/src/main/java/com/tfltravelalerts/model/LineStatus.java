@@ -15,7 +15,8 @@ public enum LineStatus {
     SUSPENDED(R.string.line_status_suspended, R.drawable.line_status_interruptions),
     PART_SUSPENDED(R.string.line_status_part_suspended, R.drawable.line_status_interruptions),
     REDUCED_SERVICE(R.string.line_status_reduced_service, R.drawable.line_status_interruptions),
-    BUS_SERVICE(R.string.line_status_bus_service, R.drawable.line_status_interruptions);
+    BUS_SERVICE(R.string.line_status_bus_service, R.drawable.line_status_interruptions),
+    SERVICE_CLOSED(R.string.line_status_service_closed, R.drawable.line_status_interruptions);
 
     private final int mStatusResId;
     private final int mStatusIcon;

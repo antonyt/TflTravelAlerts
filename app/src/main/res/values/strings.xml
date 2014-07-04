@@ -40,6 +40,7 @@
     <string name="line_status_part_suspended">Part Suspended</string>
     <string name="line_status_reduced_service">Reduced Service</string>
     <string name="line_status_bus_service">Bus Service</string>
+    <string name="line_status_service_closed">Service Closed</string>
     <string name="line_status_unknown">Unknown</string>
 
     <!-- Days -->
