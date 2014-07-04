@@ -45,6 +45,7 @@
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.tfltravelalerts.alarm" />
+                <action android:name="com.tfltravelalerts.alarm.timeout" />
             </intent-filter>
         </receiver>
         

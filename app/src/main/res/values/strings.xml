@@ -71,7 +71,7 @@
     <!-- Edit alert messages -->
     <string name="edit_alert_alert_title_hint">Alert Title</string>
     <string name="edit_alert_time_field_hint">Time of departure</string>
-    <string name="edit_alert_only_notify_for_disruptions">Only notify for disruptions</string>
+    <string name="edit_alert_only_notify_for_disruptions">Skip notification if there is a good service</string>
 
     <!-- Validation messages -->
     <string name="edit_alert_validation_no_title">Please enter a title!</string>
@@ -94,6 +94,8 @@
     <string name="notifications_title">Travel alerts for %s</string>
     <string name="notifications_good_service">Good service on all selected lines</string>
     <string name="notifications_problem_list_short_message">Disruptions on lines %s</string>
+    <string name="notifications_timeout_title">Timed out</string>
+    <string name="notifications_timeout_message">We failed to check the tube status due to lack of connectivity</string>
 
     <!-- time-related stuff -->
     <string name="time_just_now">just now</string>

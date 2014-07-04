@@ -1,9 +1,6 @@
 
 package com.tfltravelalerts.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,6 +16,9 @@ import com.tfltravelalerts.TflApplication;
 import com.tfltravelalerts.model.LineStatusAlert;
 import com.tfltravelalerts.model.LineStatusUpdate;
 import com.tfltravelalerts.model.LineStatusUpdateSet;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TODO: write doc
@@ -49,7 +49,7 @@ public class TflNotificationBuilder {
         builder.setLargeIcon(largeIcon);
         builder.setAutoCancel(true);
 
-        PendingIntent pendingIntent = getPendingIntent();
+        PendingIntent pendingIntent = getPendingIntent(mContext, mAlert.getId());
         builder.setContentIntent(pendingIntent);
 
         String fullMessage = getFullAlertMessage();
@@ -82,12 +82,12 @@ public class TflNotificationBuilder {
         }
     }
 
-    private PendingIntent getPendingIntent() {
-        Intent intent = new Intent(mContext, MainActivity.class);
+    public static PendingIntent getPendingIntent(Context context, int requestId) {
+        Intent intent = new Intent(context, MainActivity.class);
         // starting activities from pending intents requires to use a new task
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(mContext, mAlert.getId(), intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestId, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         return pendingIntent;
     }
