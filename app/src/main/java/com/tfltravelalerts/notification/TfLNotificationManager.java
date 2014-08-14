@@ -92,7 +92,7 @@ public class TfLNotificationManager {
             return;
         }
 
-        if (shouldShowNotification(alert)) {
+        if (shouldShow(alert)) {
             Log.i(LOG_TAG, "showOrUpdateNotification: creating notification");
             NotificationManager nm = (NotificationManager) mContext
                     .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -103,6 +103,43 @@ public class TfLNotificationManager {
         } else {
             Log.i(LOG_TAG, "showOrUpdateNotification: not showing notification due to no new data");
         }
+    }
+
+
+
+    private boolean shouldShow(LineStatusAlert alert) {
+        LineStatusUpdateSet notifiedUpdateSet = mNotifiedUpdates.get(alert.getId());
+        LineStatusUpdateSet oldUpdateSet = null;
+        if(notifiedUpdateSet != null) {
+            oldUpdateSet = notifiedUpdateSet.getUpdatesForAlert(alert);
+        }
+        if(mLineStatus == null) {
+            // edge case where the app was recently installed, was offline and we never got any
+            // status - skip the notification for this time
+            Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
+                    + "; no line status yet. Skip this time");
+            return false;
+        }
+        LineStatusUpdateSet currentUpdateSet = mLineStatus.getUpdatesForAlert(alert);
+
+        final boolean onlyNotifyDisruptions = alert.onlyNotifyForDisruptions();
+        final boolean hasNotifiedAlready = oldUpdateSet != null && !oldUpdateSet.isExpiredResult();
+
+        if(hasNotifiedAlready) {
+          final boolean statusChanged = oldUpdateSet.lineStatusChanged(currentUpdateSet);
+          // if the status changed then notify otherwise there is no need to
+            Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
+                    + "; hasNotifiedAlready and changed = " + statusChanged);
+          return statusChanged;
+        }
+        Log.d(LOG_TAG, "shouldShowNotification for alert " + alert.getId()
+                + "; onlyNotifyDisruptions = " + onlyNotifyDisruptions + " and isDisrupted = "
+                + mLineStatus.isDisrupted());
+        if(onlyNotifyDisruptions) {
+            return mLineStatus.isDisrupted();
+        }
+
+        return true;
     }
 
     private boolean shouldShowNotification(LineStatusAlert alert) {
@@ -150,7 +187,7 @@ public class TfLNotificationManager {
 
     private Notification buildAlertNotification(LineStatusAlert alert,
             LineStatusUpdateSet lineStatusUpdateSet) {
-        return new TflNotificationBuilder(alert, mLineStatus).buildNotification();
+        return new TflNotificationBuilder(alert, lineStatusUpdateSet).buildNotification();
     }
 
     private Notification buildTimeoutNotification() {

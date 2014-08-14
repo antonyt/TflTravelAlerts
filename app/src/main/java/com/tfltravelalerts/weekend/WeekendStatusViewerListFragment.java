@@ -79,7 +79,7 @@ public class WeekendStatusViewerListFragment extends AbstractLineStatusFragment 
     }
     
     public void onEventMainThread(WeekendStatusUpdateSuccess event) {
-        Log.i(LOG_TAG, "onEvent WeekendStatusUpdateSuccess");
+        Log.d(LOG_TAG, "onEvent WeekendStatusUpdateSuccess");
         
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
@@ -95,7 +95,7 @@ public class WeekendStatusViewerListFragment extends AbstractLineStatusFragment 
     }
     
     public void onEventMainThread(WeekendStatusUpdateFailure event) {
-        Log.i(LOG_TAG, "onEvent WeekendStatusUpdateFailure");
+        Log.d(LOG_TAG, "onEvent WeekendStatusUpdateFailure");
         
         if (mRefreshIcon != null) {
             mRefreshIcon.clearAnimation();
