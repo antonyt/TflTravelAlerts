@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">TfLTravelAlerts</string>
+    <string name="app_name">TfL Alerts</string>
+    <string name="full_app_name">TfL Alerts</string>
+
+    <!-- resources used in the main screen -->
+    <string name="main_tab_title_now">Now</string>
+    <string name="main_tab_title_weekend">Weekend</string>
+    <string name="main_tab_title_alarms">Alarms</string>
 </resources>
