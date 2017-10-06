@@ -1,2 +1,0 @@
-include ':libraries:viewpagerindicator'
-include ':app'
