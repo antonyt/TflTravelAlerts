@@ -21,27 +21,14 @@ def print_json():
   j = produce_json(state)
   print json.dumps(j)
 
-def add_unknown_notifications(j):
-  """adds line status for overground and DLR stating that the api
-  doesn't provide us with this information"""
-  message = "Unfortunately, this information wasn't made available to us"
-  j.append( {'line': str_to_enum('dlr'), 
-             'state':str_to_enum('unknown'), 
-             'details': message} )
-  j.append( {'line': str_to_enum('overground'), 
-             'state':str_to_enum('unknown'), 
-             'details': message} )
-
-
 def produce_json(response, skip_fake_status = False):
   json = []
   for (line, description, details) in parse_raw_state(response):
     json.append({'line': str_to_enum(line), 
                  'state':str_to_enum(description), 
                  'details': details})
-  if not skip_fake_status:
-    add_unknown_notifications(json)
   return json
+
 def parse_raw_state(response):
   xmlObj = minidom.parse(response)
   elements = xmlObj.getElementsByTagName("Line")

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+     <style name="TflTheme" parent="android:Theme.Holo">
+<!--    <item name="android:windowBackground">@color/app_background</item> -->
+<!-- 	<item name="android:windowBackground">@drawable/app_background</item> -->
+        <item name="android:windowBackground">@drawable/layer_app_background</item>
+     </style>
+
+    <style name="TflActionBar" parent="android:Widget.ActionBar">
+    </style>
+    
+    <!-- Multi selector (base) -->
+    <style name="MultiSelector">
+        <item name="android:background">@drawable/multi_selector_background</item>
+        <item name="android:button">@null</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">@dimen/triple_spacing_unit</item>
+        <item name="android:layout_margin">@dimen/quarter_spacing_unit</item>
+        <item name="android:padding">@dimen/quarter_spacing_unit</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/multi_selector_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Day selector -->
+    <style name="DaySelector" parent="@style/MultiSelector"></style>
+
+    <!-- Line selector -->
+    <style name="LineSelector" parent="@style/MultiSelector">
+        <item name="android:textColor">@drawable/line_status_selector_text_color</item>
+        <item name="android:shadowColor">@color/shadow_color</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <style name="ViewPagerTitle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:padding">@dimen/half_spacing_unit</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ViewPageInformativeText">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:padding">@dimen/half_spacing_unit</item>
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="android:textSize">@dimen/normal_text_size</item>
+    </style>
+    
+</resources>
