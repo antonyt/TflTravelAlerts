@@ -1,10 +1,15 @@
 package com.tfltravelalerts.ui.main
 
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.LinearLayout
 import com.tfltravelalerts.R
 import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
@@ -30,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     inner class ViewPagerImpl : ConstantViewPagerAdapter.Implementation {
         override val pageCount = 3
         val mViews: Array<View?> = arrayOfNulls<View?>(pageCount)
+        val mLayoutInflater: LayoutInflater by lazy  { LayoutInflater.from(this as MainActivity)}
 
         override fun canPageScrollVertically(position: Int): Boolean {
             val view: View? = mViews[position]
@@ -51,10 +57,38 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun instantiateView(parent: ViewGroup, position: Int): View {
-            // TODO
-            return TextView(parent.context)
+            if (position < 2) {
+                val view = mLayoutInflater.inflate(R.layout.main_network_status, parent, false)
+                setupNetworkStatusView(view, position)
+                return view
+            } else {
+                val view = mLayoutInflater.inflate(R.layout.main_alarms_list, parent, false)
+                setupAlarmsList(view)
+                return view
+            }
         }
 
+        private fun setupAlarmsList(view: View) {
+            val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
+            recyclerView.setHasFixedSize(true)
+            recyclerView.layoutManager = LinearLayoutManager(view.context)
+            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.HORIZONTAL))
+            // TODO set adapter
+        }
+
+        private fun setupNetworkStatusView(view: View, position: Int) {
+            val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
+            recyclerView.setHasFixedSize(true)
+            recyclerView.layoutManager = LinearLayoutManager(view.context)
+            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.HORIZONTAL))
+
+            val refreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
+            refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent)
+            // TODO
+            // setup swipe refresh listener
+            // set in progress if download is in progress
+            // set adapter
+        }
     }
 }
 
