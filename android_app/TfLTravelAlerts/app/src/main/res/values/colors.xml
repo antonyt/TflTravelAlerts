@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- theme attributes -->
     <color name="colorAccent">#FF4081</color>
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#304FFE</color>
+
+
+    <!-- global colors -->
+    <color name="line_color_bakerloo">#ff8a4e1e</color>
+    <color name="line_color_central">#ffde2110</color>
+    <color name="line_color_circle">#ffffcf00</color>
+    <color name="line_color_district">#ff007325</color>
+    <color name="line_color_dlr">#ff00afae</color>
+    <color name="line_color_hammersmith_and_city">#ffd898af</color>
+    <color name="line_color_jubilee">#ff868f98</color>
+    <color name="line_color_metropolitan">#ff760957</color>
+    <color name="line_color_northern">#ff000000</color>
+    <color name="line_color_overground">#ffea6a00</color>
+    <color name="line_color_piccadilly">#ff0009ab</color>
+    <color name="line_color_tfl_rail">#ff0009ab</color>
+    <color name="line_color_tram">#ff00bf00</color>
+    <color name="line_color_victoria">#ff009fe5</color>
+    <color name="line_color_waterloo_and_city">#ff72d1bd</color>
+
 </resources>

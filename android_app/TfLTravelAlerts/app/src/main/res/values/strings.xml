@@ -2,6 +2,37 @@
     <string name="app_name">TfL Alerts</string>
     <string name="full_app_name">TfL Alerts</string>
 
+    <!-- global strings -->
+
+    <string name="line_name_bakerloo">Bakerloo</string>
+    <string name="line_name_central">Central</string>
+    <string name="line_name_circle">Circle</string>
+    <string name="line_name_district">District</string>
+    <string name="line_name_dlr">DLR</string>
+    <string name="line_name_hammersmith_and_city">Hammersmith &amp; City</string>
+    <string name="line_name_jubilee">Jubilee</string>
+    <string name="line_name_metropolitan">Metropolitan</string>
+    <string name="line_name_northern">Northern</string>
+    <string name="line_name_overground">Overground</string>
+    <string name="line_name_piccadilly">Piccadilly</string>
+    <string name="line_name_tfl_rail">TfL Rail</string>
+    <string name="line_name_trams">Tram</string>
+    <string name="line_name_victoria">Victoria</string>
+    <string name="line_name_waterloo_and_city">Waterloo &amp; City</string>
+
+    <string name="line_status_bus_service">Bus Service</string>
+    <string name="line_status_good_service">Good Service</string>
+    <string name="line_status_minor_delays">Minor Delays</string>
+    <string name="line_status_part_closure">Part Closure</string>
+    <string name="line_status_part_suspended">Part Suspended</string>
+    <string name="line_status_planned_closure">Planned Closure</string>
+    <string name="line_status_reduced_service">Reduced Service</string>
+    <string name="line_status_service_closed">Service Closed</string>
+    <string name="line_status_severe_delays">Severe Delays</string>
+    <string name="line_status_suspended">Suspended</string>
+    <string name="line_status_unknown">Unknown</string>
+
+
     <!-- resources used in the main screen -->
     <string name="main_tab_title_now">Now</string>
     <string name="main_tab_title_weekend">Weekend</string>

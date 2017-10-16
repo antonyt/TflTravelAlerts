@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     inner class ViewPagerImpl : ConstantViewPagerAdapter.Implementation {
         override val pageCount = 3
         val mViews: Array<View?> = arrayOfNulls<View?>(pageCount)
-        val mLayoutInflater: LayoutInflater by lazy  { LayoutInflater.from(this as MainActivity)}
+        val mLayoutInflater: LayoutInflater by lazy  { LayoutInflater.from(this@MainActivity)}
 
         override fun canPageScrollVertically(position: Int): Boolean {
             val view: View? = mViews[position]
