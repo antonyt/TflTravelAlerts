@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="listener" type="com.tfltravelalerts.ui.main.NetworkStatusViewHolder"/>
+        <variable name="status" type="com.tfltravelalerts.model.LineStatus"/>
+        <variable name="expanded" type="Boolean"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:selectableItemBackground"
+        android:onClick="@{() -> listener.onRowClicked(status)}"
+        >
+
+        <View
+            android:id="@+id/line_color"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/circle"
+            app:backgroundTintCompat="@{status.line.colorResId}"
+            />
+
+        <ImageView
+            android:id="@+id/status_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@id/line_color"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@null"
+            tools:src="@drawable/line_status_interruptions"
+            android:src="@{status.status.statusIcon}"
+            />
+
+        <TextView
+            android:id="@+id/line_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/line_name"
+            android:layout_below="@id/line_name"
+            android:text="@{status.status.statusResId}"
+            android:textColor="?android:textColorTertiary"
+            />
+
+        <TextView
+            android:id="@+id/line_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/line_status"
+            android:layout_below="@id/line_status"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:text="@{status.description}"
+            android:visibility="@{expanded ? View.VISIBLE : View.GONE}"
+            android:textColor="?android:textColorTertiary"
+            />
+
+        <TextView
+            android:id="@+id/line_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/activity_horizontal_content_start"
+            android:layout_marginTop="16dp"
+            android:text="@{status.line.nameResId}"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textStyle="bold"
+            />
+    </RelativeLayout>
+</layout>

@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import com.tfltravelalerts.R
 import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
+import com.tfltravelalerts.model.NetworkStatus
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity() {
@@ -87,7 +88,10 @@ class MainActivity : AppCompatActivity() {
             // TODO
             // setup swipe refresh listener
             // set in progress if download is in progress
-            // set adapter
+            val networkStatusAdapter = NetworkStatusAdapter()
+            recyclerView.adapter = networkStatusAdapter
+            networkStatusAdapter.networkStatus = if(position == 0)  NetworkStatus.LIVE_STATUS else NetworkStatus.WEEKEND_STATUS
+
         }
     }
 }

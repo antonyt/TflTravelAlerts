@@ -10,7 +10,6 @@
         android:id="@+id/main_app_bar_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
@@ -31,5 +30,6 @@
         android:id="@+id/main_view_pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
 </android.support.design.widget.CoordinatorLayout>
