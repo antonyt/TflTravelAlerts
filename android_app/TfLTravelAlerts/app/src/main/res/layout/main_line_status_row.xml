@@ -9,7 +9,7 @@
         <import type="android.view.View"/>
         <variable name="listener" type="com.tfltravelalerts.ui.main.NetworkStatusViewHolder"/>
         <variable name="status" type="com.tfltravelalerts.model.LineStatus"/>
-        <variable name="expanded" type="Boolean"/>
+        <variable name="expanded" type="boolean"/>
     </data>
 
     <RelativeLayout

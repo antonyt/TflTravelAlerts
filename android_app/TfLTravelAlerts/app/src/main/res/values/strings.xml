@@ -37,4 +37,5 @@
     <string name="main_tab_title_now">Now</string>
     <string name="main_tab_title_weekend">Weekend</string>
     <string name="main_tab_title_alarms">Alarms</string>
+    <string name="add_new_alarm">Add new alarm</string>
 </resources>

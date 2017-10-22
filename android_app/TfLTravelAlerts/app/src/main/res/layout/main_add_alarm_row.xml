@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable name="listener" type="com.tfltravelalerts.ui.main.AddAlarmViewHolder"/>
+    </data>
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="?android:listPreferredItemHeight"
+        android:background="?android:selectableItemBackground"
+        android:orientation="horizontal"
+        android:tag="layout/main_alarm_row_create_alarm_0"
+        android:onClick="@{() -> listener.onClick()}"
+        >
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="36.0dip"
+            android:layout_height="36.0dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            app:srcCompat="@drawable/main_add_alarm_icon"
+            android:contentDescription="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/activity_horizontal_content_start"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:text="@string/add_new_alarm"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            />
+    </FrameLayout>
+</layout>

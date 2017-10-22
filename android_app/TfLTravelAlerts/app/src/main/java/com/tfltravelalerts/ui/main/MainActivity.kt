@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity() {
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(view.context)
             recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.HORIZONTAL))
-            // TODO set adapter
+            val adapter = ConfiguredAlarmAdapter(this@MainActivity)
+            recyclerView.adapter = adapter
         }
 
         private fun setupNetworkStatusView(view: View, position: Int) {
