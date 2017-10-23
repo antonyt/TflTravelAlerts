@@ -14,6 +14,7 @@ import com.tfltravelalerts.common.getColorCompat
 import com.tfltravelalerts.common.setTextColorRes
 import com.tfltravelalerts.databinding.MainAddAlarmRowBinding
 import com.tfltravelalerts.databinding.MainConfiguredAlarmRowBinding
+import com.tfltravelalerts.model.AndroidTimePrinter
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
 
@@ -23,6 +24,7 @@ class ConfiguredAlarmAdapter(val context: Context)
     val VIEW_TYPE_ALARM = 0
     val VIEW_TYPE_CREATE_NEW = 1
     val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    val timePrinter = AndroidTimePrinter(context)
     var alarms = emptyList<ConfiguredAlarm>()
 
     override fun getItemViewType(position: Int): Int {
@@ -45,6 +47,7 @@ class ConfiguredAlarmAdapter(val context: Context)
         when (viewType) {
             VIEW_TYPE_ALARM -> {
                 val binding = MainConfiguredAlarmRowBinding.inflate(layoutInflater, parent, false)
+                binding.timePrinter = timePrinter
                 return ConfiguredAlarmViewHolder(binding)
             }
             VIEW_TYPE_CREATE_NEW -> {
