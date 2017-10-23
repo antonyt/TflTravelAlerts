@@ -20,12 +20,13 @@ import com.tfltravelalerts.model.Day
 
 class ConfiguredAlarmAdapter(val context: Context)
     : RecyclerView.Adapter<ConfiguredAlarmBaseViewHolder>(),
-        AddAlarmViewHolder.ViewActions {
+        AddAlarmViewHolder.ViewActions,
+        ConfiguredAlarmViewHolder.ViewActions {
     val VIEW_TYPE_ALARM = 0
     val VIEW_TYPE_CREATE_NEW = 1
     val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     val timePrinter = AndroidTimePrinter(context)
-    var alarms = emptyList<ConfiguredAlarm>()
+    var alarms : MutableList<ConfiguredAlarm> = mutableListOf<ConfiguredAlarm>()
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount - 1) VIEW_TYPE_CREATE_NEW else VIEW_TYPE_ALARM
@@ -48,7 +49,7 @@ class ConfiguredAlarmAdapter(val context: Context)
             VIEW_TYPE_ALARM -> {
                 val binding = MainConfiguredAlarmRowBinding.inflate(layoutInflater, parent, false)
                 binding.timePrinter = timePrinter
-                return ConfiguredAlarmViewHolder(binding)
+                return ConfiguredAlarmViewHolder(binding, this)
             }
             VIEW_TYPE_CREATE_NEW -> {
                 val binding = MainAddAlarmRowBinding.inflate(layoutInflater, parent, false)
@@ -65,25 +66,42 @@ class ConfiguredAlarmAdapter(val context: Context)
     override fun onAddAlarmClicked() {
         Toast.makeText(context, "Create new", Toast.LENGTH_LONG).show()
     }
+
+    override fun onAlarmClicked(alarm: ConfiguredAlarm) {
+        Toast.makeText(context, "Edit alarm", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onEnabledChanged(alarm: ConfiguredAlarm, isEnabled: Boolean, position: Int) {
+        alarms[position] = alarms[position].withEnabledValue(isEnabled)
+        notifyItemChanged(position)
+    }
 }
 
 sealed class ConfiguredAlarmBaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
     abstract fun executePendingBindings()
 }
 
-class ConfiguredAlarmViewHolder(val binding: MainConfiguredAlarmRowBinding)
+class ConfiguredAlarmViewHolder(
+        val binding: MainConfiguredAlarmRowBinding,
+        val listener: ViewActions)
     : ConfiguredAlarmBaseViewHolder(binding) {
+
+    init {
+        binding.listener = this
+    }
 
     override fun executePendingBindings() {
         binding.executePendingBindings()
     }
 
     fun showAlarm(alarm: ConfiguredAlarm) {
+        binding.listener = null
         binding.alarm = alarm
         val viewGroup = binding.weekDaysContainer.root as ViewGroup
         binding.executePendingBindings()
         // need to execute bindings before setting up the font
         setupFont(viewGroup, alarm)
+        binding.listener = this
     }
 
     private fun setupFont(viewGroup: ViewGroup, alarm: ConfiguredAlarm) {
@@ -103,6 +121,14 @@ class ConfiguredAlarmViewHolder(val binding: MainConfiguredAlarmRowBinding)
             }
             view.paintFlags = flags
         }
+    }
+
+    fun onAlarmClicked(alarm: ConfiguredAlarm) {
+        listener.onAlarmClicked(alarm)
+    }
+
+    fun onEnabledChanged(alarm: ConfiguredAlarm, isEnabled: Boolean) {
+        listener.onEnabledChanged(alarm, isEnabled, adapterPosition)
     }
 
     interface ViewActions {

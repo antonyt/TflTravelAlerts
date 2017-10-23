@@ -13,8 +13,12 @@ data class ConfiguredAlarm(
     fun includesLine(line: Line) = line in lines
     fun includesDay(day: Day) = day in days
 
+    fun withEnabledValue(enabled: Boolean) : ConfiguredAlarm {
+        return ConfiguredAlarm(time, days, lines, suppressNotifications, enabled)
+    }
+
     companion object {
-        val alarms = listOf<ConfiguredAlarm>(
+        val alarms = mutableListOf<ConfiguredAlarm>(
                 ConfiguredAlarm(
                         Time(9,15),
                         setOf(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY),

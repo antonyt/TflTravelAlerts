@@ -9,6 +9,7 @@
         <import type="android.view.View"/>
         <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
         <variable name="timePrinter" type="com.tfltravelalerts.model.TimePrinter"/>
+        <variable name="listener" type="com.tfltravelalerts.ui.main.ConfiguredAlarmViewHolder"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -17,6 +18,7 @@
         android:padding="8dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"
+        android:onClick="@{() -> listener.onAlarmClicked(alarm)}"
         >
 
         <TextView
@@ -41,6 +43,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
             android:checked="@{alarm.enabled}"
+            android:onCheckedChanged="@{(view, value) -> listener.onEnabledChanged(alarm, value)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -49,14 +52,14 @@
         <TextView
             android:id="@+id/disabled_text"
             android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_height="26dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="@string/main_alarm_disabled"
             android:textStyle="italic"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toEndOf="@+id/time"
-            app:layout_constraintTop_toTopOf="@+id/week_days_container"
             android:visibility="@{alarm.enabled ? View.GONE : View.VISIBLE}"
+            app:layout_constraintStart_toEndOf="@id/time"
+            app:layout_constraintTop_toBottomOf="@id/line_dots_container"
             />
 
         <include
@@ -78,13 +81,13 @@
             layout="@layout/main_configured_alarm_row_week_days"
             android:layout_width="0dp"
             android:layout_height="26dp"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal"
+            android:visibility="@{alarm.enabled ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toStartOf="@id/enabled"
             app:layout_constraintStart_toEndOf="@id/time"
             app:layout_constraintTop_toBottomOf="@id/line_dots_container"
-            android:visibility="@{alarm.enabled ? View.VISIBLE : View.GONE}"
             />
     </android.support.constraint.ConstraintLayout>
 </layout>
