@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import com.tfltravelalerts.R
 import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
+import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.NetworkStatus
 import kotlinx.android.synthetic.main.main_activity.*
 
@@ -73,8 +74,9 @@ class MainActivity : AppCompatActivity() {
             val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(view.context)
-            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.HORIZONTAL))
+            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
             val adapter = ConfiguredAlarmAdapter(this@MainActivity)
+            adapter.alarms = ConfiguredAlarm.alarms
             recyclerView.adapter = adapter
         }
 
@@ -82,7 +84,7 @@ class MainActivity : AppCompatActivity() {
             val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(view.context)
-            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.HORIZONTAL))
+            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
 
             val refreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
             refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent)

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
+        <variable name="line" type="com.tfltravelalerts.model.Line"/>
+    </data>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="16.0dip"
+        android:layout_height="16.0dip"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:background="@drawable/circle"
+        android:visibility="@{alarm.includesLine(line) ? View.VISIBLE : View.GONE}"
+        backgroundTintCompat="@{line.colorResId}"
+        tools:backgroundTint="@color/colorAccent"
+        tools:layout_editor_absoluteY="16dp"
+        />
+</layout>

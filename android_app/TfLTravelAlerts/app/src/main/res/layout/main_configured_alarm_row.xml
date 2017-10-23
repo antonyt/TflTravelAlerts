@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <import type="android.view.View"/>
+        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        >
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:minWidth="50dp"
+            android:text="@{alarm.time.formattedString}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="10:23 PM"
+            />
+
+        <Switch
+            android:id="@+id/enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:checked="@{alarm.enabled}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/disabled_text"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/main_alarm_disabled"
+            android:textStyle="italic"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/time"
+            app:layout_constraintTop_toTopOf="@+id/week_days_container"
+            android:visibility="@{alarm.enabled ? View.GONE : View.VISIBLE}"
+            />
+
+        <include
+            android:id="@+id/line_dots_container"
+            layout="@layout/main_configured_alarm_row_line_dots"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            app:alarm="@{alarm}"
+            app:layout_constraintBottom_toBottomOf="@id/time"
+            app:layout_constraintEnd_toStartOf="@id/enabled"
+            app:layout_constraintStart_toEndOf="@id/time"
+            app:layout_constraintTop_toTopOf="@id/time"
+            />
+
+        <include
+            android:id="@+id/week_days_container"
+            layout="@layout/main_configured_alarm_row_week_days"
+            android:layout_width="0dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/enabled"
+            app:layout_constraintStart_toEndOf="@id/time"
+            app:layout_constraintTop_toBottomOf="@id/line_dots_container"
+            android:visibility="@{alarm.enabled ? View.VISIBLE : View.GONE}"
+            />
+    </android.support.constraint.ConstraintLayout>
+</layout>

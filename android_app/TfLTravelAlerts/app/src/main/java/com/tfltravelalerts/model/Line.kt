@@ -5,10 +5,9 @@ import android.support.annotation.StringRes
 import com.tfltravelalerts.R
 
 
-enum class Line
-        constructor(@StringRes nameResId: Int,
-                    @ColorRes val colorResId: Int,
-                    val isDarkBackground: Boolean) {
+enum class Line(@StringRes val nameResId: Int,
+                @ColorRes val colorResId: Int,
+                val isDarkBackground: Boolean) {
     BAKERLOO(R.string.line_name_bakerloo, R.color.line_color_bakerloo, true),
     CENTRAL(R.string.line_name_central, R.color.line_color_central, true),
     CIRCLE(R.string.line_name_circle, R.color.line_color_circle, false),
@@ -42,5 +41,4 @@ enum class Line
         }
     }
 
-    val nameResId = nameResId
 }

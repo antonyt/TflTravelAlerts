@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <import type="com.tfltravelalerts.model.Line" />
+        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
+    </data>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        tools:showIn="@layout/main_configured_alarm_row"
+        >
+
+        <include
+            android:id="@+id/include16"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:line="@{Line.BAKERLOO}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include15"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include17"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include16"
+            app:line="@{Line.CENTRAL}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include17"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include18"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include15"
+            app:line="@{Line.CIRCLE}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include18"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include19"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include17"
+            app:line="@{Line.DISTRICT}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include19"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include20"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include18"
+            app:line="@{Line.DLR}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include20"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include21"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include19"
+            app:line="@{Line.HAMMERSMITH_AND_CITY}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include21"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include22"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include20"
+            app:line="@{Line.JUBILEE}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include22"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include23"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include21"
+            app:line="@{Line.METROPOLITAN}"
+            tools:layout_editor_absoluteY="24dp"
+            />
+
+        <include
+            android:id="@+id/include23"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include24"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include22"
+            app:line="@{Line.NORTHERN}"
+            tools:layout_editor_absoluteY="24dp"
+            />
+
+        <include
+            android:id="@+id/include24"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include25"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include23"
+            app:line="@{Line.PICCADILLY}"
+            tools:layout_editor_absoluteY="24dp"
+            />
+
+        <include
+            android:id="@+id/include25"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include26"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include24"
+            app:line="@{Line.VICTORIA}"
+            tools:layout_editor_absoluteY="24dp"
+            />
+
+        <include
+            android:id="@+id/include26"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include27"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include25"
+            app:line="@{Line.WATERLOO_AND_CITY}"
+            tools:layout_editor_absoluteY="24dp"
+            />
+
+        <include
+            android:id="@+id/include27"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/include28"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include26"
+            app:line="@{Line.TFL_RAIL}"
+            tools:layout_editor_absoluteY="24dp"
+            />
+
+        <include
+            android:id="@+id/include28"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/time"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include27"
+            app:line="@{Line.TRAMS}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+    </LinearLayout>
+</layout>

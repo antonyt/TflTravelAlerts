@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <data>
+        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
+        <variable name="day" type="com.tfltravelalerts.model.Day"/>
+    </data>
+
+    <TextView
+        android:id="@id/view"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:textColor="?android:textColorTertiary"
+        android:alpha="@{alarm.includesDay(day) ? 1.0f : 0.6f}"
+        android:text="@{day.firstLetter}"
+        tools:text="M"
+        tools:showIn="@layout/main_configured_alarm_row_week_days"
+        android:layout_weight="1"
+        android:tag="@{day}"
+        tools:ignore="ObsoleteLayoutParam"
+        />
+</layout>

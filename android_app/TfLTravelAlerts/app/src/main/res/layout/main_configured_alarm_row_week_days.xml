@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <data>
+        <import type="com.tfltravelalerts.model.Day" />
+        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:showIn="@layout/main_configured_alarm_row"
+        >
+
+        <include
+            android:id="@+id/monday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.MONDAY}"
+            />
+
+        <include
+            android:id="@+id/tuesday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.TUESDAY}"
+            />
+
+        <include
+            android:id="@+id/wednesday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.WEDNESDAY}"
+            />
+
+        <include
+            android:id="@+id/thursday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.THURSDAY}"
+            />
+
+        <include
+            android:id="@+id/friday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.FRIDAY}"
+            />
+
+        <include
+            android:id="@+id/saturday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.SATURDAY}"
+            />
+
+        <include
+            android:id="@+id/sunday"
+            layout="@layout/main_configured_alarm_row_week_day"
+            bind:alarm="@{alarm}"
+            bind:day="@{Day.SUNDAY}"
+            />
+    </LinearLayout>
+</layout>

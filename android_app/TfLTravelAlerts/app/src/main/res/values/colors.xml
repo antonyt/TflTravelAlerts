@@ -6,6 +6,8 @@
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#304FFE</color>
 
+    <color name="main_configured_alarm_week_text_enabled">#000000</color>
+    <color name="main_configured_alarm_week_text_disabled">#bcbcbc</color>
 
     <!-- global colors -->
     <color name="line_color_bakerloo">#ff8a4e1e</color>
