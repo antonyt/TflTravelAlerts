@@ -4,6 +4,7 @@ package com.tfltravelalerts.model
 private val NEW_ALARM_ID = -1
 
 data class ConfiguredAlarm(
+        val id: Int,
         val time: Time,
         val days: Set<Day>,
         val lines: Set<Line>,
@@ -14,66 +15,76 @@ data class ConfiguredAlarm(
     fun includesDay(day: Day) = day in days
 
     fun withEnabledValue(enabled: Boolean) : ConfiguredAlarm {
-        return ConfiguredAlarm(time, days, lines, suppressNotifications, enabled)
+        return ConfiguredAlarm(id, time, days, lines, suppressNotifications, enabled)
     }
 
     companion object {
         val alarms = mutableListOf<ConfiguredAlarm>(
                 ConfiguredAlarm(
+                        1,
                         Time(9,15),
                         setOf(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY),
                         setOf(Line.JUBILEE, Line.METROPOLITAN),
                         false,
                         true),
                 ConfiguredAlarm(
+                        2,
                         Time(19,0),
                         setOf(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY),
                         setOf(Line.JUBILEE, Line.METROPOLITAN),
                         false,
                         true),
                 ConfiguredAlarm(
+                        3,
                         Time(12,30),
                         setOf(Day.SATURDAY, Day.SUNDAY),
                         setOf(Line.CENTRAL),
                         true,
                         true),
                 ConfiguredAlarm(
+                        4,
                         Time(12,30),
                         setOf(Day.SATURDAY, Day.SUNDAY),
                         Line.values().toSet(),
                         true,
                         false),
                 ConfiguredAlarm(
+                        5,
                         Time(18,30),
                         Day.values().toSet(),
                         Line.values().toSet(),
                         true,
                         false),
                 ConfiguredAlarm(
+                        6,
                         Time(9,15),
                         setOf(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY),
                         setOf(Line.JUBILEE, Line.METROPOLITAN),
                         false,
                         true),
                 ConfiguredAlarm(
+                        7,
                         Time(19,0),
                         setOf(Day.MONDAY, Day.WEDNESDAY, Day.FRIDAY),
                         setOf(Line.JUBILEE, Line.METROPOLITAN),
                         false,
                         true),
                 ConfiguredAlarm(
+                        8,
                         Time(12,30),
                         setOf(Day.SATURDAY, Day.SUNDAY),
                         setOf(Line.CENTRAL),
                         true,
                         true),
                 ConfiguredAlarm(
+                        9,
                         Time(12,30),
                         setOf(Day.SATURDAY, Day.SUNDAY),
                         Line.values().toSet(),
                         true,
                         false),
                 ConfiguredAlarm(
+                        10,
                         Time(18,30),
                         Day.values().toSet(),
                         Line.values().toSet(),
