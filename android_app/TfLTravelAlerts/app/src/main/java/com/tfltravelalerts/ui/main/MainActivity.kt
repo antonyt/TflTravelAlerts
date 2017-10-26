@@ -12,12 +12,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.tfltravelalerts.R
 import com.tfltravelalerts.common.Assertions
+import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.NetworkStatus
 import kotlinx.android.synthetic.main.main_activity.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private val mViewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
 
