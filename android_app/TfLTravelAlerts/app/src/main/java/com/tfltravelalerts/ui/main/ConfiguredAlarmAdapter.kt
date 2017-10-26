@@ -18,14 +18,16 @@ import com.tfltravelalerts.model.AndroidTimePrinter
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
 
-class ConfiguredAlarmAdapter(val context: Context)
+
+private val VIEW_TYPE_ALARM = 0
+private val VIEW_TYPE_CREATE_NEW = 1
+
+class ConfiguredAlarmAdapter(private val context: Context)
     : RecyclerView.Adapter<ConfiguredAlarmBaseViewHolder>(),
         AddAlarmViewHolder.ViewActions,
         ConfiguredAlarmViewHolder.ViewActions {
-    val VIEW_TYPE_ALARM = 0
-    val VIEW_TYPE_CREATE_NEW = 1
-    val layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    val timePrinter = AndroidTimePrinter(context)
+    private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    private val timePrinter = AndroidTimePrinter(context)
     var alarms : MutableList<ConfiguredAlarm> = mutableListOf<ConfiguredAlarm>()
 
     override fun getItemViewType(position: Int): Int {
@@ -97,7 +99,7 @@ class ConfiguredAlarmViewHolder(
     fun showAlarm(alarm: ConfiguredAlarm) {
         binding.listener = null
         binding.alarm = alarm
-        val viewGroup = binding.weekDaysContainer.root as ViewGroup
+        val viewGroup = binding.weekDaysContainer?.root as ViewGroup
         binding.executePendingBindings()
         // need to execute bindings before setting up the font
         setupFont(viewGroup, alarm)
