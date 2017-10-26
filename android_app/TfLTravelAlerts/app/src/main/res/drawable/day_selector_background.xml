@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector android:exitFadeDuration="150"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="false" android:alpha="@dimen/custom_toggle_default_transparency">
+        <inset android:insetLeft="@dimen/custom_toggle_horizontal_inset" android:insetRight="@dimen/custom_toggle_horizontal_inset" android:insetTop="@dimen/custom_toggle_vertical_inset" android:insetBottom="@dimen/custom_toggle_vertical_inset">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/custom_toggle_corner" />
+                <solid android:color="@color/custom_toggle_background_default" />
+                <padding android:left="@dimen/custom_toggle_horizontal_padding" android:top="@dimen/custom_toggle_vertical_padding" android:right="@dimen/custom_toggle_horizontal_padding" android:bottom="@dimen/custom_toggle_vertical_padding" />
+            </shape>
+        </inset>
+    </item>
+    <item>
+        <inset android:insetLeft="@dimen/custom_toggle_horizontal_inset" android:insetRight="@dimen/custom_toggle_horizontal_inset" android:insetTop="@dimen/custom_toggle_vertical_inset" android:insetBottom="@dimen/custom_toggle_vertical_inset">
+            <shape android:shape="rectangle">
+                <corners android:radius="@dimen/custom_toggle_corner" />
+                <solid android:color="@color/custom_toggle_background_checked" />
+                <padding android:left="@dimen/custom_toggle_horizontal_padding" android:top="@dimen/custom_toggle_vertical_padding" android:right="@dimen/custom_toggle_horizontal_padding" android:bottom="@dimen/custom_toggle_vertical_padding" />
+            </shape>
+        </inset>
+    </item>
+</selector>

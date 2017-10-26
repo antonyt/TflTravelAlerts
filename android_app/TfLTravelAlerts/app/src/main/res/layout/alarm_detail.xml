@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:text="@string/alarm_detail_time_header"
+            />
+
+        <TextView
+            android:id="@+id/alarm_detail_time_label"
+            style="@style/Widget.AppCompat.EditText"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/line_status_minor_delays"
+            android:ems="10"
+            android:focusableInTouchMode="false"
+            android:hint="@string/alarm_detail_time_hint"
+            />
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Caption"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="@string/alarm_detail_time_footnote"
+            />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:text="@string/alarm_detail_days_header"
+            />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:baselineAligned="false"
+            >
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                />
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                />
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1.0"
+                android:gravity="center"
+                />
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                />
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="5.0"
+            >
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                />
+
+            <include
+                layout="@layout/alarm_detail_day_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                />
+        </LinearLayout>
+
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="16dp"
+            android:text="@string/alarm_detail_lines_header"
+            />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1.0"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                >
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_weight="1.0"
+                android:baselineAligned="false"
+                android:orientation="vertical"
+                >
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+
+                <include layout="@layout/alarm_detail_line_view" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="8dp"
+            android:text="@string/alarm_detail_skip_notifications_label"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="@string/alarm_detail_skip_notifications_note"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            />
+    </LinearLayout>
+</ScrollView>

@@ -26,4 +26,14 @@
     <color name="line_color_victoria">#ff009fe5</color>
     <color name="line_color_waterloo_and_city">#ff72d1bd</color>
 
+    <!-- configured alarm detail screen -->
+    <color name="alarm_detail_day_selected">@color/colorAccent</color>
+    <color name="alarm_detail_day_unselected">#ffdddddd</color>
+    <color name="alarm_detail_line_text_dark">#de000000</color>
+    <color name="alarm_detail_line_text_light">#ffffffff</color>
+
+    <!-- custom toggle views used in alert details -->
+    <color name="custom_toggle_background_checked">#ffe57373</color>
+    <color name="custom_toggle_background_default">#ffd6d7d7</color>
+
 </resources>
