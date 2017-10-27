@@ -47,7 +47,7 @@
     <string name="alarm_detail_days_header">Select the days</string>
     <string name="alarm_detail_error_message">Could not find alarm</string>
     <string name="alarm_detail_lines_header">Select the Lines</string>
-    <string name="alarm_detail_skip_notifications_label">Show confirmations of good service</string>
+    <string name="alarm_detail_skip_notifications_label">Show confirmation when there is a good service</string>
     <string name="alarm_detail_skip_notifications_note">You always receive a notification if there are disruptions. Select this if you also want to receive a confirmation when there is a good service.</string>
     <string name="alarm_detail_time_footnote">Note: We will be looking for disruptions before and after this time.</string>
     <string name="alarm_detail_time_header">Time for train</string>

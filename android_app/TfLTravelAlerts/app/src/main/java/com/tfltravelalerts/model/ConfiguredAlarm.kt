@@ -8,14 +8,14 @@ data class ConfiguredAlarm(
         val time: Time,
         val days: Set<Day>,
         val lines: Set<Line>,
-        val suppressNotifications: Boolean,
+        val notifyGoodService: Boolean,
         val enabled: Boolean) {
 
     fun includesLine(line: Line) = line in lines
     fun includesDay(day: Day) = day in days
 
     fun withEnabledValue(enabled: Boolean) : ConfiguredAlarm {
-        return ConfiguredAlarm(id, time, days, lines, suppressNotifications, enabled)
+        return ConfiguredAlarm(id, time, days, lines, notifyGoodService, enabled)
     }
 
     companion object {
