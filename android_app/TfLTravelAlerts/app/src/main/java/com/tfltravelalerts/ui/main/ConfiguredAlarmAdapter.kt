@@ -17,6 +17,7 @@ import com.tfltravelalerts.databinding.MainConfiguredAlarmRowBinding
 import com.tfltravelalerts.model.AndroidTimePrinter
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailActivity
 
 
 private val VIEW_TYPE_ALARM = 0
@@ -66,7 +67,7 @@ class ConfiguredAlarmAdapter(private val context: Context)
     override fun getItemCount() = alarms.size + 1
 
     override fun onAddAlarmClicked() {
-        Toast.makeText(context, "Create new", Toast.LENGTH_LONG).show()
+        AlarmDetailActivity.launchNewAlarm(context)
     }
 
     override fun onAlarmClicked(alarm: ConfiguredAlarm) {

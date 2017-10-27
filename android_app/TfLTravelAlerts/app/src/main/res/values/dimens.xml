@@ -4,11 +4,12 @@
     <dimen name="activity_horizontal_content_start">72dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
 
-    <!-- custom toggle views used in alert details -->
+    <!-- custom toggle views used in alarm details -->
     <dimen name="custom_toggle_corner">2dp</dimen>
     <item type="dimen" name="custom_toggle_default_transparency">0.26</item>
     <dimen name="custom_toggle_horizontal_inset">4dp</dimen>
     <dimen name="custom_toggle_horizontal_padding">8dp</dimen>
     <dimen name="custom_toggle_vertical_inset">6dp</dimen>
     <dimen name="custom_toggle_vertical_padding">4dp</dimen>
+
 </resources>

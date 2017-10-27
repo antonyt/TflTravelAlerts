@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ToggleButton
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/alarm_detail_day_selector"
-    style="@style/CustomToggleableView"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:textAllCaps="false"
-    />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <variable name="line" type="com.tfltravelalerts.model.Line"/>
+        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm" />
+    </data>
+
+    <ToggleButton
+        android:id="@+id/alarm_detail_day_selector"
+        style="@style/CustomToggleableView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        app:constantToggleText="@{line.nameResId}"
+        app:configureColors="@{line}"
+        />
+</layout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="@dimen/custom_toggle_corner" />
+    <solid android:color="@color/custom_toggle_background_default" />
+    <padding
+        android:bottom="@dimen/custom_toggle_vertical_padding"
+        android:left="@dimen/custom_toggle_horizontal_padding"
+        android:right="@dimen/custom_toggle_horizontal_padding"
+        android:top="@dimen/custom_toggle_vertical_padding" />
+</shape>
