@@ -7,7 +7,8 @@
 
     <data>
         <variable name="day" type="com.tfltravelalerts.model.Day" />
-        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm" />
+        <!--<variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm" />-->
+        <variable name="days" type="java.util.Set&lt;com.tfltravelalerts.model.Day&gt;"/>
     </data>
 
     <ToggleButton
@@ -18,6 +19,6 @@
         android:layout_height="wrap_content"
         tools:text="Mon"
         app:constantToggleText="@{day.shortName}"
-        android:checked="@{alarm.includesDay(day)}"
+        android:checked="@{days.contains(day)}"
         />
 </layout>

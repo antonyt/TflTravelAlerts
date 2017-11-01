@@ -5,16 +5,18 @@
     >
     <data>
         <variable name="line" type="com.tfltravelalerts.model.Line"/>
-        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm" />
+        <!--<variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm" />-->
+        <variable name="lines" type="java.util.Set&lt;com.tfltravelalerts.model.Line&gt;" />
     </data>
 
     <ToggleButton
-        android:id="@+id/alarm_detail_day_selector"
+        android:id="@+id/alarm_detail_line_selector"
         style="@style/CustomToggleableView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         app:constantToggleText="@{line.nameResId}"
         app:configureColors="@{line}"
+        android:checked="@{lines.contains(line)}"
         />
 </layout>

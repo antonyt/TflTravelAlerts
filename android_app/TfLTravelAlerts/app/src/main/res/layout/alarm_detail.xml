@@ -7,8 +7,13 @@
     <data>
         <import type="com.tfltravelalerts.model.Day"/>
         <import type="com.tfltravelalerts.model.Line"/>
-        <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
+        <!--<variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>-->
         <variable name="timePrinter" type="com.tfltravelalerts.model.TimePrinter"/>
+        <variable name="time" type="com.tfltravelalerts.model.Time"/>
+        <variable name="days" type="java.util.Set&lt;Day&gt;"/>
+        <variable name="lines" type="java.util.Set&lt;Line&gt;"/>
+        <variable name="doNotifyGoodService" type="Boolean"/>
+        <variable name="isCreate" type="Boolean"/>
     </data>
 
     <LinearLayout
@@ -66,7 +71,7 @@
                     android:ems="10"
                     android:focusableInTouchMode="false"
                     android:hint="@string/alarm_detail_time_hint"
-                    android:text="@{ alarm.time != null ? timePrinter.print(alarm.time) : null}"
+                    android:text="@{time != null ? timePrinter.print(time) : null}"
                     />
 
                 <TextView
@@ -99,6 +104,7 @@
                     >
 
                     <include
+                        android:id="@+id/monday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -106,10 +112,11 @@
                         android:layout_weight="1.0"
                         android:gravity="center"
                         bind:day="@{Day.MONDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
 
                     <include
+                        android:id="@+id/tuesday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -117,10 +124,11 @@
                         android:layout_weight="1.0"
                         android:gravity="center"
                         bind:day="@{Day.TUESDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
 
                     <include
+                        android:id="@+id/wednesday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -128,25 +136,27 @@
                         android:layout_weight="1.0"
                         android:gravity="center"
                         bind:day="@{Day.WEDNESDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
 
                     <include
+                        android:id="@+id/thursday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         bind:day="@{Day.THURSDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
 
                     <include
+                        android:id="@+id/friday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         bind:day="@{Day.FRIDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
                 </LinearLayout>
 
@@ -161,21 +171,23 @@
                     >
 
                     <include
+                        android:id="@+id/saturday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         bind:day="@{Day.SATURDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
 
                     <include
+                        android:id="@+id/sunday"
                         layout="@layout/alarm_detail_day_view"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.0"
                         bind:day="@{Day.SUNDAY}"
-                        bind:alarm="@{alarm}"
+                        bind:days="@{days}"
                         />
                 </LinearLayout>
 
@@ -208,39 +220,46 @@
                         >
 
                         <include
+                            android:id="@+id/bakerloo"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.BAKERLOO}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/circle"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.CIRCLE}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/hammersmith_and_city"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.HAMMERSMITH_AND_CITY}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/metropolitan"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.METROPOLITAN}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/piccadilly"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.PICCADILLY}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/waterloo_and_city"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.WATERLOO_AND_CITY}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/dlr"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.DLR}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                     </LinearLayout>
 
@@ -253,49 +272,54 @@
                         android:baselineAligned="false"
                         android:orientation="vertical"
                         >
-
-
                         <include
+                            android:id="@+id/central"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.CENTRAL}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/district"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.DISTRICT}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/jubilee"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.JUBILEE}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/northern"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.NORTHERN}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/victoria"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.VICTORIA}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                         <include
+                            android:id="@+id/overground"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.OVERGROUND}"
-                            bind:alarm="@{alarm}"
+                            bind:lines="@{lines}"
                             />
                     </LinearLayout>
                 </LinearLayout>
 
                 <CheckBox
+                    android:id="@+id/notify_good_service"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
                     android:text="@string/alarm_detail_skip_notifications_label"
-                    android:checked="@{alarm.notifyGoodService}"
+                    android:checked="@{safeUnbox(doNotifyGoodService)}"
                     />
 
                 <TextView
@@ -307,12 +331,13 @@
                     />
 
                 <Button
+                    android:id="@+id/save_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:text="@{ alarm.id == -1 ? @string/alarm_detail_button_create : @string/alarm_detail_button_update }"
+                    android:text="@{ safeUnbox(isCreate) ? @string/alarm_detail_button_create : @string/alarm_detail_button_update }"
                     />
             </LinearLayout>
         </ScrollView>
