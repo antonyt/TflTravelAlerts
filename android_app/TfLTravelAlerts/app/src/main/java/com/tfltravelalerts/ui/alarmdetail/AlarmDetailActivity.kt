@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
 import com.tfltravelalerts.R
+import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.databinding.AlarmDetailBinding
@@ -18,17 +19,22 @@ import com.tfltravelalerts.model.Day
 import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Time
 import io.reactivex.Observable
+import io.reactivex.ObservableEmitter
+import io.reactivex.ObservableOnSubscribe
 
 private val EXTRA_ALARM = "alarm"
 private val log = Logger.DEFAULT
 
 interface ViewActions {
     fun selectTimeIntent(): Observable<Any>
+    fun updateTimeIntent() : Observable<Time>
     fun selectDayIntent(): Observable<Pair<Day, Boolean>>
     fun selectLineIntent(): Observable<Pair<Line, Boolean>>
     fun notifyGoodServiceIntent(): Observable<Boolean>
     fun saveIntent(): Observable<Any>
+
     fun showData() : (UiData) -> Unit
+    fun promptTime() // this is not quite
 }
 
 interface Presenter {
@@ -79,7 +85,7 @@ sealed class UiEvent {
     abstract fun reduceState(state:UiData) : UiData
 }
 
-class TimeEvent(private val value: Time) : UiEvent() {
+class UpdateTimeEvent(private val value: Time) : UiEvent() {
     override fun reduceState(state: UiData): UiData {
         return state.cloneWithTime(value)
     }
@@ -117,35 +123,64 @@ class ErrorMessageEvent(private val value: String?) : UiEvent() {
     }
 }
 
+class NoChangeEvent : UiEvent() {
+    override fun reduceState(state: UiData): UiData {
+        return state
+    }
+}
 class StateReducer {
     val reducer = { previousState : UiData, event: UiEvent -> event.reduceState(previousState)}
 }
 
 class Interactor(private val view : ViewActions) {
 
-    // inject
+    // pseudo inject:
     val stateReducer = StateReducer()
+    // val service = ...RetrofitService...
 
     fun bindIntents(initialData: UiData) {
         val daysObservable : Observable<UiEvent>
-                = view.selectDayIntent().doOnNext { log.d("rx event: $it") }.map { DaySelectionEvent(it) }
+                = view.selectDayIntent().map { DaySelectionEvent(it) }
 
         val linesObservable : Observable<UiEvent>
-                = view.selectLineIntent().doOnNext { log.d("rx event: $it") }.map { LineSelectionEvent(it) }
+                = view.selectLineIntent().map { LineSelectionEvent(it) }
 
         val notifyGoodServiceObservable : Observable<UiEvent>
-                = view.notifyGoodServiceIntent().doOnNext { log.d("rx event: $it") }.map { NotifyGoodServiceEvent(it)}
+                = view.notifyGoodServiceIntent().map { NotifyGoodServiceEvent(it)}
 
+        val selectTimeObservable : Observable<UiEvent>
+                = view.selectTimeIntent()
+                .map { view.promptTime() }
+                .map { NoChangeEvent() }
+
+        val updateTimeObservable : Observable<UiEvent>
+                = view.updateTimeIntent()
+                .map { UpdateTimeEvent(it) }
         // TODO add Time intents
         // TODO add error message intents
-        Observable.merge(daysObservable, linesObservable, notifyGoodServiceObservable)
+        Observable.mergeArray(daysObservable, linesObservable, notifyGoodServiceObservable, selectTimeObservable, updateTimeObservable)
+                .doOnNext { log.d("event: $it") }
                 .scan(initialData, stateReducer.reducer )
                 .doOnNext { log.d("reduced state: $it") }
                 .subscribe(view.showData())
     }
 }
 
-class AlarmDetailActivity : BaseActivity(), ViewActions {
+class TimeSetObservable : ObservableOnSubscribe<Time> {
+    private var emitter: ObservableEmitter<Time>? = null
+
+    override fun subscribe(emitter: ObservableEmitter<Time>) {
+        if (this.emitter != null) {
+            Assertions.shouldNotHappen("subscribed twice")
+        }
+        this.emitter = emitter
+    }
+
+    fun onTimeSet(time: Time) {
+        emitter?.onNext(time) ?: Assertions.shouldNotHappen("observer was null")
+    }
+}
+class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     companion object {
         fun launchNewAlarm(context: Context, alarm: ConfiguredAlarm? = null) {
             val intent = Intent(context, AlarmDetailActivity::class.java)
@@ -157,7 +192,8 @@ class AlarmDetailActivity : BaseActivity(), ViewActions {
 
     }
 
-    lateinit var binding: AlarmDetailBinding
+    private lateinit var binding: AlarmDetailBinding
+    private val timeObserver = TimeSetObservable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -223,6 +259,9 @@ class AlarmDetailActivity : BaseActivity(), ViewActions {
         return RxView.clicks(binding.saveButton)
     }
 
+    override fun updateTimeIntent(): Observable<Time> {
+        return Observable.create(timeObserver)
+    }
     override fun showData(): (UiData) -> Unit = {
         log.d("show data: $it")
         with(binding) {
@@ -231,5 +270,18 @@ class AlarmDetailActivity : BaseActivity(), ViewActions {
             doNotifyGoodService = it.notifyGoodService
             time = it.time
         }
+    }
+
+    override fun promptTime() {
+        supportFragmentManager
+                .beginTransaction()
+                .add(MyAlarmTimePickerDialog.create(binding.time ?: Time(8, 0)), "time-picker")
+                .addToBackStack(null)
+                .commit()
+
+    }
+
+    override fun onTimeSelected(time: Time) {
+        timeObserver.onTimeSet(time)
     }
 }

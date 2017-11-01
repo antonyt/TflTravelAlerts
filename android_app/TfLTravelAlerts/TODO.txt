@@ -1,15 +1,22 @@
 
+Main/Initial Screen:
+====================
+- The code is a mess. Rewrite it in someway that looks better
+- actually get data from server
+
 
 Alert details using MVI:
+========================
 
 - implement time selection
+    - could try to "connect" the click event on time view to showing the fragment with a rx stream
 - add a delete icon to the toolbar
     - maybe a delete button too
 - the clock icon set as startDrawable will CRASH older android version
 - when the UI is initially created, there will be a lot of events fired
 for the initial values of the checkboxes/toggle buttons
 - handle tearing down the rx streams (activity on pause/stop/destroy)
-
+- actually save alarms
 
 
 
@@ -18,8 +25,6 @@ MUST DO BEFORE RELEASE:
 - layout in older android versions looks wrong
     - not getting compat version of switch view
     - spacing is wrong
-- actually get data from server
-- actually save alarms
 - migrate alarms from previous version
 - implement push notifications
 

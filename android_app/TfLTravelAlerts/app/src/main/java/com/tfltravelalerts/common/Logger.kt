@@ -6,6 +6,10 @@ class Logger(private val tag: String) {
 
     companion object {
         val DEFAULT = Logger("TTA")
+
+        fun d(message: String) {
+            DEFAULT.d(message)
+        }
     }
 
     fun d(message: String, throwable: Throwable?) {
