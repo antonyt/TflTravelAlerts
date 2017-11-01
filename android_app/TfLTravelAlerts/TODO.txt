@@ -1,0 +1,32 @@
+
+
+Alert details using MVI:
+
+- implement time selection
+- add a delete icon to the toolbar
+    - maybe a delete button too
+- the clock icon set as startDrawable will CRASH older android version
+- when the UI is initially created, there will be a lot of events fired
+for the initial values of the checkboxes/toggle buttons
+- handle tearing down the rx streams (activity on pause/stop/destroy)
+
+
+
+
+MUST DO BEFORE RELEASE:
+=======================
+- layout in older android versions looks wrong
+    - not getting compat version of switch view
+    - spacing is wrong
+- actually get data from server
+- actually save alarms
+- migrate alarms from previous version
+- implement push notifications
+
+
+COULD DO:
+=========
+- option to be always up to date with the line status
+- add support for Tfl Rail and TRAM lines
+- double check order of lines
+- in the network status views, collapse lines with good status

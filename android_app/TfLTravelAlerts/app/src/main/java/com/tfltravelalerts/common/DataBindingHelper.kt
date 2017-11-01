@@ -14,10 +14,12 @@ import android.os.Build.VERSION
 import android.support.annotation.ColorRes
 import android.support.annotation.DrawableRes
 import android.support.annotation.StringRes
+import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v4.content.res.ResourcesCompat
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.ToggleButton
 import com.tfltravelalerts.R
 import com.tfltravelalerts.model.Line
@@ -98,5 +100,19 @@ object DataBindingHelper {
 
     private fun getDrawableCompat(context: Context, @DrawableRes drawableId: Int): Drawable {
         return ResourcesCompat.getDrawable(context.resources, drawableId, context.theme) ?: throw IllegalStateException("Failed to get drawable $drawableId")
+    }
+
+    @JvmStatic
+    @BindingAdapter("drawableStartCompat")
+    fun setStartDrawable(view: TextView, @DrawableRes resId: Int) {
+        val vector = VectorDrawableCompat.create(view.resources, resId, view.context.theme)
+
+        val compoundDrawables = view.compoundDrawables
+        view.setCompoundDrawables(
+                vector,
+                compoundDrawables[1],
+                compoundDrawables[2],
+                compoundDrawables[3]
+        )
     }
 }
