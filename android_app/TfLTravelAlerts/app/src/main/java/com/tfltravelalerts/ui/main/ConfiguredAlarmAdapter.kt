@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.tfltravelalerts.R
 import com.tfltravelalerts.common.getColorCompat
 import com.tfltravelalerts.common.setTextColorRes
@@ -20,8 +19,8 @@ import com.tfltravelalerts.model.Day
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailActivity
 
 
-private val VIEW_TYPE_ALARM = 0
-private val VIEW_TYPE_CREATE_NEW = 1
+private const val VIEW_TYPE_ALARM = 0
+private const val VIEW_TYPE_CREATE_NEW = 1
 
 class ConfiguredAlarmAdapter(private val context: Context)
     : RecyclerView.Adapter<ConfiguredAlarmBaseViewHolder>(),
@@ -71,7 +70,7 @@ class ConfiguredAlarmAdapter(private val context: Context)
     }
 
     override fun onAlarmClicked(alarm: ConfiguredAlarm) {
-        Toast.makeText(context, "Edit alarm", Toast.LENGTH_LONG).show()
+        AlarmDetailActivity.launchNewAlarm(context, alarm)
     }
 
     override fun onEnabledChanged(alarm: ConfiguredAlarm, isEnabled: Boolean, position: Int) {

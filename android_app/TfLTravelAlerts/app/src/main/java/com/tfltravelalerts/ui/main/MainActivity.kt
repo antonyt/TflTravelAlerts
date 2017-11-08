@@ -2,7 +2,6 @@ package com.tfltravelalerts.ui.main
 
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -37,8 +36,8 @@ class MainActivity : BaseActivity() {
 
     inner class ViewPagerImpl : ConstantViewPagerAdapter.Implementation {
         override val pageCount = 3
-        val mViews: Array<View?> = arrayOfNulls<View?>(pageCount)
-        val mLayoutInflater: LayoutInflater by lazy  { LayoutInflater.from(this@MainActivity)}
+        private val mViews: Array<View?> = arrayOfNulls<View?>(pageCount)
+        private val mLayoutInflater: LayoutInflater by lazy  { LayoutInflater.from(this@MainActivity)}
 
         override fun canPageScrollVertically(position: Int): Boolean {
             val view: View? = mViews[position]
@@ -95,7 +94,6 @@ class MainActivity : BaseActivity() {
             val networkStatusAdapter = NetworkStatusAdapter()
             recyclerView.adapter = networkStatusAdapter
             networkStatusAdapter.networkStatus = if(position == 0)  NetworkStatus.LIVE_STATUS else NetworkStatus.WEEKEND_STATUS
-
         }
     }
 }

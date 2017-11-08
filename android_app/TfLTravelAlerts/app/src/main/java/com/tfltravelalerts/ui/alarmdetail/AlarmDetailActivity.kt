@@ -37,12 +37,10 @@ interface ViewActions {
     fun promptTime() // this is not quite
 }
 
-interface Presenter {
-    fun onAttach(view: ViewActions)
-    fun onDetach()
-}
-
 data class UiData(val time: Time?, val days: Set<Day>, val lines: Set<Line>, val notifyGoodService: Boolean, val errorMessage : String?) {
+
+    constructor(alarm: ConfiguredAlarm) : this(alarm.time, alarm.days, alarm.lines, alarm.notifyGoodService, null)
+
 
     private fun cloneAux(time: Time? = this.time,
                          days: Set<Day> = this.days,
@@ -156,12 +154,11 @@ class Interactor(private val view : ViewActions) {
         val updateTimeObservable : Observable<UiEvent>
                 = view.updateTimeIntent()
                 .map { UpdateTimeEvent(it) }
-        // TODO add Time intents
+
         // TODO add error message intents
         Observable.mergeArray(daysObservable, linesObservable, notifyGoodServiceObservable, selectTimeObservable, updateTimeObservable)
-                .doOnNext { log.d("event: $it") }
+                .doOnNext { log.d("AlarmDetail event: $it") }
                 .scan(initialData, stateReducer.reducer )
-                .doOnNext { log.d("reduced state: $it") }
                 .subscribe(view.showData())
     }
 }
@@ -180,16 +177,16 @@ class TimeSetObservable : ObservableOnSubscribe<Time> {
         emitter?.onNext(time) ?: Assertions.shouldNotHappen("observer was null")
     }
 }
+
 class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     companion object {
         fun launchNewAlarm(context: Context, alarm: ConfiguredAlarm? = null) {
             val intent = Intent(context, AlarmDetailActivity::class.java)
             if (alarm != null) {
-//                intent.putExtra(EXTRA_ALARM, alarm)
+                intent.putExtra(EXTRA_ALARM, alarm)
             }
             context.startActivity(intent)
         }
-
     }
 
     private lateinit var binding: AlarmDetailBinding
@@ -200,13 +197,16 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
 
         binding = DataBindingUtil.setContentView<AlarmDetailBinding>(this, R.layout.alarm_detail)
         binding.timePrinter = AndroidTimePrinter(this)
-//        setContentView(R.layout.alarm_detail)
-        if (intent.hasExtra(EXTRA_ALARM)) {
-//            binding.alarm
-        }
         binding.executePendingBindings()
+        val initialData: UiData
+        if (intent.hasExtra(EXTRA_ALARM)) {
+            val configuredAlarm = intent.getParcelableExtra<ConfiguredAlarm>(EXTRA_ALARM)
+            initialData = UiData(configuredAlarm)
+        } else {
+            initialData = UiData(null, emptySet(), emptySet(), false, null)
+        }
         val interactor  = Interactor(this)
-        interactor.bindIntents(UiData(null, emptySet(), emptySet(), false, null))
+        interactor.bindIntents(initialData)
     }
 
     override fun selectTimeIntent(): Observable<Any> {
@@ -225,6 +225,7 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
 
     private fun selectDayIntent(day: AlarmDetailDayViewBinding): Observable<Pair<Day, Boolean>> {
         return RxCompoundButton.checkedChanges(day.alarmDetailDaySelector)
+                .skipInitialValue()
                 .map { checked -> Pair(day.day!!, checked) }
     }
 
@@ -248,11 +249,14 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
 
     private fun selectLineIntent(line: AlarmDetailLineViewBinding): Observable<Pair<Line, Boolean>> {
         return RxCompoundButton.checkedChanges(line.alarmDetailLineSelector)
+                .skipInitialValue()
                 .map { checked -> Pair(line.line!!, checked) }
     }
 
     override fun notifyGoodServiceIntent(): Observable<Boolean> {
-        return RxCompoundButton.checkedChanges(binding.notifyGoodService)
+        return RxCompoundButton
+                .checkedChanges(binding.notifyGoodService)
+                .skipInitialValue()
     }
 
     override fun saveIntent(): Observable<Any> {
