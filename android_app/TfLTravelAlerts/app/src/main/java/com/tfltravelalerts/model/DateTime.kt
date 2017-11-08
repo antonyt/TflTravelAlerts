@@ -2,10 +2,15 @@ package com.tfltravelalerts.model
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
+import paperparcel.PaperParcel
 import java.text.SimpleDateFormat
 import java.util.*
 
-data class Time (val hour: Int, val minute: Int) {
+@PaperParcel
+data class Time (val hour: Int, val minute: Int) : Parcelable {
+    @delegate:Transient
     val calendar by lazy {
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY, hour)
@@ -13,6 +18,15 @@ data class Time (val hour: Int, val minute: Int) {
         cal.set(Calendar.SECOND, 0)
         cal.set(Calendar.MILLISECOND, 0)
         cal
+    }
+
+    companion object {
+        @JvmField val CREATOR = PaperParcelTime.CREATOR
+    }
+    override fun describeContents() = 0
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        PaperParcelTime.writeToParcel(this, dest, flags)
     }
 }
 

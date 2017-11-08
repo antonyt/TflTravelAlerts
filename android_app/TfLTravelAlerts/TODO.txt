@@ -5,10 +5,15 @@ Main/Initial Screen:
 - actually get data from server
 
 
+Configured Alarms List (main screen):
+=====================================
+
+- for some reason, tapping the row "add alarm" only works for the second time
+
 Alert details using MVI:
 ========================
 
-- implement time selection
+- [done] implement time selection
     - could try to "connect" the click event on time view to showing the fragment with a rx stream
 - add a delete icon to the toolbar
     - maybe a delete button too
