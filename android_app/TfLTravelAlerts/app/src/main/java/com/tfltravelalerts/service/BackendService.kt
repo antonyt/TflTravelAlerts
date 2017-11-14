@@ -1,6 +1,10 @@
 package com.tfltravelalerts.service
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.tfltravelalerts.BuildConfig
+import com.tfltravelalerts.json.LineJsonTypeAdapter
+import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.LineStatus
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,15 +25,26 @@ interface BackendService {
 
     companion object {
         fun createService(): BackendService {
+            // dependency injection here would be nice
+            val gson = gson()
             val client = okHttpClient()
-
+            val gsonConverterFactory = gsonConverterFactory(gson)
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(gsonConverterFactory)
                     .build()
                     .create(BackendService::class.java)
         }
+
+        private fun gson(): Gson {
+            return GsonBuilder()
+                    .registerTypeAdapter(Line::class.java, LineJsonTypeAdapter())
+                    .create()
+        }
+
+        private fun gsonConverterFactory(gson: Gson) = GsonConverterFactory.create(gson)
+
 
         private fun okHttpClient(): OkHttpClient {
             val interceptor = HttpLoggingInterceptor()
