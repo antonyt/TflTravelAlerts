@@ -29,6 +29,10 @@ class ConfiguredAlarmAdapter(private val context: Context)
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val timePrinter = AndroidTimePrinter(context)
     var alarms : MutableList<ConfiguredAlarm> = mutableListOf<ConfiguredAlarm>()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun getItemViewType(position: Int): Int {
         return if (position == itemCount - 1) VIEW_TYPE_CREATE_NEW else VIEW_TYPE_ALARM

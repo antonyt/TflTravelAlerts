@@ -1,6 +1,7 @@
 package com.tfltravelalerts.model
 
 import android.annotation.SuppressLint
+import android.arch.persistence.room.Ignore
 import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
@@ -10,7 +11,7 @@ import java.util.*
 
 @PaperParcel
 data class Time (val hour: Int, val minute: Int) : Parcelable {
-    @delegate:Transient
+    @delegate:[Transient Ignore] // transient used by PaperParcelable and Ignore by Room
     val calendar by lazy {
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY, hour)

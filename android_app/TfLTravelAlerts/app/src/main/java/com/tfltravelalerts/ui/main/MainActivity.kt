@@ -13,8 +13,12 @@ import com.tfltravelalerts.R
 import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
-import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.NetworkStatus
+import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
+import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : BaseActivity() {
@@ -37,7 +41,7 @@ class MainActivity : BaseActivity() {
     inner class ViewPagerImpl : ConstantViewPagerAdapter.Implementation {
         override val pageCount = 3
         private val mViews: Array<View?> = arrayOfNulls<View?>(pageCount)
-        private val mLayoutInflater: LayoutInflater by lazy  { LayoutInflater.from(this@MainActivity)}
+        private val mLayoutInflater: LayoutInflater by lazy { LayoutInflater.from(this@MainActivity) }
 
         override fun canPageScrollVertically(position: Int): Boolean {
             val view: View? = mViews[position]
@@ -76,8 +80,16 @@ class MainActivity : BaseActivity() {
             recyclerView.layoutManager = LinearLayoutManager(view.context)
             recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
             val adapter = ConfiguredAlarmAdapter(this@MainActivity)
-            adapter.alarms = ConfiguredAlarm.alarms
             recyclerView.adapter = adapter
+
+            // TODO inject this
+            val databaseImpl = AlarmStoreDatabaseImpl(ConfiguredAlarmDatabase.getDatabase(this@MainActivity))
+            Observable
+                    .fromCallable { databaseImpl.getAlarms().toMutableList() }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    // TODO we could no longer be in resumed state
+                    .subscribe { adapter.alarms = it }
         }
 
         private fun setupNetworkStatusView(view: View, position: Int) {
@@ -93,7 +105,7 @@ class MainActivity : BaseActivity() {
             // set in progress if download is in progress
             val networkStatusAdapter = NetworkStatusAdapter()
             recyclerView.adapter = networkStatusAdapter
-            networkStatusAdapter.networkStatus = if(position == 0)  NetworkStatus.LIVE_STATUS else NetworkStatus.WEEKEND_STATUS
+            networkStatusAdapter.networkStatus = if (position == 0) NetworkStatus.LIVE_STATUS else NetworkStatus.WEEKEND_STATUS
         }
     }
 }

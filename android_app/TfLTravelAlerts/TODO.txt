@@ -1,3 +1,7 @@
+GENERAL:
+========
+- I don't like that there are three different objects for ConfiguredAlarms: the data class, the
+entity and the "UI" class that is mutable (and has more fields)
 
 Main/Initial Screen:
 ====================
@@ -6,9 +10,9 @@ Main/Initial Screen:
 
 
 Configured Alarms List (main screen):
-=====================================
+====================================
+- needs to update when the data changes
 
-- for some reason, tapping the row "add alarm" only works for the second time
 
 Alert details using MVI:
 ========================
@@ -18,10 +22,7 @@ Alert details using MVI:
 - add a delete icon to the toolbar
     - maybe a delete button too
 - the clock icon set as startDrawable will CRASH older android version
-- when the UI is initially created, there will be a lot of events fired
-for the initial values of the checkboxes/toggle buttons
 - handle tearing down the rx streams (activity on pause/stop/destroy)
-- actually save alarms
 
 
 

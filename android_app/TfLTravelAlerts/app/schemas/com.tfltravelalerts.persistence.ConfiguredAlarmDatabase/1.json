@@ -1,0 +1,69 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "d61407115d60fd401e76d1c551aaf281",
+    "entities": [
+      {
+        "tableName": "configured_alarms",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `days` INTEGER NOT NULL, `lines` INTEGER NOT NULL, `notifyGoodService` INTEGER NOT NULL, `enabled` INTEGER NOT NULL, `hour` INTEGER NOT NULL, `minute` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "days",
+            "columnName": "days",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lines",
+            "columnName": "lines",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notifyGoodService",
+            "columnName": "notifyGoodService",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time.hour",
+            "columnName": "hour",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time.minute",
+            "columnName": "minute",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d61407115d60fd401e76d1c551aaf281\")"
+    ]
+  }
+}

@@ -18,8 +18,9 @@ class MyAlarmTimePickerDialog : DialogFragment(), OnTimeSetListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): TimePickerDialog {
         checkHostInterface()
-        val h = arguments.getInt(ARG_HOUR)
-        val m = arguments.getInt(ARG_MINUTE)
+        val args = arguments!!
+        val h = args.getInt(ARG_HOUR)
+        val m = args.getInt(ARG_MINUTE)
         val dialog = TimePickerDialog(context, this, h, m, DateFormat.is24HourFormat(activity))
         dialog.setTitle(null)
         return dialog
@@ -33,7 +34,7 @@ class MyAlarmTimePickerDialog : DialogFragment(), OnTimeSetListener {
 
     override fun onTimeSet(timePicker: TimePicker, hour: Int, minute: Int) {
         Logger.d("onTimeSet: $hour:$minute")
-        fragmentManager.popBackStack()
+        fragmentManager?.popBackStack()
         val activity = activity
         if (activity is MyTimePickerListener) {
             activity.onTimeSelected(Time(hour, minute))

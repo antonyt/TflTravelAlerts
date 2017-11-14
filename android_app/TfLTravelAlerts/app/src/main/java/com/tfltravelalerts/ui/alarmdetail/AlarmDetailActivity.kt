@@ -18,36 +18,48 @@ import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
 import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Time
+import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
+import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
+import com.tfltravelalerts.store.AlarmsStore
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 
 private val EXTRA_ALARM = "alarm"
 private val log = Logger.DEFAULT
 
 interface ViewActions {
     fun selectTimeIntent(): Observable<Any>
-    fun updateTimeIntent() : Observable<Time>
+    fun updateTimeIntent(): Observable<Time>
     fun selectDayIntent(): Observable<Pair<Day, Boolean>>
     fun selectLineIntent(): Observable<Pair<Line, Boolean>>
     fun notifyGoodServiceIntent(): Observable<Boolean>
     fun saveIntent(): Observable<Any>
 
-    fun showData() : (UiData) -> Unit
+    fun showData(): (UiData) -> Unit
     fun promptTime() // this is not quite
+    fun close() // do I like this?
 }
 
-data class UiData(val time: Time?, val days: Set<Day>, val lines: Set<Line>, val notifyGoodService: Boolean, val errorMessage : String?) {
+data class UiData(val id: Int, val time: Time?, val days: Set<Day>, val lines: Set<Line>, val notifyGoodService: Boolean, val enabled: Boolean, val errorMessage: String?) {
 
-    constructor(alarm: ConfiguredAlarm) : this(alarm.time, alarm.days, alarm.lines, alarm.notifyGoodService, null)
+    constructor(alarm: ConfiguredAlarm) : this(alarm.id, alarm.time, alarm.days, alarm.lines, alarm.notifyGoodService, alarm.enabled, null)
 
+    constructor() : this(ConfiguredAlarm.NEW_ALARM_ID, null, emptySet(), emptySet(), false, true, null)
 
-    private fun cloneAux(time: Time? = this.time,
+    val alarm: ConfiguredAlarm by lazy { ConfiguredAlarm(id, time!!, days, lines, notifyGoodService, enabled) }
+
+    private fun cloneAux(id: Int = this.id,
+                         time: Time? = this.time,
                          days: Set<Day> = this.days,
                          lines: Set<Line> = this.lines,
                          notifyGoodService: Boolean = this.notifyGoodService,
+                         enabled: Boolean = this.enabled,
                          errorMessage: String? = this.errorMessage): UiData {
-        return UiData(time, days, lines, notifyGoodService, errorMessage)
+        return UiData(id, time, days, lines, notifyGoodService, enabled, errorMessage)
     }
 
     fun cloneWithTime(time: Time): UiData {
@@ -79,17 +91,17 @@ data class UiData(val time: Time?, val days: Set<Day>, val lines: Set<Line>, val
     }
 }
 
-sealed class UiEvent {
-    abstract fun reduceState(state:UiData) : UiData
+interface UiEvent {
+    fun reduceState(state: UiData): UiData
 }
 
-class UpdateTimeEvent(private val value: Time) : UiEvent() {
+data class UpdateTimeEvent(private val value: Time) : UiEvent {
     override fun reduceState(state: UiData): UiData {
         return state.cloneWithTime(value)
     }
 }
 
-class LineSelectionEvent(private val change: Pair<Line, Boolean>) : UiEvent() {
+data class LineSelectionEvent(private val change: Pair<Line, Boolean>) : UiEvent {
     override fun reduceState(state: UiData): UiData {
         if (change.second) {
             return state.cloneWithLine(change.first)
@@ -99,7 +111,7 @@ class LineSelectionEvent(private val change: Pair<Line, Boolean>) : UiEvent() {
     }
 }
 
-class DaySelectionEvent(private val change: Pair<Day, Boolean>) : UiEvent() {
+data class DaySelectionEvent(private val change: Pair<Day, Boolean>) : UiEvent {
     override fun reduceState(state: UiData): UiData {
         if (change.second) {
             return state.cloneWithDay(change.first)
@@ -109,57 +121,71 @@ class DaySelectionEvent(private val change: Pair<Day, Boolean>) : UiEvent() {
     }
 }
 
-class NotifyGoodServiceEvent(private val value: Boolean) : UiEvent() {
+data class NotifyGoodServiceEvent(private val value: Boolean) : UiEvent {
     override fun reduceState(state: UiData): UiData {
         return state.cloneWithNotifyGoodService(value)
     }
 }
 
-class ErrorMessageEvent(private val value: String?) : UiEvent() {
+data class ErrorMessageEvent(private val value: String?) : UiEvent {
     override fun reduceState(state: UiData): UiData {
         return state.cloneWithErrorMessage(value)
     }
 }
 
-class NoChangeEvent : UiEvent() {
+class NoChangeEvent : UiEvent {
     override fun reduceState(state: UiData): UiData {
         return state
     }
 }
+
 class StateReducer {
-    val reducer = { previousState : UiData, event: UiEvent -> event.reduceState(previousState)}
+    val reducer = { previousState: UiData, event: UiEvent -> event.reduceState(previousState) }
 }
 
-class Interactor(private val view : ViewActions) {
+class Interactor(private val view: ViewActions, private val store: AlarmsStore) {
 
     // pseudo inject:
     val stateReducer = StateReducer()
     // val service = ...RetrofitService...
 
     fun bindIntents(initialData: UiData) {
-        val daysObservable : Observable<UiEvent>
+        val daysObservable: Observable<UiEvent>
                 = view.selectDayIntent().map { DaySelectionEvent(it) }
 
-        val linesObservable : Observable<UiEvent>
+        val linesObservable: Observable<UiEvent>
                 = view.selectLineIntent().map { LineSelectionEvent(it) }
 
-        val notifyGoodServiceObservable : Observable<UiEvent>
-                = view.notifyGoodServiceIntent().map { NotifyGoodServiceEvent(it)}
+        val notifyGoodServiceObservable: Observable<UiEvent>
+                = view.notifyGoodServiceIntent().map { NotifyGoodServiceEvent(it) }
 
-        val selectTimeObservable : Observable<UiEvent>
+        val selectTimeObservable: Observable<UiEvent>
                 = view.selectTimeIntent()
                 .map { view.promptTime() }
                 .map { NoChangeEvent() }
 
-        val updateTimeObservable : Observable<UiEvent>
+        val updateTimeObservable: Observable<UiEvent>
                 = view.updateTimeIntent()
                 .map { UpdateTimeEvent(it) }
 
         // TODO add error message intents
-        Observable.mergeArray(daysObservable, linesObservable, notifyGoodServiceObservable, selectTimeObservable, updateTimeObservable)
-                .doOnNext { log.d("AlarmDetail event: $it") }
-                .scan(initialData, stateReducer.reducer )
+
+        val uiDataObservable = Observable.mergeArray(daysObservable, linesObservable, notifyGoodServiceObservable, selectTimeObservable, updateTimeObservable)
+                .doOnNext { log.d("event: $it") }
+                .scan(initialData, stateReducer.reducer)
+                .doOnNext { log.d("reduced state: $it") }
+                .share()
+
+        uiDataObservable
                 .subscribe(view.showData())
+
+        view.saveIntent()
+                .withLatestFrom(uiDataObservable, BiFunction({ _: Any, data: UiData -> data }))
+                .doOnNext { log.d("Alarm detail event: save") }
+                .observeOn(Schedulers.io())
+                .map { store.saveAlarm(it.alarm) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { view.close() }
     }
 }
 
@@ -203,9 +229,10 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
             val configuredAlarm = intent.getParcelableExtra<ConfiguredAlarm>(EXTRA_ALARM)
             initialData = UiData(configuredAlarm)
         } else {
-            initialData = UiData(null, emptySet(), emptySet(), false, null)
+            initialData = UiData()
         }
-        val interactor  = Interactor(this)
+        val database = ConfiguredAlarmDatabase.getDatabase(this)
+        val interactor = Interactor(this, AlarmStoreDatabaseImpl(database))
         interactor.bindIntents(initialData)
     }
 
@@ -266,8 +293,8 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     override fun updateTimeIntent(): Observable<Time> {
         return Observable.create(timeObserver)
     }
+
     override fun showData(): (UiData) -> Unit = {
-        log.d("show data: $it")
         with(binding) {
             days = it.days
             lines = it.lines
@@ -287,5 +314,9 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
 
     override fun onTimeSelected(time: Time) {
         timeObserver.onTimeSet(time)
+    }
+
+    override fun close() {
+        finish()
     }
 }
