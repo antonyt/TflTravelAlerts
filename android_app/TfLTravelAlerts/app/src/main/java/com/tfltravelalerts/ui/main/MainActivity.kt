@@ -1,28 +1,18 @@
 package com.tfltravelalerts.ui.main
 
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.tfltravelalerts.R
 import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
-import com.tfltravelalerts.model.NetworkStatus
 import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
 import com.tfltravelalerts.service.BackendService
 import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : BaseActivity() {
@@ -50,18 +40,17 @@ class MainActivity : BaseActivity() {
         override fun canPageScrollVertically(position: Int): Boolean {
             val view: View? = mViews[position]
             return view != null
-                    &&
-                    (view.canScrollVertically(1) || view.canScrollVertically(-1))
+                    && (view.canScrollVertically(1) || view.canScrollVertically(-1))
         }
 
         override fun getPageTitle(position: Int): CharSequence? {
-            when (position) {
-                0 -> return getString(R.string.main_tab_title_now)
-                1 -> return getString(R.string.main_tab_title_weekend)
-                2 -> return getString(R.string.main_tab_title_alarms)
+            return when (position) {
+                0 -> getString(R.string.main_tab_title_now)
+                1 -> getString(R.string.main_tab_title_weekend)
+                2 -> getString(R.string.main_tab_title_alarms)
                 else -> {
                     Assertions.shouldNotHappen("invalid index: $position")
-                    return ""
+                    ""
                 }
             }
         }
@@ -79,59 +68,16 @@ class MainActivity : BaseActivity() {
         }
 
         private fun setupAlarmsList(view: View) {
-            val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = LinearLayoutManager(view.context)
-            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
-            val adapter = ConfiguredAlarmAdapter(this@MainActivity)
-            recyclerView.adapter = adapter
-
             // TODO inject this
-            val databaseImpl = AlarmStoreDatabaseImpl(ConfiguredAlarmDatabase.getDatabase(this@MainActivity))
-            Observable
-                    .fromCallable { databaseImpl.getAlarms().toMutableList() }
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    // TODO we could no longer be in resumed state
-                    .subscribe { adapter.alarms = it }
+            val database = ConfiguredAlarmDatabase.getDatabase(this@MainActivity)
+            val impl = AlarmStoreDatabaseImpl(database)
+            AlarmsPageController(view, impl)
         }
 
         private fun setupNetworkStatusView(view: View, position: Int) {
             NetworkStatusPageController(view, if (position == 0) networkStatusStore::getLiveNetworkStatus else networkStatusStore::getWeekendNetworkStatus)
         }
     }
-}
-
-class NetworkStatusPageController(view: View, val retriever: () -> NetworkStatus) {
-    private val networkStatusAdapter = NetworkStatusAdapter()
-    private val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
-
-    init {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(view.context)
-        recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
-
-        val refreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
-        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent)
-        recyclerView.adapter = networkStatusAdapter
-        refreshLayout.setOnRefreshListener {
-            fetchNetworkStatusAsync()
-        }
-        fetchNetworkStatusAsync()
-    }
-
-    private fun fetchNetworkStatusAsync(): Disposable {
-        return Observable
-                .fromCallable { retriever.invoke() }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { swipeRefreshLayout.isRefreshing = true }
-                .doOnTerminate { swipeRefreshLayout.isRefreshing = false }
-                .subscribe { networkStatusAdapter.networkStatus = it }
-    }
-
-
 }
 
 
