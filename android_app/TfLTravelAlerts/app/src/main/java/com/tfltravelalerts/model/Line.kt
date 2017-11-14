@@ -22,7 +22,7 @@ enum class Line(@StringRes val nameResId: Int,
     OVERGROUND(R.string.line_name_overground, R.color.line_color_overground, true),
     DLR(R.string.line_name_dlr, R.color.line_color_dlr, true),
     TFL_RAIL(R.string.line_name_tfl_rail, R.color.line_color_tfl_rail, true),
-    TRAMS(R.string.line_name_trams, R.color.line_color_tram, true);
+    TRAM(R.string.line_name_tram, R.color.line_color_tram, true);
 
     // TODO add support for tfl rail and trams
 
