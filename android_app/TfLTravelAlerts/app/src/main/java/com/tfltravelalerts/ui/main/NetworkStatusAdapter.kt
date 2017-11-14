@@ -11,8 +11,12 @@ import com.tfltravelalerts.model.NetworkStatus
 
 class NetworkStatusAdapter : RecyclerView.Adapter<NetworkStatusViewHolder>(), NetworkStatusRowListener {
     var networkStatus: NetworkStatus? = null
-    val expandedRows = HashSet<Line>(4)
-    var layoutInflater: LayoutInflater? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+    private val expandedRows = HashSet<Line>(4)
+    private var layoutInflater: LayoutInflater? = null
 
     override fun onBindViewHolder(holder: NetworkStatusViewHolder, position: Int) {
         networkStatus?.let {
@@ -34,14 +38,14 @@ class NetworkStatusAdapter : RecyclerView.Adapter<NetworkStatusViewHolder>(), Ne
 
     override fun onStatusClicked(lineStatus: LineStatus, position: Int) {
         if (toggleExpandedStateIfValid(lineStatus)) {
-            notifyItemChanged (position)
+            notifyItemChanged(position)
         }
     }
 
     /**
      * returns whether there was an actual change in the state
      */
-    fun toggleExpandedStateIfValid(lineStatus: LineStatus) : Boolean {
+    private fun toggleExpandedStateIfValid(lineStatus: LineStatus): Boolean {
         val wasExpanded = expandedRows.remove(lineStatus.line)
         if (!wasExpanded && !lineStatus.isGoodService) {
             expandedRows.add(lineStatus.line)

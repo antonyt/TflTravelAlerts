@@ -15,27 +15,31 @@ import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.model.NetworkStatus
 import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
+import com.tfltravelalerts.service.BackendService
 import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
+import com.tfltravelalerts.store.NetworkStatusStore
+import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : BaseActivity() {
 
-    private val mViewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
+    private val viewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
+    private val networkStatusStore: NetworkStatusStore by lazy { NetworkStatusStoreImpl(BackendService.createService()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setTitle(R.string.full_app_name)
         setSupportActionBar(main_toolbar)
-        main_view_pager.adapter = mViewPagerAdapter
+        main_view_pager.adapter = viewPagerAdapter
         main_tab_strip.setupWithViewPager(main_view_pager)
         // TODO: finish the following lines:
 //        addOnPageChangeListener(new TabChangeListener());
 //        updateToolbarScrollingStatus();
-//        getInitialData();
     }
 
     inner class ViewPagerImpl : ConstantViewPagerAdapter.Implementation {
@@ -93,23 +97,42 @@ class MainActivity : BaseActivity() {
         }
 
         private fun setupNetworkStatusView(view: View, position: Int) {
-            val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
-            recyclerView.setHasFixedSize(true)
-            recyclerView.layoutManager = LinearLayoutManager(view.context)
-            recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
-
-            val refreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
-            refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent)
-            // TODO
-            // setup swipe refresh listener
-            // set in progress if download is in progress
-            val networkStatusAdapter = NetworkStatusAdapter()
-            recyclerView.adapter = networkStatusAdapter
-            networkStatusAdapter.networkStatus = if (position == 0) NetworkStatus.LIVE_STATUS else NetworkStatus.WEEKEND_STATUS
+            NetworkStatusPageController(view, if (position == 0) networkStatusStore::getLiveNetworkStatus else networkStatusStore::getWeekendNetworkStatus)
         }
     }
 }
 
+class NetworkStatusPageController(view: View, val retriever: () -> NetworkStatus) {
+    private val networkStatusAdapter = NetworkStatusAdapter()
+    private val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
+
+    init {
+        val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
+        recyclerView.setHasFixedSize(true)
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))
+
+        val refreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
+        refreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorAccent)
+        recyclerView.adapter = networkStatusAdapter
+        refreshLayout.setOnRefreshListener {
+            fetchNetworkStatusAsync()
+        }
+        fetchNetworkStatusAsync()
+    }
+
+    private fun fetchNetworkStatusAsync(): Disposable {
+        return Observable
+                .fromCallable { retriever.invoke() }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { swipeRefreshLayout.isRefreshing = true }
+                .doOnTerminate { swipeRefreshLayout.isRefreshing = false }
+                .subscribe { networkStatusAdapter.networkStatus = it }
+    }
+
+
+}
 
 
 

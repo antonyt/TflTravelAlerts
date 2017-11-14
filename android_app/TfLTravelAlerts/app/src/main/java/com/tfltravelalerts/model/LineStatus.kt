@@ -1,10 +1,13 @@
 package com.tfltravelalerts.model
-                 // @SerializedName("line")
-                 // @SerializedName("state")
-                 // @SerializedName("details")
-data class LineStatus(val line: Line,
-                 val status: Status,
-                 val description: String) {
+
+import com.google.gson.annotations.SerializedName
+
+data class LineStatus(
+        val line: Line,
+        @SerializedName("state")
+        val status: Status,
+        @SerializedName("details")
+        val description: String) {
 
     val isGoodService: Boolean
         get() = this.status.isGoodService

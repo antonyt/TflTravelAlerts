@@ -2,6 +2,8 @@ GENERAL:
 ========
 - I don't like that there are three different objects for ConfiguredAlarms: the data class, the
 entity and the "UI" class that is mutable (and has more fields)
+- I can call @WorkerThread annotated methods from the UI thread without link warnings
+- send network errors to the subscribers
 
 Main/Initial Screen:
 ====================
