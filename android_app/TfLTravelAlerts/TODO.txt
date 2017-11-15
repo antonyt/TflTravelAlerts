@@ -9,6 +9,9 @@ entity and the "UI" class that is mutable (and has more fields)
 Main/Initial Screen:
 ====================
 - The code is a mess. Rewrite it in someway that looks better
+- When the data changes in the adapters, it would be nice to regresh if the toolbar should collapse.
+The easy case to spot an error is if a page is opened while the data is being downloaded (and there is
+no cached data), when the data arrives if you scroll, the toolbar won't collapse as it ideally would.
 
 Configured Alarms List (main screen):
 ====================================
@@ -41,4 +44,4 @@ COULD DO:
 - option to be always up to date with the line status
 - add support for Tfl Rail and TRAM lines
 - double check order of lines
-- in the network status views, collapse lines with good status
+- in the network status scrollingViews, collapse lines with good status

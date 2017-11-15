@@ -14,12 +14,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class NetworkStatusPageController(view: View, val retriever: () -> NetworkStatus) {
+class NetworkStatusPageController(view: View, private val retriever: () -> NetworkStatus) {
     private val networkStatusAdapter = NetworkStatusAdapter()
     private val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
+    val recyclerView: RecyclerView = view.findViewById(R.id.main_recycler_view)
+
 
     init {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))

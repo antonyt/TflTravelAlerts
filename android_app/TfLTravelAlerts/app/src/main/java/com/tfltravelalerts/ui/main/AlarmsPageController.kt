@@ -12,8 +12,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class AlarmsPageController(view: View, store: AlarmsStore) {
+    val recyclerView: RecyclerView = view.findViewById(R.id.main_recycler_view)
+
     init {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.main_recycler_view)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         recyclerView.addItemDecoration(DividerItemDecoration(view.context, LinearLayout.VERTICAL))

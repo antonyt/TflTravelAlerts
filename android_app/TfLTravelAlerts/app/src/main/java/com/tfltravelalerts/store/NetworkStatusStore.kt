@@ -19,8 +19,11 @@ class NetworkStatusStoreImpl(private val backend: BackendService) : NetworkStatu
         val status = backend.getLiveNetworkStatus()
                 .execute()
                 .body()!!
-                // coming from json it can actually be null!
-                .filter { it.line != null }
+                .filter {
+                    // coming from json it can actually be null!
+                    @Suppress("SENSELESS_COMPARISON")
+                    it.line != null
+                }
         return NetworkStatus(Date(), status)
     }
 
@@ -28,8 +31,11 @@ class NetworkStatusStoreImpl(private val backend: BackendService) : NetworkStatu
         val status = backend.getWeekendNetworkStatus()
                 .execute()
                 .body()!!
-                // coming from json it can actually be null!
-                .filter { it.line != null }
+                .filter {
+                    // coming from json it can actually be null!
+                    @Suppress("SENSELESS_COMPARISON")
+                    it.line != null
+                }
         return NetworkStatus(Date(), status)
     }
 }
