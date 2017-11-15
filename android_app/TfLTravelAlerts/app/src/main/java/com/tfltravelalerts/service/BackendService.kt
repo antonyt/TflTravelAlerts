@@ -4,8 +4,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tfltravelalerts.BuildConfig
 import com.tfltravelalerts.json.LineJsonTypeAdapter
+import com.tfltravelalerts.json.StatusJsonTypeAdapter
 import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.LineStatus
+import com.tfltravelalerts.model.Status
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -40,6 +42,7 @@ interface BackendService {
         private fun gson(): Gson {
             return GsonBuilder()
                     .registerTypeAdapter(Line::class.java, LineJsonTypeAdapter())
+                    .registerTypeAdapter(Status::class.java, StatusJsonTypeAdapter())
                     .create()
         }
 
