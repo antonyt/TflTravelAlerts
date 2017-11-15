@@ -43,14 +43,6 @@ class StatusJsonTypeAdapterTest {
     }
 
     @Test
-    fun testWithLineStatusWithoutStatus() {
-        val json = """{"line":"JUBILEE", "details": "example"}"""
-        val expected = LineStatus(Line.JUBILEE, Status.UNKNOWN, "example")
-        val actual = gson.fromJson(json, LineStatus::class.java)
-        assertEquals(expected, actual)
-    }
-
-    @Test
     fun testWithLineStatusWithOtherStatus() {
         val json = """{"line":"JUBILEE", "details": "example", "state": "XYZ"}"""
         val expected = LineStatus(Line.JUBILEE, Status.UNKNOWN, "example")

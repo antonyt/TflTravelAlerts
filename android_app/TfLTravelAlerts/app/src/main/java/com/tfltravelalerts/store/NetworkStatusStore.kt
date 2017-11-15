@@ -16,12 +16,20 @@ interface NetworkStatusStore {
 
 class NetworkStatusStoreImpl(private val backend: BackendService) : NetworkStatusStore {
     override fun getLiveNetworkStatus(): NetworkStatus {
-        val status = backend.getLiveNetworkStatus().execute().body()!!
+        val status = backend.getLiveNetworkStatus()
+                .execute()
+                .body()!!
+                // coming from json it can actually be null!
+                .filter { it.line != null }
         return NetworkStatus(Date(), status)
     }
 
     override fun getWeekendNetworkStatus(): NetworkStatus {
-        val status = backend.getWeekendNetworkStatus().execute().body()!!
+        val status = backend.getWeekendNetworkStatus()
+                .execute()
+                .body()!!
+                // coming from json it can actually be null!
+                .filter { it.line != null }
         return NetworkStatus(Date(), status)
     }
 }
