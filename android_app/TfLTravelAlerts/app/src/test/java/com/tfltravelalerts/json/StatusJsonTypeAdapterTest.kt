@@ -9,12 +9,12 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-class StatusTypeAdapterTest {
+class StatusJsonTypeAdapterTest {
     lateinit var gson: Gson
     @Before
     fun setup() {
         gson = GsonBuilder()
-                .registerTypeAdapter(Status::class.java, StatusTypeAdapter())
+                .registerTypeAdapter(Status::class.java, StatusJsonTypeAdapter())
                 .create()
     }
 

@@ -6,7 +6,7 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import com.tfltravelalerts.model.Status
 
-class StatusTypeAdapter : TypeAdapter<Status>() {
+class StatusJsonTypeAdapter : TypeAdapter<Status>() {
     override fun write(out: JsonWriter, value: Status?) {
         out.value(value?.name)
     }
