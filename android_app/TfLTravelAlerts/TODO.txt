@@ -9,12 +9,10 @@ entity and the "UI" class that is mutable (and has more fields)
 Main/Initial Screen:
 ====================
 - The code is a mess. Rewrite it in someway that looks better
-- actually get data from server
-
 
 Configured Alarms List (main screen):
 ====================================
-- needs to update when the data changes
+- needs to update when the data changes from the details screen
 
 
 Alert details using MVI:

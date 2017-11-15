@@ -24,7 +24,7 @@ enum class Status constructor(
 
     companion object {
 
-        fun parseString(status: String?): Status {
+        fun tryParse(status: String?): Status {
             if (status == null) {
                 return UNKNOWN
             } else {
