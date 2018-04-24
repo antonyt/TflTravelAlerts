@@ -52,42 +52,34 @@ data class UiData(val id: Int, val time: Time?, val days: Set<Day>, val lines: S
 
     val alarm: ConfiguredAlarm by lazy { ConfiguredAlarm(id, time!!, days, lines, notifyGoodService, enabled) }
 
-    private fun cloneAux(id: Int = this.id,
-                         time: Time? = this.time,
-                         days: Set<Day> = this.days,
-                         lines: Set<Line> = this.lines,
-                         notifyGoodService: Boolean = this.notifyGoodService,
-                         enabled: Boolean = this.enabled,
-                         errorMessage: String? = this.errorMessage): UiData {
-        return UiData(id, time, days, lines, notifyGoodService, enabled, errorMessage)
-    }
 
     fun cloneWithTime(time: Time): UiData {
-        return cloneAux(time = time)
+
+        return copy(time = time)
     }
 
     fun cloneWithDay(day: Day): UiData {
-        return cloneAux(days = days.plus(day))
+        return copy(days = days.plus(day))
     }
 
     fun cloneWithoutDay(day: Day): UiData {
-        return cloneAux(days = days.minus(day))
+        return copy(days = days.minus(day))
     }
 
     fun cloneWithLine(line: Line): UiData {
-        return cloneAux(lines = lines.plus(line))
+        return copy(lines = lines.plus(line))
     }
 
     fun cloneWithoutLine(line: Line): UiData {
-        return cloneAux(lines = lines.minus(line))
+        return copy(lines = lines.minus(line))
     }
 
     fun cloneWithNotifyGoodService(notifyGoodService: Boolean): UiData {
-        return cloneAux(notifyGoodService = notifyGoodService)
+        return copy(notifyGoodService = notifyGoodService)
     }
 
     fun cloneWithErrorMessage(errorMessage: String?): UiData {
-        return cloneAux(errorMessage = errorMessage)
+        return copy(errorMessage = errorMessage)
     }
 }
 
