@@ -52,6 +52,7 @@ data class UiData(val id: Int, val time: Time?, val days: Set<Day>, val lines: S
 
     val alarm: ConfiguredAlarm by lazy { ConfiguredAlarm(id, time!!, days, lines, notifyGoodService, enabled) }
 
+    val isNewAlarm = this.id == ConfiguredAlarm.NEW_ALARM_ID
 
     fun cloneWithTime(time: Time): UiData {
 
@@ -292,6 +293,7 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
             lines = it.lines
             doNotifyGoodService = it.notifyGoodService
             time = it.time
+            isCreate = it.isNewAlarm
         }
     }
 

@@ -2,14 +2,16 @@ GENERAL:
 ========
 - I don't like that there are three different objects for ConfiguredAlarms: the data class, the
 entity and the "UI" class that is mutable (and has more fields)
-- I can call @WorkerThread annotated methods from the UI thread without link warnings
+- I can call @WorkerThread annotated methods from the UI thread without lint warnings
 - send network errors to the subscribers
 - I would like to avoid using reflection to parse json. perhaps could use come library that creates the json parser at compile time?
+- user kotlin extensions for parceler
+- add Tfl Rail and tram to alarm detail activity
 
 Main/Initial Screen:
 ====================
 - The code is a mess. Rewrite it in someway that looks better
-- When the data changes in the adapters, it would be nice to regresh if the toolbar should collapse.
+- When the data changes in the adapters, it would be nice to refresh if the toolbar should collapse.
 The easy case to spot an error is if a page is opened while the data is being downloaded (and there is
 no cached data), when the data arrives if you scroll, the toolbar won't collapse as it ideally would.
 
@@ -27,6 +29,7 @@ Alert details using MVI:
     - maybe a delete button too
 - the clock icon set as startDrawable will CRASH older android version
 - handle tearing down the rx streams (activity on pause/stop/destroy)
+- update the alarm list
 
 
 
