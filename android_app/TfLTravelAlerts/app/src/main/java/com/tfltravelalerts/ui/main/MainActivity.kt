@@ -12,9 +12,7 @@ import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.common.Logger
-import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
 import com.tfltravelalerts.service.BackendService
-import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import kotlinx.android.synthetic.main.main_activity.*
@@ -113,10 +111,7 @@ class MainActivity : BaseActivity() {
         }
 
         private fun setupAlarmsList(view: View): View {
-            // TODO inject this
-            val database = ConfiguredAlarmDatabase.getDatabase(this@MainActivity)
-            val impl = AlarmStoreDatabaseImpl(database)
-            val controller = AlarmsPageController(view, impl)
+            val controller = AlarmsPageController(view, getTtaApp().alarmsStore)
             return controller.recyclerView
         }
 

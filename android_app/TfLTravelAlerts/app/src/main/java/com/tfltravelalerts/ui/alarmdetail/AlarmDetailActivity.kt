@@ -18,8 +18,6 @@ import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
 import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Time
-import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
-import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
 import com.tfltravelalerts.store.AlarmsStore
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -224,8 +222,7 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
         } else {
             initialData = UiData()
         }
-        val database = ConfiguredAlarmDatabase.getDatabase(this)
-        val interactor = Interactor(this, AlarmStoreDatabaseImpl(database))
+        val interactor = Interactor(this, getTtaApp().alarmsStore)
         interactor.bindIntents(initialData)
     }
 

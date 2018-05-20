@@ -15,10 +15,11 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:onClick="@{() -> listener.onAlarmClicked(alarm)}"
         android:padding="8dp"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="0dp"
-        android:onClick="@{() -> listener.onAlarmClicked(alarm)}"
         >
 
         <TextView
