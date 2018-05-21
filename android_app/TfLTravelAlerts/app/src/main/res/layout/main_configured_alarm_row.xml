@@ -8,7 +8,11 @@
     <data>
         <import type="android.view.View"/>
         <variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>
-        <variable name="timePrinter" type="com.tfltravelalerts.model.TimePrinter"/>
+
+        <variable
+            name="formattedTime"
+            type="String"
+            />
         <variable name="listener" type="com.tfltravelalerts.ui.main.ConfiguredAlarmViewHolder"/>
     </data>
 
@@ -29,7 +33,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:minWidth="50dp"
-            android:text="@{timePrinter.print(alarm.time)}"
+            android:text="@{formattedTime}"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

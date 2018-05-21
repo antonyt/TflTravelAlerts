@@ -7,9 +7,11 @@
     <data>
         <import type="com.tfltravelalerts.model.Day"/>
         <import type="com.tfltravelalerts.model.Line"/>
-        <!--<variable name="alarm" type="com.tfltravelalerts.model.ConfiguredAlarm"/>-->
-        <variable name="timePrinter" type="com.tfltravelalerts.model.TimePrinter"/>
-        <variable name="time" type="com.tfltravelalerts.model.Time"/>
+
+        <variable
+            name="formattedTime"
+            type="String"
+            />
         <variable name="days" type="java.util.Set&lt;Day&gt;"/>
         <variable name="lines" type="java.util.Set&lt;Line&gt;"/>
         <variable name="doNotifyGoodService" type="Boolean"/>
@@ -71,7 +73,7 @@
                     android:ems="10"
                     android:focusableInTouchMode="false"
                     android:hint="@string/alarm_detail_time_hint"
-                    android:text="@{time != null ? timePrinter.print(time) : null}"
+                    android:text="@{formattedTime}"
                     />
 
                 <TextView
@@ -212,8 +214,8 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
                         android:layout_marginEnd="8dp"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
                         android:layout_weight="1.0"
                         android:baselineAligned="false"
                         android:orientation="vertical"
@@ -266,8 +268,8 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
                         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                        android:layout_marginStart="8dp"
                         android:layout_weight="1.0"
                         android:baselineAligned="false"
                         android:orientation="vertical"
@@ -318,8 +320,8 @@
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
-                    android:text="@string/alarm_detail_skip_notifications_label"
                     android:checked="@{safeUnbox(doNotifyGoodService)}"
+                    android:text="@string/alarm_detail_skip_notifications_label"
                     />
 
                 <TextView

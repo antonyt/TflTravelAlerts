@@ -48,15 +48,14 @@ class ConfiguredAlarmAdapter(private val viewActions: ViewActions, context: Cont
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConfiguredAlarmBaseViewHolder {
-        when (viewType) {
+        return when (viewType) {
             VIEW_TYPE_ALARM -> {
                 val binding = MainConfiguredAlarmRowBinding.inflate(layoutInflater, parent, false)
-                binding.timePrinter = timePrinter
-                return ConfiguredAlarmViewHolder(binding, viewActions)
+                ConfiguredAlarmViewHolder(binding, viewActions, timePrinter)
             }
             VIEW_TYPE_CREATE_NEW -> {
                 val binding = MainAddAlarmRowBinding.inflate(layoutInflater, parent, false)
-                return AddAlarmViewHolder(binding, viewActions)
+                AddAlarmViewHolder(binding, viewActions)
             }
             else -> {
                 throw IllegalStateException("Failed to map viewType $viewType")
@@ -75,7 +74,8 @@ sealed class ConfiguredAlarmBaseViewHolder(binding: ViewDataBinding) : RecyclerV
 
 class ConfiguredAlarmViewHolder(
         val binding: MainConfiguredAlarmRowBinding,
-        val listener: ViewActions)
+        val listener: ConfiguredAlarmAdapter.ViewActions,
+        val timePrinter: AndroidTimePrinter)
     : ConfiguredAlarmBaseViewHolder(binding) {
 
     init {
@@ -89,6 +89,7 @@ class ConfiguredAlarmViewHolder(
     fun showAlarm(alarm: ConfiguredAlarm) {
         binding.listener = null
         binding.alarm = alarm
+        binding.formattedTime = timePrinter.print(alarm.time)
         val viewGroup = binding.weekDaysContainer.root as ViewGroup
         binding.executePendingBindings()
         // need to execute bindings before setting up the font

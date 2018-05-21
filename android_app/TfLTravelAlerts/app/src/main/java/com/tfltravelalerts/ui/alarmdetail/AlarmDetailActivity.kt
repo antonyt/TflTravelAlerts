@@ -18,6 +18,7 @@ import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
 import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Time
+import com.tfltravelalerts.model.TimePrinter
 import com.tfltravelalerts.store.AlarmsStore
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
@@ -104,10 +105,10 @@ data class LineSelectionEvent(private val change: Pair<Line, Boolean>) : UiEvent
 
 data class DaySelectionEvent(private val change: Pair<Day, Boolean>) : UiEvent {
     override fun reduceState(state: UiData): UiData {
-        if (change.second) {
-            return state.cloneWithDay(change.first)
+        return if (change.second) {
+            state.cloneWithDay(change.first)
         } else {
-            return state.cloneWithoutDay(change.first)
+            state.cloneWithoutDay(change.first)
         }
     }
 }
@@ -207,13 +208,15 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     }
 
     private lateinit var binding: AlarmDetailBinding
+    private lateinit var timePrinter: TimePrinter
+    private var time: Time? = null
     private val timeObserver = TimeSetObservable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView<AlarmDetailBinding>(this, R.layout.alarm_detail)
-        binding.timePrinter = AndroidTimePrinter(this)
+        timePrinter = AndroidTimePrinter(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.alarm_detail)
+//        binding.
         binding.executePendingBindings()
         val initialData: UiData
         if (intent.hasExtra(EXTRA_ALARM)) {
@@ -231,13 +234,13 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     }
 
     override fun selectDayIntent(): Observable<Pair<Day, Boolean>> {
-        return selectDayIntent(binding.monday!!)
-                .mergeWith(selectDayIntent(binding.tuesday!!))
-                .mergeWith(selectDayIntent(binding.wednesday!!))
-                .mergeWith(selectDayIntent(binding.thursday!!))
-                .mergeWith(selectDayIntent(binding.friday!!))
-                .mergeWith(selectDayIntent(binding.saturday!!))
-                .mergeWith(selectDayIntent(binding.sunday!!))
+        return selectDayIntent(binding.monday)
+                .mergeWith(selectDayIntent(binding.tuesday))
+                .mergeWith(selectDayIntent(binding.wednesday))
+                .mergeWith(selectDayIntent(binding.thursday))
+                .mergeWith(selectDayIntent(binding.friday))
+                .mergeWith(selectDayIntent(binding.saturday))
+                .mergeWith(selectDayIntent(binding.sunday))
     }
 
     private fun selectDayIntent(day: AlarmDetailDayViewBinding): Observable<Pair<Day, Boolean>> {
@@ -247,21 +250,21 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     }
 
     override fun selectLineIntent(): Observable<Pair<Line, Boolean>> {
-        return selectLineIntent(binding.bakerloo!!)
-                .mergeWith(selectLineIntent(binding.central!!))
-                .mergeWith(selectLineIntent(binding.circle!!))
-                .mergeWith(selectLineIntent(binding.district!!))
-                .mergeWith(selectLineIntent(binding.hammersmithAndCity!!))
-                .mergeWith(selectLineIntent(binding.jubilee!!))
-                .mergeWith(selectLineIntent(binding.metropolitan!!))
-                .mergeWith(selectLineIntent(binding.northern!!))
-                .mergeWith(selectLineIntent(binding.piccadilly!!))
-                .mergeWith(selectLineIntent(binding.victoria!!))
-                .mergeWith(selectLineIntent(binding.waterlooAndCity!!))
-                .mergeWith(selectLineIntent(binding.overground!!))
-                .mergeWith(selectLineIntent(binding.dlr!!))
-//                .mergeWith(selectLineIntent(binding.tflRail!!))
-//                .mergeWith(selectLineIntent(binding.trams!!))
+        return selectLineIntent(binding.bakerloo)
+                .mergeWith(selectLineIntent(binding.central))
+                .mergeWith(selectLineIntent(binding.circle))
+                .mergeWith(selectLineIntent(binding.district))
+                .mergeWith(selectLineIntent(binding.hammersmithAndCity))
+                .mergeWith(selectLineIntent(binding.jubilee))
+                .mergeWith(selectLineIntent(binding.metropolitan))
+                .mergeWith(selectLineIntent(binding.northern))
+                .mergeWith(selectLineIntent(binding.piccadilly))
+                .mergeWith(selectLineIntent(binding.victoria))
+                .mergeWith(selectLineIntent(binding.waterlooAndCity))
+                .mergeWith(selectLineIntent(binding.overground))
+                .mergeWith(selectLineIntent(binding.dlr))
+//                .mergeWith(selectLineIntent(binding.tflRail))
+//                .mergeWith(selectLineIntent(binding.trams))
     }
 
     private fun selectLineIntent(line: AlarmDetailLineViewBinding): Observable<Pair<Line, Boolean>> {
@@ -289,7 +292,10 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
             days = it.days
             lines = it.lines
             doNotifyGoodService = it.notifyGoodService
-            time = it.time
+            it.time?.let {
+                formattedTime = timePrinter.print(it)
+                this@AlarmDetailActivity.time = it
+            }
             isCreate = it.isNewAlarm
         }
     }
@@ -297,7 +303,7 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
     override fun promptTime() {
         supportFragmentManager
                 .beginTransaction()
-                .add(MyAlarmTimePickerDialog.create(binding.time ?: Time(8, 0)), "time-picker")
+                .add(MyAlarmTimePickerDialog.create(time ?: Time(8, 0)), "time-picker")
                 .addToBackStack(null)
                 .commit()
 

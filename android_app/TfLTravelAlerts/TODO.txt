@@ -1,5 +1,15 @@
+Work list:
+==========
+
+1 - support tfl rail and tram
+2 - work with architecture
+3 - add delete icon to alarm detail
+4 - use live data et. al.
+
+
 GENERAL:
 ========
+- Make data binding receive a POJO (not "printer" interface inside, etc
 - I don't like that there are three different objects for ConfiguredAlarms: the data class, the
 entity and the "UI" class that is mutable (and has more fields)
 - I can call @WorkerThread annotated methods from the UI thread without lint warnings
@@ -15,10 +25,6 @@ Main/Initial Screen:
 The easy case to spot an error is if a page is opened while the data is being downloaded (and there is
 no cached data), when the data arrives if you scroll, the toolbar won't collapse as it ideally would.
 
-Configured Alarms List (main screen):
-====================================
-- needs to update when the data changes from the details screen
-
 
 Alert details using MVI:
 ========================
@@ -29,7 +35,6 @@ Alert details using MVI:
     - maybe a delete button too
 - the clock icon set as startDrawable will CRASH older android version
 - handle tearing down the rx streams (activity on pause/stop/destroy)
-- update the alarm list
 
 
 
