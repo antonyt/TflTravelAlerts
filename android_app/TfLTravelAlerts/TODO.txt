@@ -1,10 +1,9 @@
 Work list:
 ==========
 
-1 - support tfl rail and tram
-2 - work with architecture
-3 - add delete icon to alarm detail
-4 - use live data et. al.
+1 - work with architecture
+2 - add delete icon to alarm detail
+3 - use live data et. al.
 
 
 GENERAL:
@@ -16,7 +15,7 @@ entity and the "UI" class that is mutable (and has more fields)
 - send network errors to the subscribers
 - I would like to avoid using reflection to parse json. perhaps could use come library that creates the json parser at compile time?
 - user kotlin extensions for parceler
-- add Tfl Rail and tram to alarm detail activity
+- check if Tfl Rail and tram have weekend status
 
 Main/Initial Screen:
 ====================

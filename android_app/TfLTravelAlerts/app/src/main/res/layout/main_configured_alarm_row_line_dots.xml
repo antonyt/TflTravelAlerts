@@ -157,7 +157,7 @@
             app:layout_constraintEnd_toStartOf="@+id/include28"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/include26"
-            app:line="@{Line.TFL_RAIL}"
+            app:line="@{Line.OVERGROUND}"
             tools:layout_editor_absoluteY="24dp"
             />
 
@@ -168,8 +168,20 @@
             app:layout_constraintEnd_toStartOf="@+id/time"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/include27"
+            app:line="@{Line.TFL_RAIL}"
+            tools:layout_editor_absoluteY="16dp"
+            />
+
+        <include
+            android:id="@+id/include29"
+            layout="@layout/main_configured_alarm_row_line_dot"
+            app:alarm="@{alarm}"
+            app:layout_constraintEnd_toStartOf="@+id/time"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/include28"
             app:line="@{Line.TRAM}"
             tools:layout_editor_absoluteY="16dp"
             />
+
     </LinearLayout>
 </layout>

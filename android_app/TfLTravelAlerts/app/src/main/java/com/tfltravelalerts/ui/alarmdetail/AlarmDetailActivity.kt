@@ -263,8 +263,8 @@ class AlarmDetailActivity : BaseActivity(), ViewActions, MyTimePickerListener {
                 .mergeWith(selectLineIntent(binding.waterlooAndCity))
                 .mergeWith(selectLineIntent(binding.overground))
                 .mergeWith(selectLineIntent(binding.dlr))
-//                .mergeWith(selectLineIntent(binding.tflRail))
-//                .mergeWith(selectLineIntent(binding.trams))
+                .mergeWith(selectLineIntent(binding.tflRail))
+                .mergeWith(selectLineIntent(binding.tram))
     }
 
     private fun selectLineIntent(line: AlarmDetailLineViewBinding): Observable<Pair<Line, Boolean>> {

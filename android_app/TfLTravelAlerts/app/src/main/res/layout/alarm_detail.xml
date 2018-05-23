@@ -263,6 +263,13 @@
                             bind:line="@{Line.DLR}"
                             bind:lines="@{lines}"
                             />
+
+                        <include
+                            android:id="@+id/tflRail"
+                            layout="@layout/alarm_detail_line_view"
+                            bind:line="@{Line.TFL_RAIL}"
+                            bind:lines="@{lines}"
+                            />
                     </LinearLayout>
 
                     <LinearLayout
@@ -308,6 +315,13 @@
                             android:id="@+id/overground"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.OVERGROUND}"
+                            bind:lines="@{lines}"
+                            />
+
+                        <include
+                            android:id="@+id/tram"
+                            layout="@layout/alarm_detail_line_view"
+                            bind:line="@{Line.TRAM}"
                             bind:lines="@{lines}"
                             />
                     </LinearLayout>
