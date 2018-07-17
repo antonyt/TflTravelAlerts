@@ -7,10 +7,7 @@ import com.tfltravelalerts.model.Line
 object DayTypeConverter {
     @TypeConverter
     fun daysConverter(days: Set<Day>): Int {
-        var value = 0
-        for (day in days) {
-            value += (1 shl day.ordinal)
-        }
+        val value = days.sumBy { (1 shl it.ordinal) }
         return value
     }
 

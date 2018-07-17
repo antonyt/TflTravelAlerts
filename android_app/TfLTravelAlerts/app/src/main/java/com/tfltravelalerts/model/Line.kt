@@ -24,8 +24,6 @@ enum class Line(@StringRes val nameResId: Int,
     TFL_RAIL(R.string.line_name_tfl_rail, R.color.line_color_tfl_rail, true),
     TRAM(R.string.line_name_tram, R.color.line_color_tram, true);
 
-    // TODO add support for tfl rail and trams
-
     companion object {
         fun tryParse(name: String?): Line? {
             val line: Line? = null
@@ -41,5 +39,4 @@ enum class Line(@StringRes val nameResId: Int,
             }
         }
     }
-
 }
