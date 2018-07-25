@@ -5,6 +5,10 @@ Work list:
 2 - add delete icon to alarm detail
 3 - use live data et. al.
 
+unordered:
+  - use koin (DI)
+  - think about good approach using view model, live data, repositories/data stores
+  - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
 
 GENERAL:
 ========
