@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import com.tfltravelalerts.R
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.store.AlarmsStore
-import com.tfltravelalerts.ui.alarmdetail.AlarmDetailActivity
+import com.tfltravelalerts.ui.alarmdetail2.AlarmDetailActivity
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

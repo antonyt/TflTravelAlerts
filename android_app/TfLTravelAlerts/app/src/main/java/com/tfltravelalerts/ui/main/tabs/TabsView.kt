@@ -1,52 +1,63 @@
-package com.tfltravelalerts.ui.main
+package com.tfltravelalerts.ui.main.tabs
 
-import android.os.Bundle
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tfltravelalerts.R
+import com.tfltravelalerts.application.TtaApplication
 import com.tfltravelalerts.common.Assertions
-import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.service.BackendService
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
-import kotlinx.android.synthetic.main.main_activity.*
+import com.tfltravelalerts.ui.main.AlarmsPageController
+import com.tfltravelalerts.ui.main.NetworkStatusPageController
 
+class TabsView(
+        private val host: MainActivityTabsContract.Host)
+    : MainActivityTabsContract.View {
 
-class MainActivity : BaseActivity() {
+    // TODO it would be cool to use some interface for view binding
+    // so that we can write "val x: View by bind(R.id.abc)"
+    // this class should implement the interface ViewBinder
+    // and delegate it to the host
+    //
+    // e.g.: " ... : ViewBinder by host"
 
+    private val toolbar: Toolbar by host.bind(R.id.main_toolbar)
+    private val viewPager: ViewPager by host.bind(R.id.main_view_pager)
+    private val appBarLayout: AppBarLayout by host.bind(R.id.main_app_bar_layout)
+    private val tabLayout: TabLayout by host.bind(R.id.main_tab_strip)
     private val viewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
+
     private val networkStatusStore: NetworkStatusStore by lazy { NetworkStatusStoreImpl(BackendService.createService()) }
-    // these are some sort of "alias" to keep the naming conventions
-    private val toolbar by lazy { main_toolbar }
-    private val appBarLayout by lazy { main_app_bar_layout }
-    private val viewPager by lazy { main_view_pager }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-        setTitle(R.string.full_app_name)
-        setSupportActionBar(main_toolbar)
+
+    override fun render() {
+        host.setTitle(R.string.full_app_name)
+        host.setSupportActionBar(toolbar)
+
         viewPager.adapter = viewPagerAdapter
-        main_tab_strip.setupWithViewPager(viewPager)
-
+        tabLayout.setupWithViewPager(viewPager)
         viewPager.addOnPageChangeListener(MyPageChangeListener())
-        updateToolbarScrollingStatus();
+        updateToolbarScrollingStatus()
+
     }
+
 
     private fun updateToolbarScrollingStatus() {
         if (viewPagerAdapter.canPageScrollVertically(viewPager.currentItem)) {
-            turnOnToolbarScrolling();
+            turnOnToolbarScrolling()
         } else {
-            turnOffToolbarScrolling();
+            turnOffToolbarScrolling()
         }
     }
-
 
     private fun turnOffToolbarScrolling() {
         Logger.d("MainActivity: turn off toolbar scrolling")
@@ -77,8 +88,8 @@ class MainActivity : BaseActivity() {
 
     inner class ViewPagerImpl : ConstantViewPagerAdapter.Implementation {
         override val pageCount = 3
-        private val scrollingViews: Array<View?> = arrayOfNulls<View?>(pageCount)
-        private val layoutInflater: LayoutInflater by lazy { LayoutInflater.from(this@MainActivity) }
+        private val scrollingViews = arrayOfNulls<View?>(pageCount)
+        private val layoutInflater by lazy { LayoutInflater.from(viewPager.context) }
 
         override fun canPageScrollVertically(position: Int): Boolean {
             val view: View? = scrollingViews[position]
@@ -88,9 +99,9 @@ class MainActivity : BaseActivity() {
 
         override fun getPageTitle(position: Int): CharSequence? {
             return when (position) {
-                0 -> getString(R.string.main_tab_title_now)
-                1 -> getString(R.string.main_tab_title_weekend)
-                2 -> getString(R.string.main_tab_title_alarms)
+                0 -> host.getString(R.string.main_tab_title_now)
+                1 -> host.getString(R.string.main_tab_title_weekend)
+                2 -> host.getString(R.string.main_tab_title_alarms)
                 else -> {
                     Assertions.shouldNotHappen("invalid index: $position")
                     ""
@@ -111,7 +122,7 @@ class MainActivity : BaseActivity() {
         }
 
         private fun setupAlarmsList(view: View): View {
-            val controller = AlarmsPageController(view, getTtaApp().alarmsStore)
+            val controller = AlarmsPageController(view, (view.context.applicationContext as TtaApplication).alarmsStore)
             return controller.recyclerView
         }
 
@@ -133,6 +144,3 @@ class MainActivity : BaseActivity() {
         override fun onPageSelected(position: Int) {}
     }
 }
-
-
-

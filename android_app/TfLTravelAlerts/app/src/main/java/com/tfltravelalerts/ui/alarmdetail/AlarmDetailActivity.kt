@@ -58,12 +58,20 @@ data class UiData(val id: Int, val time: Time?, val days: Set<Day>, val lines: S
         return copy(time = time)
     }
 
+    fun cloneWithDay(day: Day, included: Boolean): UiData {
+        return copy(days = addOrRemove(days, day, included))
+    }
+
     fun cloneWithDay(day: Day): UiData {
         return copy(days = days.plus(day))
     }
 
     fun cloneWithoutDay(day: Day): UiData {
         return copy(days = days.minus(day))
+    }
+
+    fun cloneWithLine(line: Line, included: Boolean): UiData {
+        return copy(lines = addOrRemove(lines, line, included))
     }
 
     fun cloneWithLine(line: Line): UiData {
@@ -81,6 +89,12 @@ data class UiData(val id: Int, val time: Time?, val days: Set<Day>, val lines: S
     fun cloneWithErrorMessage(errorMessage: String?): UiData {
         return copy(errorMessage = errorMessage)
     }
+
+    private fun <T> addOrRemove(set: Set<T>, item: T, add: Boolean): Set<T> =
+            if (add)
+                set.plus(item)
+            else
+                set.minus(item)
 }
 
 interface UiEvent {

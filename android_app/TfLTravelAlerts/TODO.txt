@@ -10,13 +10,38 @@ unordered:
   - think about good approach using view model, live data, repositories/data stores
   - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
 
+New Architecture:
+=================
+
+There are two possible approaches for how the view publishes its' activity:
+  - The view defines a sealed class with all UI actions that can happen and then the presenter (or
+    something else?) has to have a method that receives those events, computes new state, and
+    updates the view
+    = ui event class similar to UiEvent but with sealed class instead
+    + it still doesn't guarantee that the receiver will handle all possible events, but thanks to
+      kotlin's exhaustive `when`, it will be unlikely we miss something
+    + subscription details remain private to the view
+    - the view has to be a bit smarter although not terribly smarter
+    ? which one is best for composition? (having sub-presenters)
+    ? which one is best reuse? (other activities/fragments/views using this)
+
+  - The view exposes a few methods with publish each event (observer chain) and the presenter
+    (or something else?) subscribes all events, computes new state, and updates the view
+    = similar to ViewActions
+    - there is no type safety. nothing guarantees the presenter is listening to all events
+    - if a separate presenter wants to use this, it would need to repeat the logic of the presenter
+      (...) but how likely is that to ever happen?
+    ? which is one best for composition?
+    ? which one is best reuse? (other activities/fragments/views using this)
+
 GENERAL:
 ========
 - I don't like that there are three different objects for ConfiguredAlarms: the data class, the
-entity and the "UI" class that is mutable (and has more fields)
+  entity and the "UI" class that is mutable (and has more fields)
 - I can call @WorkerThread annotated methods from the UI thread without lint warnings
 - send network errors to the subscribers
-- I would like to avoid using reflection to parse json. perhaps could use come library that creates the json parser at compile time?
+- I would like to avoid using reflection to parse json. perhaps could use come library that creates
+  the json parser at compile time?
 - user kotlin extensions for parceler
 
 Main/Initial Screen:
@@ -37,6 +62,11 @@ Alert details using MVI:
 - the clock icon set as startDrawable will CRASH older android version
 - handle tearing down the rx streams (activity on pause/stop/destroy)
 
+ALERT DETAIL:
+=============
+
+- implement save/restore state
+
 
 
 MUST DO BEFORE RELEASE:
@@ -54,3 +84,9 @@ COULD DO:
 - option to be always up to date with the line status
 - double check order of lines
 - in the network status scrollingViews, collapse lines with good status
+
+DREAMS:
+=======
+
+- maybe could write a library similar to RxBindings using co-routines
+- replace rx with co-routines
