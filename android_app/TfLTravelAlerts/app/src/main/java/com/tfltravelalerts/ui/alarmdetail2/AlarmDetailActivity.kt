@@ -6,29 +6,39 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.databinding.AlarmDetailBinding
+import com.tfltravelalerts.di.Scopes
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Time
 import com.tfltravelalerts.ui.alarmdetail.MyTimePickerListener
 import com.tfltravelalerts.ui.alarmdetail.UiData
+import org.koin.android.ext.android.getKoin
+import org.koin.android.ext.android.inject
 
-class AlarmDetailActivity : BaseActivity(), MyTimePickerListener, AlarmDetailContract.Host {
+class AlarmDetailActivity :
+        BaseActivity(),
+        MyTimePickerListener,
+        AlarmDetailContract.Host {
 
-    private lateinit var presenter: AlarmDetailPresenter
+    private lateinit var initialData: UiData
+    private val presenter: AlarmDetailContract.Presenter by inject()
+    private lateinit var view: AlarmDetailContract.View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getKoin().createScope(Scopes.ALARM_DETAIL_SCREEN)
+
         val binding = AlarmDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // TODO use savedInstanceState
-        val initialData = if (intent.hasExtra(EXTRA_ALARM)) {
+        initialData = if (intent.hasExtra(EXTRA_ALARM)) {
             val configuredAlarm = intent.getParcelableExtra<ConfiguredAlarm>(EXTRA_ALARM)
             UiData(configuredAlarm)
         } else {
             UiData()
         }
-        val view = AlarmDetailView(binding, this)
-        presenter = AlarmDetailPresenter()
+        view = AlarmDetailView(binding, this)
         presenter.init(initialData, view)
     }
 
@@ -45,6 +55,11 @@ class AlarmDetailActivity : BaseActivity(), MyTimePickerListener, AlarmDetailCon
                 .add(fragment, tag)
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        getKoin().getScope(Scopes.ALARM_DETAIL_SCREEN).close()
     }
 
     companion object {

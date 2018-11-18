@@ -3,45 +3,51 @@ package com.tfltravelalerts.ui.alarmdetail2
 import com.tfltravelalerts.model.Time
 import com.tfltravelalerts.store.AlarmsStore
 import com.tfltravelalerts.ui.alarmdetail.UiData
+import org.koin.core.parameter.parametersOf
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
-class AlarmDetailPresenter : AlarmDetailContract.Presenter {
-    // TODO make the following constructor parameters
-    private lateinit var reducer: AlarmDetailStateReducer
-    private lateinit var alarmsStore: AlarmsStore
-    private lateinit var uiDataModelMapper: UiDataModelMapper
+class AlarmDetailPresenter(
+        private val alarmsStore: AlarmsStore,
+        private val uiDataModelMapper: UiDataModelMapper
 
-    // ---
+) : AlarmDetailContract.Presenter, KoinComponent {
+    private val machine: AlarmDetailStateMachine by inject { parametersOf(initialData) }
+
+
     private lateinit var view: AlarmDetailContract.View
+    private lateinit var initialData: UiData
 
     override fun init(initialData: UiData, view: AlarmDetailContract.View) {
         this.view = view
+        this.initialData = initialData
         // TODO handle disposable
         val disposable = view.init(initialData)
                 .subscribe {
-                    view.render(reducer.onEvent(it))
+                    view.render(machine.onEvent(it))
                 }
     }
 
     override fun save(): UiData {
-        val value = uiDataModelMapper.map(reducer.lastState)
+        val value = uiDataModelMapper.map(machine.lastState)
         return when (value) {
             is UiDataModelMapper.MapperResult.Success -> {
                 alarmsStore.saveAlarm(value.configuredAlarm)
-                reducer.lastState
+                machine.lastState
             }
             is UiDataModelMapper.MapperResult.Fail ->
                 // TODO map this appropriately in the right layer
-                reducer.lastState.cloneWithErrorMessage("Failed to save")
+                machine.lastState.cloneWithErrorMessage("Failed to save")
         }
 
     }
 
     override fun openTimeSelection(): UiData {
-        view.showTimePicker(reducer.lastState.time ?: Time(8, 0))
-        return reducer.lastState
+        view.showTimePicker(machine.lastState.time ?: Time(8, 0))
+        return machine.lastState
     }
 
     override fun onTimeSelected(time: Time) {
-        view.render(reducer.onEvent(AlarmDetailContract.Intent.OnTimeSelected(time)))
+        view.render(machine.onEvent(AlarmDetailContract.Intent.OnTimeSelected(time)))
     }
 }

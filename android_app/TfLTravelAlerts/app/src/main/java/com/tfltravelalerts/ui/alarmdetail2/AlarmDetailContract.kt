@@ -7,7 +7,7 @@ import com.tfltravelalerts.model.Time
 import com.tfltravelalerts.ui.alarmdetail.UiData
 import io.reactivex.Observable
 
-typealias AlarmDetailStateReducer = com.tfltravelalerts.common.StateMachine<UiData, AlarmDetailContract.Intent>
+typealias AlarmDetailStateMachine = com.tfltravelalerts.common.StateMachine<UiData, AlarmDetailContract.Intent>
 
 interface AlarmDetailContract {
 

@@ -5,7 +5,7 @@ import com.tfltravelalerts.ui.alarmdetail.UiData
 class AlarmDetailStateReducerImpl(
         initialState: UiData,
         private val uiInteractions: AlarmDetailContract.UiInteractions
-) : AlarmDetailStateReducer(initialState) {
+) : AlarmDetailStateMachine(initialState) {
 
     override fun reduceState(currentState: UiData, event: AlarmDetailContract.Intent): UiData {
         return when (event) {
