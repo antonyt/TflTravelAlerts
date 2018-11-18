@@ -1,5 +1,6 @@
 package com.tfltravelalerts.service
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tfltravelalerts.BuildConfig
@@ -31,6 +32,7 @@ interface BackendService {
             val gson = gson()
             val client = okHttpClient()
             val gsonConverterFactory = gsonConverterFactory(gson)
+
             return Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .client(client)
@@ -52,7 +54,10 @@ interface BackendService {
         private fun okHttpClient(): OkHttpClient {
             val interceptor = HttpLoggingInterceptor()
             interceptor.level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
-            return OkHttpClient.Builder().addInterceptor(interceptor).build()
+            return OkHttpClient.Builder()
+                    .addInterceptor(interceptor)
+                    .addNetworkInterceptor(StethoInterceptor())
+                    .build()
         }
     }
 }

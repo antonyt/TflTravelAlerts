@@ -14,6 +14,8 @@ interface AlarmDetailContract {
 
     interface Host {
         fun showFragment(tag: String, fragment: Fragment)
+
+        fun finish()
     }
 
     interface View {
@@ -22,6 +24,8 @@ interface AlarmDetailContract {
         fun render(data: UiData)
 
         fun showTimePicker(time: Time)
+
+        fun finish()
     }
 
     interface Presenter : UiInteractions {

@@ -6,7 +6,6 @@ Work list:
 3 - use live data et. al.
 
 unordered:
-  - use koin (DI)
   - think about good approach using view model, live data, repositories/data stores
   - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
 

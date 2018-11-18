@@ -119,4 +119,8 @@ class AlarmDetailView(
     override fun showTimePicker(time: Time) {
         host.showFragment("time-picker", MyAlarmTimePickerDialog.create(time))
     }
+
+    override fun finish() {
+        host.finish()
+    }
 }

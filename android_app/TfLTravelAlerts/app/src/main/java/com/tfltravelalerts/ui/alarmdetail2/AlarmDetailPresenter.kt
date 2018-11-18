@@ -3,6 +3,8 @@ package com.tfltravelalerts.ui.alarmdetail2
 import com.tfltravelalerts.model.Time
 import com.tfltravelalerts.store.AlarmsStore
 import com.tfltravelalerts.ui.alarmdetail.UiData
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import org.koin.core.parameter.parametersOf
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -32,7 +34,13 @@ class AlarmDetailPresenter(
         val value = uiDataModelMapper.map(machine.lastState)
         return when (value) {
             is UiDataModelMapper.MapperResult.Success -> {
-                alarmsStore.saveAlarm(value.configuredAlarm)
+                Single
+                        .fromCallable {
+                            alarmsStore.saveAlarm(value.configuredAlarm)
+                        }
+                        .subscribeOn(Schedulers.io())
+                        .subscribe()
+                view.finish()
                 machine.lastState
             }
             is UiDataModelMapper.MapperResult.Fail ->

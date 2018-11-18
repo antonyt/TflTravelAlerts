@@ -18,7 +18,6 @@ class AlarmDetailActivity :
         BaseActivity(),
         MyTimePickerListener,
         AlarmDetailContract.Host {
-
     private lateinit var initialData: UiData
     private val presenter: AlarmDetailContract.Presenter by inject()
     private lateinit var view: AlarmDetailContract.View

@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import com.tfltravelalerts.R
@@ -30,7 +31,11 @@ class AlarmsPageController(view: View, private val store: AlarmsStore) : Configu
         disposable = store.observeAlarms()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { adapter.alarms = it }
+                .subscribe(
+                        { adapter.alarms = it; Log.d("TTL", "on result ${it.size} alarms") },
+                        { Log.d("TTL", "err", it) },
+                        { Log.d("TTL", "completed") }
+                )
 
     }
 
