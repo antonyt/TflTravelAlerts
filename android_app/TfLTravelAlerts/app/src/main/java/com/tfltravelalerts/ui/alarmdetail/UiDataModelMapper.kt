@@ -1,8 +1,7 @@
-package com.tfltravelalerts.ui.alarmdetail2
+package com.tfltravelalerts.ui.alarmdetail
 
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Time
-import com.tfltravelalerts.ui.alarmdetail.UiData
 
 class UiDataModelMapper {
     sealed class MapperResult {

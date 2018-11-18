@@ -24,6 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.alarmdetail2.AlarmDetailActivity" />
+        <activity android:name=".ui.alarmdetail.AlarmDetailActivity" />
     </application>
 </manifest>

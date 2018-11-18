@@ -5,12 +5,12 @@ import com.tfltravelalerts.di.Scopes.ALARM_DETAIL_SCREEN
 import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
 import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
 import com.tfltravelalerts.store.AlarmsStore
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailPresenter
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateMachine
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducerImpl
 import com.tfltravelalerts.ui.alarmdetail.UiData
-import com.tfltravelalerts.ui.alarmdetail2.AlarmDetailContract
-import com.tfltravelalerts.ui.alarmdetail2.AlarmDetailPresenter
-import com.tfltravelalerts.ui.alarmdetail2.AlarmDetailStateMachine
-import com.tfltravelalerts.ui.alarmdetail2.AlarmDetailStateReducerImpl
-import com.tfltravelalerts.ui.alarmdetail2.UiDataModelMapper
+import com.tfltravelalerts.ui.alarmdetail.UiDataModelMapper
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
 

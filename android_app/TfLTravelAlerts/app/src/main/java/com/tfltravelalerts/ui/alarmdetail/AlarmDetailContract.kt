@@ -1,10 +1,9 @@
-package com.tfltravelalerts.ui.alarmdetail2
+package com.tfltravelalerts.ui.alarmdetail
 
 import android.support.v4.app.Fragment
 import com.tfltravelalerts.model.Day
 import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Time
-import com.tfltravelalerts.ui.alarmdetail.UiData
 import io.reactivex.Observable
 
 typealias AlarmDetailStateMachine = com.tfltravelalerts.common.StateMachine<UiData, AlarmDetailContract.Intent>

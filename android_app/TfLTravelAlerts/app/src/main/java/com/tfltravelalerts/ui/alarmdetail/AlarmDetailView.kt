@@ -1,4 +1,4 @@
-package com.tfltravelalerts.ui.alarmdetail2
+package com.tfltravelalerts.ui.alarmdetail
 
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
@@ -7,8 +7,6 @@ import com.tfltravelalerts.databinding.AlarmDetailDayViewBinding
 import com.tfltravelalerts.databinding.AlarmDetailLineViewBinding
 import com.tfltravelalerts.model.AndroidTimePrinter
 import com.tfltravelalerts.model.Time
-import com.tfltravelalerts.ui.alarmdetail.MyAlarmTimePickerDialog
-import com.tfltravelalerts.ui.alarmdetail.UiData
 import io.reactivex.Observable
 
 class AlarmDetailView(

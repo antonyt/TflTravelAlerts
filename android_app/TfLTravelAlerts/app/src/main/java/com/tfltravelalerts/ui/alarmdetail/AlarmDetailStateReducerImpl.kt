@@ -1,6 +1,4 @@
-package com.tfltravelalerts.ui.alarmdetail2
-
-import com.tfltravelalerts.ui.alarmdetail.UiData
+package com.tfltravelalerts.ui.alarmdetail
 
 class AlarmDetailStateReducerImpl(
         initialState: UiData,

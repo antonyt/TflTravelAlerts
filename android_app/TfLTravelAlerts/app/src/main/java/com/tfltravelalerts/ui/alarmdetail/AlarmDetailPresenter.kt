@@ -1,8 +1,7 @@
-package com.tfltravelalerts.ui.alarmdetail2
+package com.tfltravelalerts.ui.alarmdetail
 
 import com.tfltravelalerts.model.Time
 import com.tfltravelalerts.store.AlarmsStore
-import com.tfltravelalerts.ui.alarmdetail.UiData
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import org.koin.core.parameter.parametersOf
