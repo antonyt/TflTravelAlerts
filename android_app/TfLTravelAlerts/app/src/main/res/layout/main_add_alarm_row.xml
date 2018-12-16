@@ -5,7 +5,11 @@
     >
 
     <data>
-        <variable name="listener" type="com.tfltravelalerts.ui.main.AddAlarmViewHolder"/>
+
+        <variable
+            name="listener"
+            type="com.tfltravelalerts.ui.main.alarms_page.AddAlarmViewHolder"
+            />
     </data>
 
     <FrameLayout

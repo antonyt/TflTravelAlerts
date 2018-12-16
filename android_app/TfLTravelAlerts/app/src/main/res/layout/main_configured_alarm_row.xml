@@ -13,7 +13,11 @@
             name="formattedTime"
             type="String"
             />
-        <variable name="listener" type="com.tfltravelalerts.ui.main.ConfiguredAlarmViewHolder"/>
+
+        <variable
+            name="listener"
+            type="com.tfltravelalerts.ui.main.alarms_page.ConfiguredAlarmViewHolder"
+            />
     </data>
 
     <android.support.constraint.ConstraintLayout

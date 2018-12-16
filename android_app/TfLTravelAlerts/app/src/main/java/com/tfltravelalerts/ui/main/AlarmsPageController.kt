@@ -16,6 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
+// TODO delete me
 class AlarmsPageController(view: View, private val store: AlarmsStore) : ConfiguredAlarmAdapter.ViewActions {
     val recyclerView: RecyclerView = view.findViewById(R.id.main_recycler_view)
     val context: Context = view.context

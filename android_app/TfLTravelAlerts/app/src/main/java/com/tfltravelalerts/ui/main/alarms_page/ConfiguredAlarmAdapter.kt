@@ -1,4 +1,4 @@
-package com.tfltravelalerts.ui.main
+package com.tfltravelalerts.ui.main.alarms_page
 
 import android.content.Context
 import android.databinding.ViewDataBinding
@@ -16,12 +16,14 @@ import com.tfltravelalerts.databinding.MainConfiguredAlarmRowBinding
 import com.tfltravelalerts.model.AndroidTimePrinter
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Day
-
+import io.reactivex.Observer
 
 private const val VIEW_TYPE_ALARM = 0
 private const val VIEW_TYPE_CREATE_NEW = 1
 
-class ConfiguredAlarmAdapter(private val viewActions: ViewActions, context: Context)
+class ConfiguredAlarmAdapter(
+        private val observer: Observer<AlarmsPageContract.Intent>,
+        context: Context)
     : RecyclerView.Adapter<ConfiguredAlarmBaseViewHolder>() {
     private val layoutInflater: LayoutInflater = LayoutInflater.from(context)
     private val timePrinter = AndroidTimePrinter(context)
@@ -51,11 +53,11 @@ class ConfiguredAlarmAdapter(private val viewActions: ViewActions, context: Cont
         return when (viewType) {
             VIEW_TYPE_ALARM -> {
                 val binding = MainConfiguredAlarmRowBinding.inflate(layoutInflater, parent, false)
-                ConfiguredAlarmViewHolder(binding, viewActions, timePrinter)
+                ConfiguredAlarmViewHolder(binding, observer, timePrinter)
             }
             VIEW_TYPE_CREATE_NEW -> {
                 val binding = MainAddAlarmRowBinding.inflate(layoutInflater, parent, false)
-                AddAlarmViewHolder(binding, viewActions)
+                AddAlarmViewHolder(binding, observer)
             }
             else -> {
                 throw IllegalStateException("Failed to map viewType $viewType")
@@ -65,7 +67,6 @@ class ConfiguredAlarmAdapter(private val viewActions: ViewActions, context: Cont
 
     override fun getItemCount() = alarms.size + 1
 
-    interface ViewActions : AddAlarmViewHolder.ViewActions, ConfiguredAlarmViewHolder.ViewActions
 }
 
 sealed class ConfiguredAlarmBaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -73,13 +74,13 @@ sealed class ConfiguredAlarmBaseViewHolder(binding: ViewDataBinding) : RecyclerV
 }
 
 class ConfiguredAlarmViewHolder(
-        val binding: MainConfiguredAlarmRowBinding,
-        val listener: ConfiguredAlarmAdapter.ViewActions,
-        val timePrinter: AndroidTimePrinter)
+        private val binding: MainConfiguredAlarmRowBinding,
+        private val observer: Observer<AlarmsPageContract.Intent>,
+        private val timePrinter: AndroidTimePrinter)
     : ConfiguredAlarmBaseViewHolder(binding) {
 
     init {
-//        binding.listener = this
+        binding.listener = this
     }
 
     override fun executePendingBindings() {
@@ -90,11 +91,11 @@ class ConfiguredAlarmViewHolder(
         binding.listener = null
         binding.alarm = alarm
         binding.formattedTime = timePrinter.print(alarm.time)
-        val viewGroup = binding.weekDaysContainer.root as ViewGroup
         binding.executePendingBindings()
         // need to execute bindings before setting up the font
+        val viewGroup = binding.weekDaysContainer.root as ViewGroup
         setupFont(viewGroup, alarm)
-//        binding.listener = this
+        binding.listener = this
     }
 
     private fun setupFont(viewGroup: ViewGroup, alarm: ConfiguredAlarm) {
@@ -117,24 +118,20 @@ class ConfiguredAlarmViewHolder(
     }
 
     fun onAlarmClicked(alarm: ConfiguredAlarm) {
-        listener.onAlarmClicked(alarm)
+        observer.onNext(AlarmsPageContract.Intent.OpenAlarm(alarm))
     }
 
     fun onEnabledChanged(alarm: ConfiguredAlarm, isEnabled: Boolean) {
-        listener.onEnabledChanged(alarm, isEnabled)
-    }
-
-    interface ViewActions {
-        fun onAlarmClicked(alarm: ConfiguredAlarm)
-        fun onEnabledChanged(alarm: ConfiguredAlarm, isEnabled: Boolean)
+        observer.onNext(AlarmsPageContract.Intent.ToggleAlarm(alarm, isEnabled))
     }
 }
 
-class AddAlarmViewHolder(val binding: MainAddAlarmRowBinding,
-                         val listener: ViewActions)
-    : ConfiguredAlarmBaseViewHolder(binding) {
+class AddAlarmViewHolder(
+        val binding: MainAddAlarmRowBinding,
+        private val observer: Observer<AlarmsPageContract.Intent>
+) : ConfiguredAlarmBaseViewHolder(binding) {
     init {
-//        binding.listener = this
+        binding.listener = this
     }
 
     override fun executePendingBindings() {
@@ -142,10 +139,6 @@ class AddAlarmViewHolder(val binding: MainAddAlarmRowBinding,
     }
 
     fun onClick() {
-        listener.onAddAlarmClicked()
-    }
-
-    interface ViewActions {
-        fun onAddAlarmClicked()
+        observer.onNext(AlarmsPageContract.Intent.CreateAlarm)
     }
 }
