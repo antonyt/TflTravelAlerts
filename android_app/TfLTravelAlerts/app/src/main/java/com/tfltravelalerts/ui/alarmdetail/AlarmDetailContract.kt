@@ -22,6 +22,7 @@ interface AlarmDetailContract {
 
         fun render(data: UiData)
 
+        // TODO view should only have two methods: get intents and get render view
         fun showTimePicker(time: Time)
 
         fun finish()
