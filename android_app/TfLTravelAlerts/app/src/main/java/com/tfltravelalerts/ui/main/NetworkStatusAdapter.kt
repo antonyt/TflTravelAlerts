@@ -9,14 +9,21 @@ import com.tfltravelalerts.model.LineStatus
 import com.tfltravelalerts.model.NetworkStatus
 
 
-class NetworkStatusAdapter : RecyclerView.Adapter<NetworkStatusViewHolder>(), NetworkStatusRowListener {
+class NetworkStatusAdapter
+    : RecyclerView.Adapter<NetworkStatusViewHolder>(),
+        NetworkStatusRowListener {
     var networkStatus: NetworkStatus? = null
         set(value) {
-            field = value
-            notifyDataSetChanged()
+            if (field != value) {
+                field = value
+                notifyDataSetChanged()
+            }
         }
     private val expandedRows = HashSet<Line>(4)
     private var layoutInflater: LayoutInflater? = null
+
+    // to be more pure MVI, the expanded rows should come from the outside and this should expose
+    // the click events that would result in a new state. Let's be a bit lazy and skip that cycle
 
     override fun onBindViewHolder(holder: NetworkStatusViewHolder, position: Int) {
         networkStatus?.let {

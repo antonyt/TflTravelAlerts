@@ -2,7 +2,6 @@ Work list:
 ==========
 
 doing:
-    - convert network status page to MVI
     - convert main activity to MVI
     - convert time picker dialog to MVI
     - introduce view models to avoid passing time printer into data binding
