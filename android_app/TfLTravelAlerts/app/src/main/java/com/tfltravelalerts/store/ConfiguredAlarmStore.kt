@@ -34,6 +34,7 @@ class AlarmStoreDatabaseImpl(db: ConfiguredAlarmDatabase) : AlarmsStore {
 
     override fun observeAlarms(): Observable<List<ConfiguredAlarm>> {
         if (!changes.hasValue()) {
+            // TODO revisit this
             Observable
                     .fromCallable { getAlarms() }
                     .subscribeOn(Schedulers.io())

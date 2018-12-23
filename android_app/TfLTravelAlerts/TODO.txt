@@ -3,6 +3,10 @@ Work list:
 
 doing:
     - convert main activity to MVI
+        - alarms page
+            - extract the whole thing to a factory or so
+        - each status page (live / network)
+    - do a scan of TODOs in the codebase
     - convert time picker dialog to MVI
     - introduce view models to avoid passing time printer into data binding
 
@@ -13,6 +17,7 @@ doing:
 unordered:
   - think about good approach using view model, live data, repositories/data stores
   - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
+  - each contract should implement a reducer instead of extending a state machine
 
 New Architecture:
 =================
@@ -47,6 +52,7 @@ GENERAL:
 - I would like to avoid using reflection to parse json. perhaps could use Some library that creates
   the json parser at compile time?
 - user kotlin extensions for parceler
+- should the state reduced be an interface or an abstract class
 
 Main/Initial Screen:
 ====================

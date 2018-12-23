@@ -13,15 +13,27 @@ import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.service.BackendService
+import com.tfltravelalerts.store.AlarmsStore
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageStateStateMachine
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
+import kotlinx.android.synthetic.main.main_alarms_list.view.*
+import org.koin.android.ext.android.getKoin
 
 
 class MainActivity : BaseActivity() {
 
-    private val viewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
+    private val disposables = CompositeDisposable()
+    // TODO do DI
     private val networkStatusStore: NetworkStatusStore by lazy { NetworkStatusStoreImpl(BackendService.createService()) }
+    private val viewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
+
     // these are some sort of "alias" to keep the naming conventions
     private val toolbar by lazy { main_toolbar }
     private val appBarLayout by lazy { main_app_bar_layout }
@@ -36,14 +48,14 @@ class MainActivity : BaseActivity() {
         main_tab_strip.setupWithViewPager(viewPager)
 
         viewPager.addOnPageChangeListener(MyPageChangeListener())
-        updateToolbarScrollingStatus();
+        updateToolbarScrollingStatus()
     }
 
     private fun updateToolbarScrollingStatus() {
         if (viewPagerAdapter.canPageScrollVertically(viewPager.currentItem)) {
-            turnOnToolbarScrolling();
+            turnOnToolbarScrolling()
         } else {
-            turnOffToolbarScrolling();
+            turnOffToolbarScrolling()
         }
     }
 
@@ -111,14 +123,34 @@ class MainActivity : BaseActivity() {
         }
 
         private fun setupAlarmsList(view: View): View {
-            val controller = AlarmsPageController(view, getTtaApp().alarmsStore)
-            return controller.recyclerView
+            val viewX = AlarmsPageView(view)
+            val stateMachine = AlarmsPageStateStateMachine(listOf())
+
+            val store = getKoin().get<AlarmsStore>()
+            disposables.add(
+                    store
+                            .observeAlarms()
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .map<AlarmsPageContract.Intent> { AlarmsPageContract.Intent.AlarmsUpdated(it) }
+                            .mergeWith(viewX.getIntents())
+                            .doOnNext { Logger.d("on event $it") }
+                            .map(stateMachine::onEvent)
+                            .doOnNext { Logger.d("new state $it") }
+                            .subscribe(viewX::render)
+            )
+            return view.main_recycler_view
         }
 
         private fun setupNetworkStatusView(view: View, position: Int): View {
             val controller = NetworkStatusPageController(view, if (position == 0) networkStatusStore::getLiveNetworkStatus else networkStatusStore::getWeekendNetworkStatus)
             return controller.recyclerView
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposables.clear()
     }
 
     inner class MyPageChangeListener : ViewPager.OnPageChangeListener {
