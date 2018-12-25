@@ -29,8 +29,10 @@ class ConfiguredAlarmAdapter(
     private val timePrinter = AndroidTimePrinter(context)
     var alarms = listOf<ConfiguredAlarm>()
         set(value) {
-            field = value
-            notifyDataSetChanged()
+            if (field != value) {
+                field = value
+                notifyDataSetChanged()
+            }
         }
 
     override fun getItemViewType(position: Int): Int {
@@ -47,6 +49,19 @@ class ConfiguredAlarmAdapter(
             }
         }
         holder.executePendingBindings()
+    }
+
+    override fun getItemId(position: Int): Long {
+        val itemViewType = getItemViewType(position)
+        return when (itemViewType) {
+            VIEW_TYPE_ALARM -> {
+                alarms[position].id.toLong()
+            }
+            VIEW_TYPE_CREATE_NEW -> 0
+            else -> {
+                throw IllegalStateException("Failed to map viewType $itemViewType")
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConfiguredAlarmBaseViewHolder {

@@ -3,6 +3,7 @@ package com.tfltravelalerts.application
 import android.app.Application
 import com.facebook.stetho.Stetho
 import com.tfltravelalerts.di.alarmDetailModule
+import com.tfltravelalerts.di.alarmPageModule
 import com.tfltravelalerts.di.globalModule
 import com.tfltravelalerts.store.AlarmsStore
 import org.koin.android.ext.android.getKoin
@@ -18,7 +19,7 @@ class TtaApplication : Application() {
 
         startKoin(
                 this,
-                listOf(globalModule, alarmDetailModule),
+                listOf(globalModule, alarmDetailModule, alarmPageModule),
                 logger = AndroidLogger(true)
         )
 

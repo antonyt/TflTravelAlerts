@@ -13,11 +13,13 @@ interface AlarmsPageContract {
         fun getIntents(): Observable<Intent>
     }
 
-    interface Presenter {
+    interface Interactions {
 
-        fun onAlarmClicked(alarm: ConfiguredAlarm)
+        fun openAlarmDetail(alarm: ConfiguredAlarm)
 
-        fun onAlarmEnabledChanged(alarm: ConfiguredAlarm, isEnabled: Boolean)
+        fun createAlarm()
+
+        fun saveAlarm(alarm: ConfiguredAlarm)
     }
 
     abstract class StateMachine(initialState: List<ConfiguredAlarm>)

@@ -12,19 +12,22 @@ import com.tfltravelalerts.common.Assertions
 import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.common.Logger
+import com.tfltravelalerts.di.Scopes
 import com.tfltravelalerts.service.BackendService
 import com.tfltravelalerts.store.AlarmsStore
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
-import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageStateStateMachine
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageStateMachine
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_alarms_list.view.*
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
+import org.koin.core.parameter.parametersOf
 
 
 class MainActivity : BaseActivity() {
@@ -42,6 +45,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        getKoin().createScope(Scopes.MAIN_SCREEN)
         setTitle(R.string.full_app_name)
         setSupportActionBar(main_toolbar)
         viewPager.adapter = viewPagerAdapter
@@ -122,24 +126,25 @@ class MainActivity : BaseActivity() {
             }
         }
 
-        private fun setupAlarmsList(view: View): View {
-            val viewX = AlarmsPageView(view)
-            val stateMachine = AlarmsPageStateStateMachine(listOf())
+        private fun setupAlarmsList(root: View): View {
+            val view = AlarmsPageView(root)
+            val interactions = get<AlarmsPageContract.Interactions> { parametersOf(this@MainActivity) }
+            val stateMachine = AlarmsPageStateMachine(listOf(), interactions)
 
-            val store = getKoin().get<AlarmsStore>()
+            val store = get<AlarmsStore>()
             disposables.add(
                     store
                             .observeAlarms()
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .map<AlarmsPageContract.Intent> { AlarmsPageContract.Intent.AlarmsUpdated(it) }
-                            .mergeWith(viewX.getIntents())
+                            .mergeWith(view.getIntents())
                             .doOnNext { Logger.d("on event $it") }
                             .map(stateMachine::onEvent)
                             .doOnNext { Logger.d("new state $it") }
-                            .subscribe(viewX::render)
+                            .subscribe(view::render)
             )
-            return view.main_recycler_view
+            return root.main_recycler_view
         }
 
         private fun setupNetworkStatusView(view: View, position: Int): View {
@@ -151,6 +156,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         disposables.clear()
+        getKoin().getScope(Scopes.MAIN_SCREEN).close()
     }
 
     inner class MyPageChangeListener : ViewPager.OnPageChangeListener {

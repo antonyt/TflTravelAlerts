@@ -4,7 +4,7 @@ Work list:
 doing:
     - convert main activity to MVI
         - alarms page
-            - extract the whole thing to a factory or so
+            - extract the whole instantiating thing to a factory or so
         - each status page (live / network)
     - do a scan of TODOs in the codebase
     - convert time picker dialog to MVI
@@ -18,6 +18,11 @@ unordered:
   - think about good approach using view model, live data, repositories/data stores
   - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
   - each contract should implement a reducer instead of extending a state machine
+  - because of using data binding, in the alarms page of main activity, when the user changes the
+    enabled/disabled state of an alarm, I need to delay the save callback respond so the switch
+    ends the animation that reflects the user input. This sucks. See related TODOs in
+    AlarmsPageStateMachine and AlarmsPageInteractions
+  - expose a method that listens to network status/configured alarms that emits incremental changes
 
 New Architecture:
 =================

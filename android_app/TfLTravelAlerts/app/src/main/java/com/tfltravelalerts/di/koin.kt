@@ -1,7 +1,9 @@
 package com.tfltravelalerts.di
 
 import android.arch.persistence.room.Room
+import android.content.Context
 import com.tfltravelalerts.di.Scopes.ALARM_DETAIL_SCREEN
+import com.tfltravelalerts.di.Scopes.MAIN_SCREEN
 import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
 import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
 import com.tfltravelalerts.store.AlarmsStore
@@ -11,11 +13,14 @@ import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateMachine
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducerImpl
 import com.tfltravelalerts.ui.alarmdetail.UiData
 import com.tfltravelalerts.ui.alarmdetail.UiDataModelMapper
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageInteractions
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
 
 object Scopes {
     const val ALARM_DETAIL_SCREEN = "AlarmDetailScreenScope"
+    const val MAIN_SCREEN = "MainScreenScope"
 }
 
 val globalModule = module {
@@ -47,4 +52,9 @@ val alarmDetailModule = module {
     }
 }
 
+val alarmPageModule = module {
+    scope<AlarmsPageContract.Interactions>(MAIN_SCREEN) { (context: Context) ->
+        AlarmsPageInteractions(context, get())
+    }
+}
 
