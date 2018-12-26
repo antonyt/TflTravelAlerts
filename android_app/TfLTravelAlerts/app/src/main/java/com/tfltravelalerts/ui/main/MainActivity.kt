@@ -13,10 +13,8 @@ import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.di.Scopes
-import com.tfltravelalerts.service.BackendService
 import com.tfltravelalerts.store.AlarmsStore
 import com.tfltravelalerts.store.NetworkStatusStore
-import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageStateMachine
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageView
@@ -33,8 +31,6 @@ import org.koin.core.parameter.parametersOf
 class MainActivity : BaseActivity() {
 
     private val disposables = CompositeDisposable()
-    // TODO do DI
-    private val networkStatusStore: NetworkStatusStore by lazy { NetworkStatusStoreImpl(BackendService.createService()) }
     private val viewPagerAdapter by lazy { ConstantViewPagerAdapter(ViewPagerImpl()) }
 
     // these are some sort of "alias" to keep the naming conventions
@@ -147,8 +143,9 @@ class MainActivity : BaseActivity() {
             return root.main_recycler_view
         }
 
-        private fun setupNetworkStatusView(view: View, position: Int): View {
-            val controller = NetworkStatusPageController(view, if (position == 0) networkStatusStore::getLiveNetworkStatus else networkStatusStore::getWeekendNetworkStatus)
+        private fun setupNetworkStatusView(root: View, position: Int): View {
+            val store = get<NetworkStatusStore>()
+            val controller = NetworkStatusPageController(root, if (position == 0) store::getLiveNetworkStatus else store::getWeekendNetworkStatus)
             return controller.recyclerView
         }
     }
