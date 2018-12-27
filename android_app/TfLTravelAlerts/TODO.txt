@@ -23,6 +23,10 @@ unordered:
     ends the animation that reflects the user input. This sucks. See related TODOs in
     AlarmsPageStateMachine and AlarmsPageInteractions
   - expose a method that listens to network status/configured alarms that emits incremental changes
+  - expose network status store with Rx
+  - make a network status store that keeps data in memory + shared prefs
+  - make a network status store automatically fetches the first data when the first observer subscribes
+
 
 New Architecture:
 =================

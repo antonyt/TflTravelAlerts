@@ -15,7 +15,7 @@ import io.reactivex.subjects.PublishSubject
 class NetworkStatusView(view: View) : NetworkStatusContract.View {
     private val networkStatusAdapter = NetworkStatusAdapter()
     private val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.main_swipe_to_refresh)
-    private val recyclerView: RecyclerView = view.findViewById(R.id.main_recycler_view)
+    private val recyclerView: RecyclerView = view.findViewById(R.id.network_status_recycler_view)
     private val subject = PublishSubject.create<NetworkStatusContract.Intent>()
     private val snackbar: Snackbar
 

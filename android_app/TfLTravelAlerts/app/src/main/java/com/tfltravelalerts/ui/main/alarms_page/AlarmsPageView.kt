@@ -11,7 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 class AlarmsPageView(view: View) : AlarmsPageContract.View {
-    private val recyclerView: RecyclerView = view.findViewById(R.id.main_recycler_view)
+    private val recyclerView: RecyclerView = view.findViewById(R.id.alarms_recycler_view)
     private val adapter: ConfiguredAlarmAdapter
     private val subject = PublishSubject.create<AlarmsPageContract.Intent>()
 

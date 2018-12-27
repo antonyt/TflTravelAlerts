@@ -11,6 +11,10 @@ class Logger(private val tag: String) {
         fun d(message: String) {
             DEFAULT.d(message)
         }
+
+        fun d(message: String, throwable: Throwable?) {
+            DEFAULT.d(message, throwable)
+        }
     }
 
     fun d(message: String, throwable: Throwable?) {
