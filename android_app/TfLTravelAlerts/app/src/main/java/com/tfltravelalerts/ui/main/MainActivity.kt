@@ -13,26 +13,13 @@ import com.tfltravelalerts.common.BaseActivity
 import com.tfltravelalerts.common.ConstantViewPagerAdapter
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.di.Scopes
-import com.tfltravelalerts.store.AlarmsStore
-import com.tfltravelalerts.store.NetworkStatusResponse
-import com.tfltravelalerts.store.NetworkStatusStore
-import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
-import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageStateMachine
-import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageView
-import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusContract
-import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusStateMachineImpl
-import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusView
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageFactory
+import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusPageFactory
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.main_alarms_list.view.*
 import kotlinx.android.synthetic.main.main_network_status.view.*
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.getKoin
-import org.koin.core.parameter.parametersOf
 
 
 class MainActivity : BaseActivity() {
@@ -129,76 +116,19 @@ class MainActivity : BaseActivity() {
         }
 
         private fun setupAlarmsList(root: View): View {
-            val view = AlarmsPageView(root)
-            val interactions = get<AlarmsPageContract.Interactions> { parametersOf(this@MainActivity) }
-            val stateMachine = AlarmsPageStateMachine(listOf(), interactions)
-
-            val store = get<AlarmsStore>()
-            disposables.add(
-                    store
-                            .observeAlarms()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribeOn(Schedulers.io())
-                            .map<AlarmsPageContract.Intent> { AlarmsPageContract.Intent.AlarmsUpdated(it) }
-                            .mergeWith(view.getIntents())
-                            .doOnNext { Logger.d("on event $it") }
-                            .map(stateMachine::onEvent)
-                            .doOnNext { Logger.d("new state $it") }
-                            .subscribe(view::render)
-            )
+            AlarmsPageFactory().createView(root, disposables)
             return root.alarms_recycler_view
         }
 
         private fun setupNetworkStatusView(root: View, position: Int): View {
-            val store = get<NetworkStatusStore>()
-            val view = NetworkStatusView(root)
-            val retriever =
-                    if (position == 0)
-                        store::getLiveNetworkStatus
-                    else
-                        store::getWeekendNetworkStatus
-
-            val subject = PublishSubject.create<NetworkStatusContract.Intent>()
-
-            val interactions = object : NetworkStatusContract.Interactions {
-                override fun fetch() {
-                    subject.onNext(NetworkStatusContract.Intent.FetchingData)
-                    disposables.add(Observable
-                            .fromCallable(retriever)
-                            .subscribeOn(Schedulers.io())
-                            .subscribe { response ->
-                                when (response) {
-                                    is NetworkStatusResponse.Success ->
-                                        subject.onNext(NetworkStatusContract.Intent.ResultReceived(response.networkStatus))
-                                    NetworkStatusResponse.NetworkError ->
-                                        subject.onNext(NetworkStatusContract.Intent.ErrorReceived("No internet. Please try again"))
-                                    is NetworkStatusResponse.UnknownError -> {
-                                        Logger.d("Unknown error", response.throwable)
-                                        subject.onNext(NetworkStatusContract.Intent.ErrorReceived("Some error occurred. Please try again"))
-                                    }
-                                }
-                            }
-                    )
-                }
-            }
-
-            val stateMachine = NetworkStatusStateMachineImpl(
-                    interactions,
-                    NetworkStatusContract.NetworkPageModel(null, false, null)
-            )
-
-            disposables.add(view
-                    .getIntents()
-                    .mergeWith(subject)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .doOnNext { Logger.d("on event $it") }
-                    .map(stateMachine::onEvent)
-                    .doOnNext { Logger.d("new state $it") }
-                    .subscribe(view::render)
-            )
-
-            interactions.fetch() // get first data
+            val factory = NetworkStatusPageFactory()
+            val method =
+                    if (position == 0) {
+                        factory::createLiveView
+                    } else {
+                        factory::createWeekendView
+                    }
+            method.invoke(root, disposables)
             return root.network_status_recycler_view
         }
     }

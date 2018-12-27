@@ -2,12 +2,9 @@ Work list:
 ==========
 
 doing:
-    - convert main activity to MVI
-        - alarms page
-            - extract the whole instantiating thing to a factory or so
-        - each status page (live / network)
     - do a scan of TODOs in the codebase
     - convert time picker dialog to MVI
+    - review MVI architecture and alternatives
     - introduce view models to avoid passing time printer into data binding
 
 1 - work with architecture
