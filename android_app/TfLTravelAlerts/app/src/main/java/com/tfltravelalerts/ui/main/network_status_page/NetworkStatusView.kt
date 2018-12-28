@@ -31,7 +31,7 @@ class NetworkStatusView(view: View) : NetworkStatusContract.View {
         }
 
         snackbar = Snackbar.make(view, "", Snackbar.LENGTH_INDEFINITE)
-        // TODO handle dismissing (update the state)
+        // TODO handle dismissing (update the state) + retry action
     }
 
     override fun render(model: NetworkStatusContract.NetworkPageModel) {

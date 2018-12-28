@@ -4,7 +4,7 @@ import android.view.View
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.store.NetworkStatusResponse
 import com.tfltravelalerts.store.NetworkStatusStore
-import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -25,18 +25,16 @@ class NetworkStatusPageFactory : KoinComponent {
     private fun createView(
             root: View,
             disposables: CompositeDisposable,
-            method: NetworkStatusStore.() -> NetworkStatusResponse
+            method: NetworkStatusStore.() -> Single<NetworkStatusResponse>
     ) {
         val view = NetworkStatusView(root)
         val subject = PublishSubject.create<NetworkStatusContract.Intent>()
         val interactions = object : NetworkStatusContract.Interactions {
             override fun fetch() {
                 subject.onNext(NetworkStatusContract.Intent.FetchingData)
-                disposables.add(Observable
-                        .fromCallable {
-                            val store = get<NetworkStatusStore>()
-                            method.invoke(store)
-                        }
+                val store = get<NetworkStatusStore>()
+                disposables.add(
+                        method.invoke(store)
                         .subscribeOn(Schedulers.io())
                         .subscribe { response ->
                             when (response) {

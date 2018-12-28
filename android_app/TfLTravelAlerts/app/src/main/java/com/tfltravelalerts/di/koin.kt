@@ -32,6 +32,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
 import retrofit2.Converter
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Scopes {
@@ -84,6 +85,7 @@ val networkStatusPageModule = module {
                 .baseUrl(BackendService.BASE_URL)
                 .client(get())
                 .addConverterFactory(get())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(BackendService::class.java)
     }

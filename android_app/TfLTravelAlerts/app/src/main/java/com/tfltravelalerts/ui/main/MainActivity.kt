@@ -122,13 +122,11 @@ class MainActivity : BaseActivity() {
 
         private fun setupNetworkStatusView(root: View, position: Int): View {
             val factory = NetworkStatusPageFactory()
-            val method =
-                    if (position == 0) {
-                        factory::createLiveView
-                    } else {
-                        factory::createWeekendView
-                    }
-            method.invoke(root, disposables)
+            if (position == 0) {
+                factory.createLiveView(root, disposables)
+            } else {
+                factory.createWeekendView(root, disposables)
+            }
             return root.network_status_recycler_view
         }
     }

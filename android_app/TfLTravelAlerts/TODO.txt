@@ -2,13 +2,10 @@ Work list:
 ==========
 
 doing:
-    - do a scan of TODOs in the codebase
-    - review MVI architecture and alternatives
 
 ordered:
   - work with architecture
     - do more Rx
-      - expose network status store with Rx
       - expose a method that listens to network status/configured alarms that emits incremental changes
       - make state machine more rx ?
       - allow state machine to expose events
