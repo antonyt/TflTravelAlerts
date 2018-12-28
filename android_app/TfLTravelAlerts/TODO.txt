@@ -3,26 +3,36 @@ Work list:
 
 doing:
     - do a scan of TODOs in the codebase
-    - convert time picker dialog to MVI
     - review MVI architecture and alternatives
-    - introduce view models to avoid passing time printer into data binding
 
-1 - work with architecture
-2 - add delete icon to alarm detail
-3 - use live data et. al.
+ordered:
+  - work with architecture
+    - do more Rx
+      - expose network status store with Rx
+      - expose a method that listens to network status/configured alarms that emits incremental changes
+      - make state machine more rx ?
+      - allow state machine to expose events
+      - allow state machine listeners to further emit more events?
+  - each contract should implement a reducer instead of extending a state machine
+  - review MVI architecture and alternatives
+      - check TODOs
+      - alarm detail is odd..
+          - make state private in state machine
+          - handle disposable in alarm detail presenter
+          - alarm detail has a presenter which is different from the others
+  - introduce view models to avoid passing time printer into data binding
+  - add delete icon to alarm detail
 
 unordered:
+  - use live data et. al.
   - think about good approach using view model, live data, repositories/data stores
   - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
-  - each contract should implement a reducer instead of extending a state machine
   - because of using data binding, in the alarms page of main activity, when the user changes the
     enabled/disabled state of an alarm, I need to delay the save callback respond so the switch
     ends the animation that reflects the user input. This sucks. See related TODOs in
     AlarmsPageStateMachine and AlarmsPageInteractions
-  - expose a method that listens to network status/configured alarms that emits incremental changes
-  - expose network status store with Rx
-  - make a network status store that keeps data in memory + shared prefs
   - make a network status store automatically fetches the first data when the first observer subscribes
+  - make a network status store that keeps data in memory + shared prefs
 
 
 New Architecture:

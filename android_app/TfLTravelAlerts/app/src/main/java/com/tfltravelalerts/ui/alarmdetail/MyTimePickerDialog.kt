@@ -44,8 +44,8 @@ class MyAlarmTimePickerDialog : DialogFragment(), OnTimeSetListener {
     }
 
     companion object {
-        private val ARG_HOUR = "h"
-        private val ARG_MINUTE = "m"
+        private const val ARG_HOUR = "h"
+        private const val ARG_MINUTE = "m"
 
         fun create(time: Time): MyAlarmTimePickerDialog {
             val dialog = MyAlarmTimePickerDialog()
