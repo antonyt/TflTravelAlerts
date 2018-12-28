@@ -6,10 +6,12 @@ doing:
 ordered:
   - work with architecture
     - do more Rx
-      - expose a method that listens to network status/configured alarms that emits incremental changes
-      - make state machine more rx ?
-      - allow state machine to expose events
       - allow state machine listeners to further emit more events?
+      - review the interactions use in the factories... looks a bit strange
+
+      - later -
+      - expose a method that listens to network status/configured alarms that emits incremental changes
+
   - each contract should implement a reducer instead of extending a state machine
   - review MVI architecture and alternatives
       - check TODOs

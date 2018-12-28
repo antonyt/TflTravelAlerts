@@ -16,7 +16,29 @@ class AlarmsPageFactory : KoinComponent {
         val view = AlarmsPageView(root)
 
         val interactions = getKoin().get<AlarmsPageContract.Interactions> { parametersOf(root.context) }
-        val stateMachine = AlarmsPageStateMachine(listOf(), interactions)
+        val stateMachine = AlarmsPageStateMachine(listOf())
+
+        val disposable0 = stateMachine
+                .observe()
+                .map { (_, event) ->
+                    when (event) {
+                        is AlarmsPageContract.Intent.OpenAlarm -> {
+                            interactions.openAlarmDetail(event.alarm)
+                        }
+                        is AlarmsPageContract.Intent.ToggleAlarm -> {
+                            val updatedAlarm = event.alarm.copy(enabled = event.isEnabled)
+                            // TODO what if we needed to emit another event after this save alarm?
+                            // if saveAlarm had a "in progress + done / success" events we could deal with that
+                            // better
+                            interactions.saveAlarm(updatedAlarm)
+                        }
+                        AlarmsPageContract.Intent.CreateAlarm -> {
+                            interactions.createAlarm()
+                        }
+                    }
+                }
+                .subscribe()
+        disposables.add(disposable0)
 
         val store = get<AlarmsStore>()
         val disposable = store

@@ -53,9 +53,19 @@ class NetworkStatusPageFactory : KoinComponent {
         }
 
         val stateMachine = NetworkStatusStateMachineImpl(
-                interactions,
                 NetworkStatusContract.NetworkPageModel(null, false, null)
         )
+
+        val disposable0 = stateMachine
+                .observe()
+                .map {
+                    when (it.second) {
+                        is NetworkStatusContract.Intent.Refresh ->
+                            interactions.fetch()
+                    }
+                }
+                .subscribe()
+        disposables.add(disposable0)
 
         val disposable = view
                 .getIntents()

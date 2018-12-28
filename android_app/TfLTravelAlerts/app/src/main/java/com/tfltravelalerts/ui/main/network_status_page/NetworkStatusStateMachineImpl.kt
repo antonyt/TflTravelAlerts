@@ -1,16 +1,14 @@
 package com.tfltravelalerts.ui.main.network_status_page
 
 class NetworkStatusStateMachineImpl(
-        private val interactions: NetworkStatusContract.Interactions,
         initialState: NetworkStatusContract.NetworkPageModel
 ) : NetworkStatusContract.StateMachine(initialState) {
     override fun reduceState(currentState: NetworkStatusContract.NetworkPageModel, event: NetworkStatusContract.Intent): NetworkStatusContract.NetworkPageModel {
         return when (event) {
-            NetworkStatusContract.Intent.Refresh -> {
-                interactions.fetch()
+            NetworkStatusContract.Intent.Refresh ->
                 currentState
-            }
-            NetworkStatusContract.Intent.FetchingData -> currentState.copy(loading = true)
+            NetworkStatusContract.Intent.FetchingData ->
+                currentState.copy(loading = true)
             is NetworkStatusContract.Intent.ResultReceived ->
                 currentState.copy(
                         loading = false,
