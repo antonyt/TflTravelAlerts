@@ -16,8 +16,7 @@ interface NetworkStatusContract {
         fun fetch()
     }
 
-    abstract class StateMachine(initialState: NetworkPageModel)
-        : com.tfltravelalerts.common.StateMachine<NetworkPageModel, Intent>(initialState)
+    interface Reducer : com.tfltravelalerts.common.Reducer<NetworkPageModel, Intent>
 
     data class NetworkPageModel(
             val networkStatus: NetworkStatus?,

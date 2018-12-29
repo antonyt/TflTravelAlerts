@@ -1,11 +1,10 @@
 package com.tfltravelalerts.ui.alarmdetail
 
 class AlarmDetailStateReducerImpl(
-        initialState: UiData,
         private val uiInteractions: AlarmDetailContract.UiInteractions
-) : AlarmDetailStateMachine(initialState) {
+) : AlarmDetailContract.Reducer {
 
-    override fun reduceState(currentState: UiData, event: AlarmDetailContract.Intent): UiData {
+    override fun reduce(currentState: UiData, event: AlarmDetailContract.Intent): UiData {
         return when (event) {
             is AlarmDetailContract.Intent.LineSelection ->
                 currentState.cloneWithLine(event.line, event.selected)

@@ -1,9 +1,7 @@
 package com.tfltravelalerts.ui.main.network_status_page
 
-class NetworkStatusStateMachineImpl(
-        initialState: NetworkStatusContract.NetworkPageModel
-) : NetworkStatusContract.StateMachine(initialState) {
-    override fun reduceState(currentState: NetworkStatusContract.NetworkPageModel, event: NetworkStatusContract.Intent): NetworkStatusContract.NetworkPageModel {
+class NetworkStatusReducer : NetworkStatusContract.Reducer {
+    override fun reduce(currentState: NetworkStatusContract.NetworkPageModel, event: NetworkStatusContract.Intent): NetworkStatusContract.NetworkPageModel {
         return when (event) {
             NetworkStatusContract.Intent.Refresh ->
                 currentState

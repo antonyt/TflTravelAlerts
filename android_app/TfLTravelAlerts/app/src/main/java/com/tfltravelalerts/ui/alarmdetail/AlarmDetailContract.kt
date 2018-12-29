@@ -6,10 +6,9 @@ import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Time
 import io.reactivex.Observable
 
-typealias AlarmDetailStateMachine = com.tfltravelalerts.common.StateMachine<UiData, AlarmDetailContract.Intent>
-
 interface AlarmDetailContract {
 
+    interface Reducer : com.tfltravelalerts.common.Reducer<UiData, Intent>
 
     interface Host {
         fun showFragment(tag: String, fragment: Fragment)
@@ -43,10 +42,6 @@ interface AlarmDetailContract {
     // TODO UiData could belong here
 
     sealed class Intent {
-        // things happening in the UI that trigger data changes
-        // TODO what about external things such as timers, push notifications, responses from
-        // server, etc?
-        // - maybe dealt by the presenter?
         data class LineSelection(val line: Line, val selected: Boolean) : Intent()
 
         data class DaySelection(val day: Day, val selected: Boolean) : Intent()

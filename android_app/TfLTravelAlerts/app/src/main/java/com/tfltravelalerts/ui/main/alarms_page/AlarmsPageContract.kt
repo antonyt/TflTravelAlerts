@@ -22,8 +22,7 @@ interface AlarmsPageContract {
         fun saveAlarm(alarm: ConfiguredAlarm)
     }
 
-    abstract class StateMachine(initialState: List<ConfiguredAlarm>)
-        : com.tfltravelalerts.common.StateMachine<List<ConfiguredAlarm>, Intent>(initialState)
+    interface Reducer : com.tfltravelalerts.common.Reducer<List<ConfiguredAlarm>, Intent>
 
     sealed class Intent {
 

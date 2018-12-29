@@ -2,6 +2,7 @@ package com.tfltravelalerts.ui.main.network_status_page
 
 import android.view.View
 import com.tfltravelalerts.common.Logger
+import com.tfltravelalerts.common.StateMachine
 import com.tfltravelalerts.store.NetworkStatusResponse
 import com.tfltravelalerts.store.NetworkStatusStore
 import io.reactivex.Single
@@ -52,8 +53,9 @@ class NetworkStatusPageFactory : KoinComponent {
             }
         }
 
-        val stateMachine = NetworkStatusStateMachineImpl(
-                NetworkStatusContract.NetworkPageModel(null, false, null)
+        val stateMachine = StateMachine(
+                NetworkStatusContract.NetworkPageModel(null, false, null),
+                get<NetworkStatusContract.Reducer>()
         )
 
         val disposable0 = stateMachine

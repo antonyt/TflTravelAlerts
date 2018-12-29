@@ -20,12 +20,13 @@ import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailPresenter
-import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateMachine
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducerImpl
-import com.tfltravelalerts.ui.alarmdetail.UiData
 import com.tfltravelalerts.ui.alarmdetail.UiDataModelMapper
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageInteractions
+import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageReducer
+import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusContract
+import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusReducer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -64,14 +65,19 @@ val alarmDetailModule = module {
         AlarmDetailPresenter(get(), get())
     } bind AlarmDetailContract.UiInteractions::class
 
-    factory<AlarmDetailStateMachine> { (initialState: UiData) ->
-        AlarmDetailStateReducerImpl(initialState, get())
+
+    single<AlarmDetailContract.Reducer> {
+        AlarmDetailStateReducerImpl(get())
     }
 }
 
 val alarmPageModule = module {
     scope<AlarmsPageContract.Interactions>(MAIN_SCREEN) { (context: Context) ->
         AlarmsPageInteractions(context, get())
+    }
+
+    single<AlarmsPageContract.Reducer> {
+        AlarmsPageReducer()
     }
 }
 
@@ -88,6 +94,10 @@ val networkStatusPageModule = module {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(BackendService::class.java)
+    }
+
+    single<NetworkStatusContract.Reducer> {
+        NetworkStatusReducer()
     }
 
     single<Gson> {

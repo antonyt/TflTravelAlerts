@@ -1,20 +1,20 @@
 package com.tfltravelalerts.ui.alarmdetail
 
+import com.tfltravelalerts.common.StateMachine
 import com.tfltravelalerts.model.Time
 import com.tfltravelalerts.store.AlarmsStore
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
-import org.koin.core.parameter.parametersOf
 import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.standalone.get
 
 class AlarmDetailPresenter(
         private val alarmsStore: AlarmsStore,
         private val uiDataModelMapper: UiDataModelMapper
 
 ) : AlarmDetailContract.Presenter, KoinComponent {
-    private val machine: AlarmDetailStateMachine by inject { parametersOf(initialData) }
-
+    // needs to be lazy so we have the initial data
+    private val machine by lazy { StateMachine(initialData, get<AlarmDetailContract.Reducer>()) }
 
     private lateinit var view: AlarmDetailContract.View
     private lateinit var initialData: UiData

@@ -3,7 +3,14 @@ package com.tfltravelalerts.common
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-abstract class StateMachine<State, Event>(initialState: State) {
+interface Reducer<State, Event> {
+    fun reduce(currentState: State, event: Event): State
+}
+
+class StateMachine<State, Event>(
+        initialState: State,
+        private val reducer: Reducer<State, Event>
+) {
     private var lastState = initialState
 
     private val subject: PublishSubject<Pair<State, Event>> = PublishSubject.create()
@@ -12,13 +19,7 @@ abstract class StateMachine<State, Event>(initialState: State) {
 
     fun onEvent(event: Event): State {
         subject.onNext(lastState to event)
-        lastState = reduceState(lastState, event)
+        lastState = reducer.reduce(lastState, event)
         return lastState
     }
-
-    /**
-     * Subclasses should implement this method but nothing (except unit tests) should call this
-     * directly because this doesn't keep track of the state.
-     */
-    internal abstract fun reduceState(currentState: State, event: Event): State
 }
