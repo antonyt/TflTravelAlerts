@@ -36,8 +36,8 @@ interface AlarmDetailContract {
     }
 
     interface UiInteractions {
-        fun save(): UiData
-        fun openTimeSelection(): UiData
+        fun save(state: UiData): UiData
+        fun openTimeSelection(state: UiData): UiData
     }
 
     // TODO UiData could belong here

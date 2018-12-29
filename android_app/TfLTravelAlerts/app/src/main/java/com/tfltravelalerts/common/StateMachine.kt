@@ -4,9 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
 abstract class StateMachine<State, Event>(initialState: State) {
-    // TODO good or bad to allow to see this?
-    // TODO should allow objects to observe this?
-    var lastState = initialState
+    private var lastState = initialState
 
     private val subject: PublishSubject<Pair<State, Event>> = PublishSubject.create()
 

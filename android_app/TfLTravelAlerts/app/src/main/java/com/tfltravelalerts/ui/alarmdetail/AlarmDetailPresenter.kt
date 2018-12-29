@@ -29,8 +29,8 @@ class AlarmDetailPresenter(
                 }
     }
 
-    override fun save(): UiData {
-        val value = uiDataModelMapper.map(machine.lastState)
+    override fun save(state: UiData): UiData {
+        val value = uiDataModelMapper.map(state)
         return when (value) {
             is UiDataModelMapper.MapperResult.Success -> {
                 Single
@@ -40,18 +40,17 @@ class AlarmDetailPresenter(
                         .subscribeOn(Schedulers.io())
                         .subscribe()
                 view.finish()
-                machine.lastState
+                state
             }
             is UiDataModelMapper.MapperResult.Fail ->
                 // TODO map this appropriately in the right layer
-                machine.lastState.cloneWithErrorMessage("Failed to save")
+                state.cloneWithErrorMessage("Failed to save")
         }
-
     }
 
-    override fun openTimeSelection(): UiData {
-        view.showTimePicker(machine.lastState.time ?: Time(8, 0))
-        return machine.lastState
+    override fun openTimeSelection(state: UiData): UiData {
+        view.showTimePicker(state.time ?: Time(8, 0))
+        return state
     }
 
     override fun onTimeSelected(time: Time) {

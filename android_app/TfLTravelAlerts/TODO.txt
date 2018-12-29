@@ -32,6 +32,18 @@ unordered:
     AlarmsPageStateMachine and AlarmsPageInteractions
   - make a network status store automatically fetches the first data when the first observer subscribes
   - make a network status store that keeps data in memory + shared prefs
+  - test having the data stores expose loading data events
+    - I'm not sure this is the best thing though. For example, in the scenario where we want to load
+      data and use a disk cache and still go to the network, the store could only indicate loading
+      while loading from disk; but then there would be no indication that there is more things happening
+      in the bg
+
+      alternative 1: unless we directly make that a concern of the store. In this case it could emit
+      something on top of the data exposing it self. E.g. (loading: yes, data: x)
+
+      alternative 2: or simply assuming that if the rx stream hasn't completed, there are things
+      going on
+        - not a fan because some usages of rx imply that the subscriptions are never ending
 
 
 New Architecture:
@@ -71,7 +83,6 @@ GENERAL:
 
 Main/Initial Screen:
 ====================
-- The code is a mess. Rewrite it in someway that looks better
 - When the data changes in the adapters, it would be nice to refresh if the toolbar should collapse.
 The easy case to spot an error is if a page is opened while the data is being downloaded (and there is
 no cached data), when the data arrives if you scroll, the toolbar won't collapse as it ideally would.

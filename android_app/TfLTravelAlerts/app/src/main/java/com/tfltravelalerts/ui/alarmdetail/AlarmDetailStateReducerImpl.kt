@@ -16,9 +16,9 @@ class AlarmDetailStateReducerImpl(
             is AlarmDetailContract.Intent.OnTimeSelected ->
                 currentState.cloneWithTime(event.time)
             AlarmDetailContract.Intent.Save ->
-                uiInteractions.save()
+                uiInteractions.save(currentState)
             AlarmDetailContract.Intent.OpenTimeSelection ->
-                uiInteractions.openTimeSelection()
+                uiInteractions.openTimeSelection(currentState)
         }
     }
 }
