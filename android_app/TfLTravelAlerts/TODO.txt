@@ -9,20 +9,26 @@ ordered:
       - allow state machine listeners to further emit more events?
       - review the interactions use in the factories... looks a bit strange
 
-      - later -
-      - expose a method that listens to network status/configured alarms that emits incremental changes
-
-  - each contract should implement a reducer instead of extending a state machine
+  - BUG opening the time picker crashes when I try to do it on a second activity; also the back
+    stack handling is borken
   - review MVI architecture and alternatives
       - check TODOs
       - alarm detail is odd..
-          - make state private in state machine
           - handle disposable in alarm detail presenter
           - alarm detail has a presenter which is different from the others
-  - introduce view models to avoid passing time printer into data binding
-  - add delete icon to alarm detail
+          - the presenter has chicken and egg problems with getting a state machine but the initial
+            data being provided only later
+
 
 unordered:
+  - expose a method that listens to network status/configured alarms that emits incremental changes
+  - maybe the state machine should be injected instead of manually created.
+    I tried doing this but because of type erasure, we can't use DI to inject different state
+    machines unless we name each one of them. At this point I don't feel like I need to inject the
+    state machine but it migth be useful for unit testing in the future
+  - it seems that the initial state in the state machine is not propagated to the view
+    (at least in the main screen, if it take a long time to get the network response, we don't see
+    loading)
   - use live data et. al.
   - think about good approach using view model, live data, repositories/data stores
   - remove kapt (includes remove use of paper parcel) - start using annotationProcessor
@@ -32,6 +38,17 @@ unordered:
     AlarmsPageStateMachine and AlarmsPageInteractions
   - make a network status store automatically fetches the first data when the first observer subscribes
   - make a network status store that keeps data in memory + shared prefs
+  - experiment view state restoration
+  - introduce view models to avoid passing time printer into data binding
+  - add delete icon to alarm detail
+  - unit tests
+  - see if I can make something with koin that I saw get [stateMachine of type]<Intent> (initialData)
+    and automatically solves the reducer inside
+    e.g. get(parametersOf(initialData, AlarmPageContract.Intent)) returns the appropriate state
+    machine with corresponding reducer
+
+    alternative: get<StateMachine<xyzData, AlarmPageContract.Intent> (parametersOf(initialData))
+
   - test having the data stores expose loading data events
     - I'm not sure this is the best thing though. For example, in the scenario where we want to load
       data and use a disk cache and still go to the network, the store could only indicate loading
