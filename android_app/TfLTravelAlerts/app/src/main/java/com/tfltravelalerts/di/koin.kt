@@ -16,6 +16,7 @@ import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
 import com.tfltravelalerts.service.BackendService
 import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
 import com.tfltravelalerts.store.AlarmsStore
+import com.tfltravelalerts.store.NetworkStatusResponse
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
@@ -26,7 +27,11 @@ import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageInteractions
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageReducer
 import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusContract
+import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusInteractions
 import com.tfltravelalerts.ui.main.network_status_page.NetworkStatusReducer
+import io.reactivex.Observer
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -119,5 +124,17 @@ val networkStatusPageModule = module {
                 .addNetworkInterceptor(StethoInterceptor())
                 .build()
     }
-}
 
+    factory<NetworkStatusContract.Interactions> { (
+                                                          observer: Observer<NetworkStatusContract.Intent>,
+                                                          disposable: CompositeDisposable,
+                                                          method: NetworkStatusStore.() -> Single<NetworkStatusResponse>
+                                                  ) ->
+        NetworkStatusInteractions(
+                observer,
+                get(),
+                disposable,
+                method
+        )
+    }
+}

@@ -10,6 +10,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import org.koin.core.parameter.parametersOf
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.get
 
@@ -30,29 +31,9 @@ class NetworkStatusPageFactory : KoinComponent {
     ) {
         val view = NetworkStatusView(root)
         val subject = PublishSubject.create<NetworkStatusContract.Intent>()
-        val interactions = object : NetworkStatusContract.Interactions {
-            override fun fetch() {
-                subject.onNext(NetworkStatusContract.Intent.FetchingData)
-                val store = get<NetworkStatusStore>()
-                disposables.add(
-                        method.invoke(store)
-                        .subscribeOn(Schedulers.io())
-                        .subscribe { response ->
-                            when (response) {
-                                is NetworkStatusResponse.Success ->
-                                    subject.onNext(NetworkStatusContract.Intent.ResultReceived(response.networkStatus))
-                                NetworkStatusResponse.NetworkError ->
-                                    subject.onNext(NetworkStatusContract.Intent.ErrorReceived("No internet. Please try again"))
-                                is NetworkStatusResponse.UnknownError -> {
-                                    Logger.d("Unknown error", response.throwable)
-                                    subject.onNext(NetworkStatusContract.Intent.ErrorReceived("Some error occurred. Please try again"))
-                                }
-                            }
-                        }
-                )
-            }
+        val interactions = get<NetworkStatusContract.Interactions> {
+            parametersOf(subject, disposables, method)
         }
-
         val stateMachine = StateMachine(
                 NetworkStatusContract.NetworkPageModel(null, false, null),
                 get<NetworkStatusContract.Reducer>()
@@ -69,7 +50,7 @@ class NetworkStatusPageFactory : KoinComponent {
                 .subscribe()
         disposables.add(disposable0)
 
-        val disposable = view
+        val disposable1 = view
                 .getIntents()
                 .mergeWith(subject)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -78,7 +59,7 @@ class NetworkStatusPageFactory : KoinComponent {
                 .map(stateMachine::onEvent)
                 .doOnNext { Logger.d("new state $it") }
                 .subscribe(view::render)
-        disposables.add(disposable)
+        disposables.add(disposable1)
 
         interactions.fetch() // get first data
     }
