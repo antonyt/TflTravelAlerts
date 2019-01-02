@@ -17,14 +17,7 @@ class AlarmDetailView(
     // TODO maybe this formatter should be in a mapper
     private val timeFormatter = AndroidTimePrinter(binding.root.context)
 
-    // TODO this method should be different. one should return the rx stream and we should set
-    // the initial data in another way
-    override fun init(data: UiData): Observable<AlarmDetailContract.Intent> {
-        render(data)
-        return bindUiEvents()
-    }
-
-    private fun bindUiEvents(): Observable<AlarmDetailContract.Intent> {
+    override fun getIntents(): Observable<AlarmDetailContract.Intent> {
 //        binding.executePendingBindings() // I probably need this here
         val events = ArrayList<Observable<AlarmDetailContract.Intent>>(25)
 

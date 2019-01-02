@@ -17,9 +17,10 @@ interface AlarmDetailContract {
     }
 
     interface View {
-        fun init(data: UiData): Observable<Intent>
 
         fun render(data: UiData)
+
+        fun getIntents(): Observable<Intent>
 
         // TODO view should only have two methods: get intents and get render view
         fun showTimePicker(time: Time)
@@ -27,31 +28,28 @@ interface AlarmDetailContract {
         fun finish()
     }
 
-    interface Presenter : UiInteractions {
-        // TODO this contract probably could have an improved UiData class
-        fun init(initialData: UiData, view: View)
-
-        fun onTimeSelected(time: Time)
+    interface Interactions {
+        fun save(state: UiData)
+        fun openTimeSelection(state: UiData)
+        fun closeView()
     }
-
-    interface UiInteractions {
-        fun save(state: UiData): UiData
-        fun openTimeSelection(state: UiData): UiData
-    }
-
-    // TODO UiData could belong here
 
     sealed class Intent {
         data class LineSelection(val line: Line, val selected: Boolean) : Intent()
 
         data class DaySelection(val day: Day, val selected: Boolean) : Intent()
+
         data class NotifyGoodService(val doNotify: Boolean) : Intent()
+
+        data class ErrorUpdated(val message: String) : Intent()
+
+        data class OnTimeSelected(val time: Time) : Intent()
+
+        object CloseView : Intent()
 
         // TODO should these two receive ui data? or just use the state machine?
         object Save : Intent()
 
         object OpenTimeSelection : Intent()
-
-        data class OnTimeSelected(val time: Time) : Intent()
     }
 }

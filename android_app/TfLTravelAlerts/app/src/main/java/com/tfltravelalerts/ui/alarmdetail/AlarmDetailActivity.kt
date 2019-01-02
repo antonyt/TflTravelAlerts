@@ -9,16 +9,16 @@ import com.tfltravelalerts.databinding.AlarmDetailBinding
 import com.tfltravelalerts.di.Scopes
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.model.Time
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.PublishSubject
 import org.koin.android.ext.android.getKoin
-import org.koin.android.ext.android.inject
 
 class AlarmDetailActivity :
         BaseActivity(),
         MyTimePickerListener,
         AlarmDetailContract.Host {
-    private lateinit var initialData: UiData
-    private val presenter: AlarmDetailContract.Presenter by inject()
-    private lateinit var view: AlarmDetailContract.View
+    private val subject = PublishSubject.create<AlarmDetailContract.Intent>()
+    private val disposables = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,19 +29,18 @@ class AlarmDetailActivity :
         setContentView(binding.root)
 
         // TODO use savedInstanceState
-        initialData = if (intent.hasExtra(EXTRA_ALARM)) {
+        val initialData = if (intent.hasExtra(EXTRA_ALARM)) {
             val configuredAlarm = intent.getParcelableExtra<ConfiguredAlarm>(EXTRA_ALARM)
             UiData(configuredAlarm)
         } else {
             UiData()
         }
-        view = AlarmDetailView(binding, this)
-        presenter.init(initialData, view)
+        AlarmDetailFactory().createView(binding, this, initialData, subject, disposables)
     }
 
-    // TODO the activity shouldn't worry about this (but Time picker dialog requires this)
+    // the activity shouldn't worry about this (but time picker dialog requires this)
     override fun onTimeSelected(time: Time) {
-        presenter.onTimeSelected(time)
+        subject.onNext(AlarmDetailContract.Intent.OnTimeSelected(time))
     }
 
     // TODO this could have been done in a better way (e.g. without exposing the fragment class)
@@ -56,6 +55,7 @@ class AlarmDetailActivity :
 
     override fun onDestroy() {
         super.onDestroy()
+        disposables.clear()
         getKoin().getScope(Scopes.ALARM_DETAIL_SCREEN).close()
     }
 

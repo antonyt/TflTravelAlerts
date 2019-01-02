@@ -24,24 +24,8 @@ data class UiData(val id: Int, val time: Time?, val days: Set<Day>, val lines: S
         return copy(days = addOrRemove(days, day, included))
     }
 
-    fun cloneWithDay(day: Day): UiData {
-        return copy(days = days.plus(day))
-    }
-
-    fun cloneWithoutDay(day: Day): UiData {
-        return copy(days = days.minus(day))
-    }
-
     fun cloneWithLine(line: Line, included: Boolean): UiData {
         return copy(lines = addOrRemove(lines, line, included))
-    }
-
-    fun cloneWithLine(line: Line): UiData {
-        return copy(lines = lines.plus(line))
-    }
-
-    fun cloneWithoutLine(line: Line): UiData {
-        return copy(lines = lines.minus(line))
     }
 
     fun cloneWithNotifyGoodService(notifyGoodService: Boolean): UiData {

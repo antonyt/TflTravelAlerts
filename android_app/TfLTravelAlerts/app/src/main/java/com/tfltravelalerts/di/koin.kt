@@ -20,7 +20,7 @@ import com.tfltravelalerts.store.NetworkStatusResponse
 import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
-import com.tfltravelalerts.ui.alarmdetail.AlarmDetailPresenter
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailInteractions
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducerImpl
 import com.tfltravelalerts.ui.alarmdetail.UiDataModelMapper
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
@@ -66,13 +66,14 @@ val alarmDetailModule = module {
         UiDataModelMapper()
     }
 
-    scope<AlarmDetailContract.Presenter>(ALARM_DETAIL_SCREEN) {
-        AlarmDetailPresenter(get(), get())
-    } bind AlarmDetailContract.UiInteractions::class
-
+    scope<AlarmDetailContract.Interactions>(ALARM_DETAIL_SCREEN) { (
+                                                                           observer: Observer<AlarmDetailContract.Intent>,
+                                                                           view: AlarmDetailContract.View) ->
+        AlarmDetailInteractions(get(), get(), observer, view)
+    }
 
     single<AlarmDetailContract.Reducer> {
-        AlarmDetailStateReducerImpl(get())
+        AlarmDetailStateReducerImpl()
     }
 }
 
