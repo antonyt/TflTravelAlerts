@@ -85,19 +85,6 @@ class AlarmDetailView(
                     .skipInitialValue()
                     .map { AlarmDetailContract.Intent.LineSelection(lineBinding.line!!, it) }
 
-    /**
-     * TODO maybe the binding should happen in this class
-     *
-     * Possibly the caller implements some interface that is passed in the constructor
-     * and this class can decide how to be inflated.
-     *
-     * For example, this class should can an abstracted method where it specifies
-     * which view binding to use, and the caller could decide if there's any view root,
-     * if it simply inflates to become the main activity, etc.
-     *
-     * This way this view can be used an Activity, Fragment or within a layout without
-     * having to know/depend on that
-     */
     override fun render(data: UiData) {
         // TODO ideally binding would have only one variable with the class of UiData
         with(data) {

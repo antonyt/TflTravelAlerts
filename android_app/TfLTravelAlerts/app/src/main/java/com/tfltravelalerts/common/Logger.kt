@@ -7,6 +7,7 @@ class Logger(private val tag: String) {
     companion object {
         val DEFAULT = Logger("TTA")
         val DATABASE = Logger("TTA-DB")
+        val STATE_MACHINE = Logger("TTA-SM")
 
         fun d(message: String) {
             DEFAULT.d(message)

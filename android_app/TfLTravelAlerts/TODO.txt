@@ -2,8 +2,6 @@ Work list:
 ==========
 
 ordered:
-  - make sure the initial state is shown by the views and that even early mutation events are
-    rendered
   - work with architecture
     - do more Rx
       - allow state machine listeners to further emit more events?

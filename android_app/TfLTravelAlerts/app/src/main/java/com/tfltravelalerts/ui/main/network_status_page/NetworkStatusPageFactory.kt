@@ -8,7 +8,6 @@ import com.tfltravelalerts.store.NetworkStatusStore
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import org.koin.core.parameter.parametersOf
 import org.koin.standalone.KoinComponent
@@ -54,10 +53,10 @@ class NetworkStatusPageFactory : KoinComponent {
                 .getIntents()
                 .mergeWith(subject)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnNext { Logger.d("on event $it") }
+                // must subscribe in immediate thread to prevent missing first events
+                .doOnNext { Logger.STATE_MACHINE.d("on event $it") }
                 .map(stateMachine::onEvent)
-                .doOnNext { Logger.d("new state $it") }
+                .doOnNext { Logger.STATE_MACHINE.d("new state $it") }
                 .subscribe(view::render)
         disposables.add(disposable1)
 
