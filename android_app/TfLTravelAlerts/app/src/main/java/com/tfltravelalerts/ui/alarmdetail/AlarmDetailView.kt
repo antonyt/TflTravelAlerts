@@ -35,6 +35,7 @@ class AlarmDetailView(
     }
 
     override fun getIntents(): Observable<AlarmDetailContract.Intent> {
+        binding.executePendingBindings()
         val events = ArrayList<Observable<AlarmDetailContract.Intent>>(26)
 
         events.addAll(selectDayIntents())

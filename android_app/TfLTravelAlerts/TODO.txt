@@ -2,7 +2,6 @@ Work list:
 ==========
 
 ordered:
-  - rotation the screen on alarm details crashes the app
   - when I open the time picker dialog in alarm details screen, I need to press back one extra time
   - work with architecture
     - do more Rx
