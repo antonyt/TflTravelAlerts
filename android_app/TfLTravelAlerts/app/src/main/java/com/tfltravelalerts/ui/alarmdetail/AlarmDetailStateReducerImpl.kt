@@ -1,6 +1,6 @@
 package com.tfltravelalerts.ui.alarmdetail
 
-class AlarmDetailStateReducerImpl : AlarmDetailContract.Reducer {
+class AlarmDetailStateReducer : AlarmDetailContract.Reducer {
 
     override fun reduce(currentState: UiData, event: AlarmDetailContract.Intent): UiData {
         return when (event) {
@@ -9,11 +9,11 @@ class AlarmDetailStateReducerImpl : AlarmDetailContract.Reducer {
             is AlarmDetailContract.Intent.DaySelection ->
                 currentState.cloneWithDay(event.day, event.selected)
             is AlarmDetailContract.Intent.NotifyGoodService ->
-                currentState.cloneWithNotifyGoodService(event.doNotify)
+                currentState.copy(notifyGoodService = event.doNotify)
             is AlarmDetailContract.Intent.OnTimeSelected ->
-                currentState.cloneWithTime(event.time)
-            is AlarmDetailContract.Intent.ErrorUpdated ->
-                currentState.cloneWithErrorMessage(event.message)
+                currentState.copy(requestTime = false, time = event.time)
+            is AlarmDetailContract.Intent.RequestTime ->
+                currentState.copy(requestTime = true)
             AlarmDetailContract.Intent.Save,
             AlarmDetailContract.Intent.OpenTimeSelection,
             AlarmDetailContract.Intent.CloseView ->

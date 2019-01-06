@@ -38,7 +38,9 @@
                 bind:title="@string/full_app_name"
                 />
         </android.support.design.widget.AppBarLayout>
+
         <ScrollView
+            android:id="@+id/alarm_detail_scroll_container"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fillViewport="true"
@@ -54,9 +56,9 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:text="@string/alarm_detail_time_header"
                     />
 
@@ -66,10 +68,10 @@
                     style="@style/Widget.AppCompat.EditText"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:drawablePadding="8dp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:drawableStart="@drawable/line_status_minor_delays"
+                    android:drawablePadding="8dp"
                     android:ems="10"
                     android:focusableInTouchMode="false"
                     android:hint="@string/alarm_detail_time_hint"
@@ -80,8 +82,8 @@
                     style="@style/TextAppearance.AppCompat.Caption"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:text="@string/alarm_detail_time_footnote"
                     />
 
@@ -90,18 +92,18 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/alarm_detail_days_header"
                     />
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:baselineAligned="false"
                     >
 
@@ -165,8 +167,8 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
                     android:weightSum="5.0"
@@ -197,10 +199,10 @@
                     style="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="8dp"
                     android:text="@string/alarm_detail_lines_header"
                     />
 
@@ -214,8 +216,8 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1.0"
                         android:baselineAligned="false"
                         android:orientation="vertical"
@@ -227,36 +229,42 @@
                             bind:line="@{Line.BAKERLOO}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/circle"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.CIRCLE}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/hammersmith_and_city"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.HAMMERSMITH_AND_CITY}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/metropolitan"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.METROPOLITAN}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/piccadilly"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.PICCADILLY}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/waterloo_and_city"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.WATERLOO_AND_CITY}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/dlr"
                             layout="@layout/alarm_detail_line_view"
@@ -275,42 +283,48 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
                         android:layout_marginStart="8dp"
+                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
                         android:layout_weight="1.0"
                         android:baselineAligned="false"
                         android:orientation="vertical"
                         >
+
                         <include
                             android:id="@+id/central"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.CENTRAL}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/district"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.DISTRICT}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/jubilee"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.JUBILEE}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/northern"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.NORTHERN}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/victoria"
                             layout="@layout/alarm_detail_line_view"
                             bind:line="@{Line.VICTORIA}"
                             bind:lines="@{lines}"
                             />
+
                         <include
                             android:id="@+id/overground"
                             layout="@layout/alarm_detail_line_view"
@@ -331,9 +345,9 @@
                     android:id="@+id/notify_good_service"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginTop="8dp"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:checked="@{safeUnbox(doNotifyGoodService)}"
                     android:text="@string/alarm_detail_skip_notifications_label"
                     />
@@ -341,8 +355,8 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:text="@string/alarm_detail_skip_notifications_note"
                     />
 
@@ -351,12 +365,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:text="@{ safeUnbox(isCreate) ? @string/alarm_detail_button_create : @string/alarm_detail_button_update }"
                     />
             </LinearLayout>
         </ScrollView>
-        
     </LinearLayout>
 </layout>

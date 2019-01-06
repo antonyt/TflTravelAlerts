@@ -2,6 +2,8 @@ Work list:
 ==========
 
 ordered:
+  - rotation the screen on alarm details crashes the app
+  - when I open the time picker dialog in alarm details screen, I need to press back one extra time
   - work with architecture
     - do more Rx
       - allow state machine listeners to further emit more events?
@@ -40,6 +42,9 @@ unordered:
   - introduce view models to avoid passing time printer into data binding
   - add delete icon to alarm detail
   - unit tests
+  - ui tests
+  - in alarm detail view, when the snackbar is shown, it will overlap the the scrollview behind.
+    Need to implement a custom coordinator layout behaviour (?!!)
   - see if I can make something with koin that I saw get [stateMachine of type]<Intent> (initialData)
     and automatically solves the reducer inside
     e.g. get(parametersOf(initialData, AlarmPageContract.Intent)) returns the appropriate state

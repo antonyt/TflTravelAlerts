@@ -21,7 +21,7 @@ import com.tfltravelalerts.store.NetworkStatusStore
 import com.tfltravelalerts.store.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailInteractions
-import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducerImpl
+import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducer
 import com.tfltravelalerts.ui.alarmdetail.UiDataModelMapper
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageContract
 import com.tfltravelalerts.ui.main.alarms_page.AlarmsPageInteractions
@@ -73,7 +73,7 @@ val alarmDetailModule = module {
     }
 
     single<AlarmDetailContract.Reducer> {
-        AlarmDetailStateReducerImpl()
+        AlarmDetailStateReducer()
     }
 }
 

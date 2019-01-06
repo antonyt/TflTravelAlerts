@@ -1,13 +1,16 @@
 package com.tfltravelalerts.ui.alarmdetail
 
+import android.support.design.widget.Snackbar
 import com.jakewharton.rxbinding2.view.RxView
 import com.jakewharton.rxbinding2.widget.RxCompoundButton
+import com.tfltravelalerts.R
 import com.tfltravelalerts.databinding.AlarmDetailBinding
 import com.tfltravelalerts.databinding.AlarmDetailDayViewBinding
 import com.tfltravelalerts.databinding.AlarmDetailLineViewBinding
 import com.tfltravelalerts.model.AndroidTimePrinter
 import com.tfltravelalerts.model.Time
 import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 class AlarmDetailView(
         private val binding: AlarmDetailBinding,
@@ -16,10 +19,23 @@ class AlarmDetailView(
     // TODO inject this
     // TODO maybe this formatter should be in a mapper
     private val timeFormatter = AndroidTimePrinter(binding.root.context)
+    private val snackbar: Snackbar
+    private val subject = PublishSubject.create<AlarmDetailContract.Intent>()
+
+    init {
+        snackbar = Snackbar
+                .make(
+                        binding.alarmDetailScrollContainer,
+                        R.string.alarm_details_snackbar_message,
+                        Snackbar.LENGTH_INDEFINITE
+                )
+                .setAction(R.string.alarm_details_snackbar_action) {
+                    subject.onNext(AlarmDetailContract.Intent.OpenTimeSelection)
+                }
+    }
 
     override fun getIntents(): Observable<AlarmDetailContract.Intent> {
-//        binding.executePendingBindings() // I probably need this here
-        val events = ArrayList<Observable<AlarmDetailContract.Intent>>(25)
+        val events = ArrayList<Observable<AlarmDetailContract.Intent>>(26)
 
         events.addAll(selectDayIntents())
         events.addAll(selectLineIntents())
@@ -42,6 +58,8 @@ class AlarmDetailView(
                         .clicks(binding.alarmDetailTimeLabel)
                         .map { AlarmDetailContract.Intent.OpenTimeSelection }
         )
+
+        events.add(subject)
         return Observable.merge(events)
     }
 
@@ -86,13 +104,18 @@ class AlarmDetailView(
                     .map { AlarmDetailContract.Intent.LineSelection(lineBinding.line!!, it) }
 
     override fun render(data: UiData) {
-        // TODO ideally binding would have only one variable with the class of UiData
         with(data) {
             binding.days = days
             binding.doNotifyGoodService = notifyGoodService
             binding.isCreate = isNewAlarm
             binding.formattedTime = time?.let { timeFormatter.print(it) }
             binding.lines = lines
+
+            if (data.requestTime) {
+                snackbar.show()
+            } else {
+                snackbar.dismiss()
+            }
         }
     }
 

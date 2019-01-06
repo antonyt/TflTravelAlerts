@@ -41,7 +41,7 @@ interface AlarmDetailContract {
 
         data class NotifyGoodService(val doNotify: Boolean) : Intent()
 
-        data class ErrorUpdated(val message: String) : Intent()
+        object RequestTime : Intent()
 
         data class OnTimeSelected(val time: Time) : Intent()
 

@@ -25,8 +25,7 @@ class AlarmDetailInteractions(
                 observer.onNext(AlarmDetailContract.Intent.CloseView)
             }
             is UiDataModelMapper.MapperResult.Fail ->
-                // TODO map this appropriately in the right layer
-                observer.onNext(AlarmDetailContract.Intent.ErrorUpdated("Please select the time for this alarm"))
+                observer.onNext(AlarmDetailContract.Intent.RequestTime)
         }
     }
 

@@ -53,5 +53,7 @@
     <string name="alarm_detail_time_header">Time for train</string>
     <string name="alarm_detail_time_hint">Tap to set time</string>
     <string name="alarm_details_menu_delete">Delete</string>
+    <string name="alarm_details_snackbar_action">Set time</string>
+    <string name="alarm_details_snackbar_message">Please specify the time</string>
 
 </resources>
