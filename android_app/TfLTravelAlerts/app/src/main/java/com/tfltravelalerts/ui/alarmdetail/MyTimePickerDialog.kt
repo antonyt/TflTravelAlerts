@@ -2,6 +2,7 @@ package com.tfltravelalerts.ui.alarmdetail
 
 import android.app.TimePickerDialog
 import android.app.TimePickerDialog.OnTimeSetListener
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.text.format.DateFormat
@@ -26,6 +27,11 @@ class MyAlarmTimePickerDialog : DialogFragment(), OnTimeSetListener {
         return dialog
     }
 
+    override fun onCancel(dialog: DialogInterface?) {
+        super.onCancel(dialog)
+        fragmentManager?.popBackStack()
+    }
+
     private fun checkHostInterface() {
         if (activity !is MyTimePickerListener) {
             Assertions.shouldNotHappen("Activity doesn't implement required interface")
@@ -35,11 +41,17 @@ class MyAlarmTimePickerDialog : DialogFragment(), OnTimeSetListener {
     override fun onTimeSet(timePicker: TimePicker, hour: Int, minute: Int) {
         Logger.d("onTimeSet: $hour:$minute")
         fragmentManager?.popBackStack()
+        runOnListener {
+            onTimeSelected(Time(hour, minute))
+        }
+    }
+
+    private fun runOnListener(block: MyTimePickerListener.() -> (Unit)) {
         val activity = activity
         if (activity is MyTimePickerListener) {
-            activity.onTimeSelected(Time(hour, minute))
+            block.invoke(activity)
         } else {
-            Assertions.shouldNotHappen("activity not instance of AlarmDetailActivity")
+            Assertions.shouldNotHappen("activity not instance of MyTimePickerListener")
         }
     }
 
