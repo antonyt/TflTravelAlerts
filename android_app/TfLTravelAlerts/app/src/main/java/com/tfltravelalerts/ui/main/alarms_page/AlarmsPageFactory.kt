@@ -3,7 +3,7 @@ package com.tfltravelalerts.ui.main.alarms_page
 import android.view.View
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.common.StateMachine
-import com.tfltravelalerts.store.AlarmsStore
+import com.tfltravelalerts.store.configured_alarm.AlarmsStore
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers

@@ -1,8 +1,8 @@
 package com.tfltravelalerts.ui.main.network_status_page
 
 import com.tfltravelalerts.common.Logger
-import com.tfltravelalerts.store.NetworkStatusResponse
-import com.tfltravelalerts.store.NetworkStatusStore
+import com.tfltravelalerts.store.network_status.NetworkStatusResponse
+import com.tfltravelalerts.store.network_status.NetworkStatusStore
 import io.reactivex.Observer
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable

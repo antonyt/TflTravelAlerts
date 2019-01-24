@@ -1,4 +1,4 @@
-package com.tfltravelalerts.store
+package com.tfltravelalerts.store.network_status
 
 import android.support.annotation.WorkerThread
 import io.reactivex.Single

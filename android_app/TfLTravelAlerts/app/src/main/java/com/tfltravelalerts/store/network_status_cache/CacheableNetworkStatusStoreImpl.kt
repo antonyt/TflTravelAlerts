@@ -1,8 +1,10 @@
-package com.tfltravelalerts.store
+package com.tfltravelalerts.store.network_status_cache
 
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.tfltravelalerts.model.NetworkStatus
+import com.tfltravelalerts.store.network_status.NetworkStatusResponse
+import com.tfltravelalerts.store.network_status.NetworkStatusStore
 import io.reactivex.Maybe
 import io.reactivex.Single
 
@@ -45,13 +47,19 @@ class CacheableNetworkStatusStoreImpl(
     }
 
     private fun loadFromSharedPreferencesAsSingle(sharedPreferencesKey: String) =
-            loadFromSharedPreferences(sharedPreferencesKey).toSingle()
+            loadFromSharedPreferences(sharedPreferencesKey)
+                    .toSingle()
+                    .map<NetworkStatusResponse> {
+                        NetworkStatusResponse.Success(it)
+                    }.onErrorReturn {
+                        NetworkStatusResponse.UnknownError(it)
+                    }
 
-    private fun loadFromSharedPreferences(sharedPreferencesKey: String): Maybe<NetworkStatusResponse> {
+    private fun loadFromSharedPreferences(sharedPreferencesKey: String): Maybe<NetworkStatus> {
         sharedPreferences.getString(sharedPreferencesKey, null).run {
             return if (this != null) {
                 Maybe.fromCallable {
-                    gson.fromJson(this, NetworkStatusResponse::class.java)
+                    gson.fromJson(this, NetworkStatus::class.java)
                 }
             } else {
                 Maybe.empty()

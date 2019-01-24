@@ -3,8 +3,8 @@ package com.tfltravelalerts.ui.main.network_status_page
 import android.view.View
 import com.tfltravelalerts.common.Logger
 import com.tfltravelalerts.common.StateMachine
-import com.tfltravelalerts.store.NetworkStatusResponse
-import com.tfltravelalerts.store.NetworkStatusStore
+import com.tfltravelalerts.store.network_status.NetworkStatusResponse
+import com.tfltravelalerts.store.network_status.NetworkStatusStore
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable

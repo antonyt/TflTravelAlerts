@@ -1,7 +1,7 @@
 package com.tfltravelalerts.ui.alarmdetail
 
 import com.tfltravelalerts.model.Time
-import com.tfltravelalerts.store.AlarmsStore
+import com.tfltravelalerts.store.configured_alarm.AlarmsStore
 import io.reactivex.Observer
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers

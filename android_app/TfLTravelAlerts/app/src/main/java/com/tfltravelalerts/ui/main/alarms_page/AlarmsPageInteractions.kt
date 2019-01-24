@@ -3,7 +3,7 @@ package com.tfltravelalerts.ui.main.alarms_page
 import android.annotation.SuppressLint
 import android.content.Context
 import com.tfltravelalerts.model.ConfiguredAlarm
-import com.tfltravelalerts.store.AlarmsStore
+import com.tfltravelalerts.store.configured_alarm.AlarmsStore
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailActivity
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers

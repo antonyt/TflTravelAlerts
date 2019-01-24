@@ -1,4 +1,4 @@
-package com.tfltravelalerts.store
+package com.tfltravelalerts.store.configured_alarm
 
 import com.tfltravelalerts.model.ConfiguredAlarm
 import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase

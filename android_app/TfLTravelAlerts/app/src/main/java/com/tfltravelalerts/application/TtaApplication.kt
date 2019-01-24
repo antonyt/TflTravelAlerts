@@ -6,7 +6,7 @@ import com.tfltravelalerts.di.alarmDetailModule
 import com.tfltravelalerts.di.alarmPageModule
 import com.tfltravelalerts.di.globalModule
 import com.tfltravelalerts.di.networkStatusPageModule
-import com.tfltravelalerts.store.AlarmsStore
+import com.tfltravelalerts.store.configured_alarm.AlarmsStore
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.startKoin
 import org.koin.android.logger.AndroidLogger

@@ -14,11 +14,11 @@ import com.tfltravelalerts.model.Line
 import com.tfltravelalerts.model.Status
 import com.tfltravelalerts.persistence.ConfiguredAlarmDatabase
 import com.tfltravelalerts.service.BackendService
-import com.tfltravelalerts.store.AlarmStoreDatabaseImpl
-import com.tfltravelalerts.store.AlarmsStore
-import com.tfltravelalerts.store.NetworkStatusResponse
-import com.tfltravelalerts.store.NetworkStatusStore
-import com.tfltravelalerts.store.NetworkStatusStoreImpl
+import com.tfltravelalerts.store.configured_alarm.AlarmStoreDatabaseImpl
+import com.tfltravelalerts.store.configured_alarm.AlarmsStore
+import com.tfltravelalerts.store.network_status.NetworkStatusResponse
+import com.tfltravelalerts.store.network_status.NetworkStatusStore
+import com.tfltravelalerts.store.network_status.NetworkStatusStoreImpl
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailInteractions
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducer

@@ -1,4 +1,4 @@
-package com.tfltravelalerts.store
+package com.tfltravelalerts.store.network_status
 
 import com.tfltravelalerts.model.NetworkStatus
 
