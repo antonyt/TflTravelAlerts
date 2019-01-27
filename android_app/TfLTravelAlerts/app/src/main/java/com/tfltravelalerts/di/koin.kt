@@ -19,6 +19,8 @@ import com.tfltravelalerts.store.configured_alarm.AlarmsStore
 import com.tfltravelalerts.store.network_status.NetworkStatusResponse
 import com.tfltravelalerts.store.network_status.NetworkStatusStore
 import com.tfltravelalerts.store.network_status.NetworkStatusStoreImpl
+import com.tfltravelalerts.store.network_status_cache.CacheableNetworkStatusStore
+import com.tfltravelalerts.store.network_status_cache.CacheableNetworkStatusStoreImpl
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailContract
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailInteractions
 import com.tfltravelalerts.ui.alarmdetail.AlarmDetailStateReducer
@@ -136,6 +138,22 @@ val networkStatusPageModule = module {
                 get(),
                 disposable,
                 method
+        )
+    }
+}
+
+val cacheableNetworkStatusStoreModule = module {
+    single {
+        androidContext().getSharedPreferences(
+                "network-status-cache",
+                Context.MODE_PRIVATE
+        )
+    }
+
+    single<CacheableNetworkStatusStore> {
+        CacheableNetworkStatusStoreImpl(
+                get(),
+                get()
         )
     }
 }
