@@ -7,14 +7,10 @@ import com.tfltravelalerts.di.alarmPageModule
 import com.tfltravelalerts.di.cacheableNetworkStatusStoreModule
 import com.tfltravelalerts.di.globalModule
 import com.tfltravelalerts.di.networkStatusPageModule
-import com.tfltravelalerts.store.configured_alarm.AlarmsStore
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.startKoin
 import org.koin.android.logger.AndroidLogger
 
 class TtaApplication : Application() {
-
-    lateinit var alarmsStore: AlarmsStore
 
     override fun onCreate() {
         super.onCreate()
@@ -30,8 +26,6 @@ class TtaApplication : Application() {
                 ),
                 logger = AndroidLogger(true)
         )
-
-        alarmsStore = getKoin().get()
 
         Stetho.initializeWithDefaults(this)
     }

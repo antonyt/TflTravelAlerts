@@ -13,4 +13,3 @@ interface AlarmsStore {
 
     fun observeAlarms(): Observable<List<ConfiguredAlarm>>
 }
-
